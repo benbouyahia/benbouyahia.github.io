@@ -85,6 +85,12 @@ nav ul.open{display:flex}section{padding:56px 0}}
 .shot-ph{position:absolute;inset:12px;display:grid;place-content:center;text-align:center;border:2px dashed var(--line);border-radius:8px;color:var(--muted);font-weight:600}
 .shot-ph small{font-weight:400;font-size:.8rem}
 @media(prefers-reduced-motion:reduce){.shot img{transition:none}.card:hover .shot img{transform:none}}
+.tools li{display:inline-flex;align-items:center;gap:8px}.tools img{width:20px;height:20px;object-fit:contain}
+.about-grid{display:block}.hero .portrait{max-width:320px;width:100%;justify-self:center}
+.ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.band .tools .ico{color:var(--accent-2)}
+.ico-wrap{width:46px;height:46px;border-radius:10px;background:var(--accent);color:#1A1614;display:grid;place-items:center;margin-bottom:14px}.ico-wrap .ico{width:24px;height:24px}
+.card .more{margin-top:8px}
 </style>
 </head>
 <body>
@@ -102,21 +108,10 @@ nav ul.open{display:flex}section{padding:56px 0}}
     <h1>Ayoub Ben Bouyahia</h1>
     <p class="lede">Business Intelligence and Data Analyst. I build Power BI and SQL reporting, and my sales and marketing background helps me pick the numbers a business actually acts on.</p>
     <div class="btns"><a class="btn primary" href="#projects">View projects</a><a class="btn ghost" href="#contact">Get in touch</a></div>
-    <ul class="tools" aria-label="Tools"><li>Power BI</li><li>SQL</li><li>Excel</li><li>Microsoft Fabric</li></ul>
+    <ul class="tools" aria-label="Tools"><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></svg>Power BI</li><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>SQL</li><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></svg>Excel</li><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l10 5-10 5L2 7zM2 12l10 5 10-5M2 17l10 5 10-5"/></svg>Microsoft Fabric</li></ul>
   </div>
-  <figure class="chart" style="margin:0">
-    <h2>Monthly orders by region</h2>
-    <p class="note">Sample data. Hover or tab through the bars.</p>
-    <div class="bars" role="group" aria-label="Sample bar chart">
-      <button class="bar" style="--h:45%;--i:0" data-label="North" data-value="450" aria-label="North 450"></button>
-      <button class="bar" style="--h:72%;--i:1" data-label="Tunis" data-value="720" aria-label="Tunis 720"></button>
-      <button class="bar" style="--h:58%;--i:2" data-label="Sahel" data-value="580" aria-label="Sahel 580"></button>
-      <button class="bar" style="--h:88%;--i:3" data-label="Sfax" data-value="880" aria-label="Sfax 880"></button>
-      <button class="bar" style="--h:35%;--i:4" data-label="Centre" data-value="350" aria-label="Centre 350"></button>
-      <button class="bar" style="--h:60%;--i:5" data-label="South" data-value="600" aria-label="South 600"></button>
-    </div>
-    <p class="readout" id="readout" aria-live="polite">Select a bar to see its value.</p>
-  </figure>
+  <!-- EDIT PHOTO: upload your picture as photo.jpg next to this file -->
+  <figure class="portrait"><span class="initials" aria-hidden="true">AB</span><img src="photo.jpg" alt="Portrait of Ayoub Ben Bouyahia" width="320" height="400" onerror="this.remove()"></figure>
 </section>
 </div></div>
 
@@ -125,27 +120,31 @@ nav ul.open{display:flex}section{padding:56px 0}}
   <p>Each project leads with the dashboard itself, then the business problem and what it showed. Click an image to see it full size.</p>
   <div class="grid">
     <article class="card project">
+      <!-- EDIT IMAGE: upload your screenshot to the images folder and match the file name in the 3 places below -->
       <figure class="shot"><span class="shot-ph" aria-hidden="true">Dashboard screenshot goes here<br><small>images/project-one.png</small></span><a href="images/project-one.png" target="_blank" rel="noopener" aria-label="Open dashboard image full size"><img src="images/project-one.png" alt="Dashboard screenshot for project 1: describe what it shows" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
       <div class="body">
+        <!-- EDIT: title, tools, dataset, problem and insight below. Delete each <span class="ph"> and </span> once it holds real text -->
       <h3><span class="ph">[Project title]</span></h3>
       <p class="meta"><span class="ph">[Power BI, SQL]</span> &middot; <span class="ph">[Dataset name]</span></p>
       <dl>
         <dt>Business problem</dt><dd><span class="ph">[One sentence on the question the business needed answered]</span></dd>
         <dt>Key insight</dt><dd><span class="ph">[The main finding, stated only if your data supports it]</span></dd>
       </dl>
-      <a class="more" href="projects/project-one/">Read the case study</a>
+      <a class="more" href="project-one.html">Read the case study</a>
     </div>
     </article>
     <article class="card project">
+      <!-- EDIT IMAGE: upload your screenshot to the images folder and match the file name in the 3 places below -->
       <figure class="shot"><span class="shot-ph" aria-hidden="true">Dashboard screenshot goes here<br><small>images/project-two.png</small></span><a href="images/project-two.png" target="_blank" rel="noopener" aria-label="Open dashboard image full size"><img src="images/project-two.png" alt="Dashboard screenshot for project 2: describe what it shows" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
       <div class="body">
+        <!-- EDIT: title, tools, dataset, problem and insight below. Delete each <span class="ph"> and </span> once it holds real text -->
       <h3><span class="ph">[Project title]</span></h3>
       <p class="meta"><span class="ph">[Tools]</span> &middot; <span class="ph">[Dataset name]</span></p>
       <dl>
         <dt>Business problem</dt><dd><span class="ph">[One sentence]</span></dd>
         <dt>Key insight</dt><dd><span class="ph">[Main finding]</span></dd>
       </dl>
-      <a class="more" href="projects/project-two/">Read the case study</a>
+      <a class="more" href="project-two.html">Read the case study</a>
     </div>
     </article>
   </div>
@@ -154,17 +153,16 @@ nav ul.open{display:flex}section{padding:56px 0}}
 <section id="about" class="skills"><div class="wrap">
   <h2>About me</h2>
   <div class="about-grid">
-    <!-- Put your photo next to this file and name it photo.jpg -->
-    <figure class="portrait"><span class="initials" aria-hidden="true">AB</span><img src="photo.jpg" alt="Portrait of Ayoub Ben Bouyahia" width="320" height="400" onerror="this.remove()"></figure>
+    
     <div>
       <p>I hold a Master's in Business Analytics and have worked in business development, sales, CRM, and marketing. <span class="ph">[Add two sentences on what kind of analysis work you want to do and why.]</span></p>
       <p><span class="ph">[Optional: one sentence on how your sales background shapes the way you build dashboards.]</span></p>
     </div>
   </div>
   <div class="grid">
-    <div class="card"><h3>Visualization</h3><ul><li>Power BI dashboards and reports</li><li>Excel</li></ul></div>
-    <div class="card"><h3>Data</h3><ul><li>SQL queries</li><li>Microsoft Fabric</li></ul></div>
-    <div class="card"><h3>Business</h3><ul><li>KPI reporting and business analysis</li><li>CRM and sales processes</li></ul></div>
+    <div class="card"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></svg></span><h3>Visualization</h3><ul><li>Power BI dashboards and reports</li><li>Excel</li></ul></div>
+    <div class="card"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span><h3>Data</h3><ul><li>SQL queries</li><li>Microsoft Fabric</li></ul></div>
+    <div class="card"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><h3>Business</h3><ul><li>KPI reporting and business analysis</li><li>CRM and sales processes</li></ul></div>
   </div>
 </div></section>
 
@@ -182,8 +180,8 @@ nav ul.open{display:flex}section{padding:56px 0}}
 <section id="certifications"><div class="wrap">
   <h2>Certifications</h2>
   <div class="grid">
-    <div class="card"><h3>PL-300: Power BI Data Analyst</h3><p class="meta">Microsoft. <span class="ph">[Add verification link]</span></p></div>
-    <div class="card"><h3>DP-700: Fabric Data Engineer</h3><p class="meta">Microsoft. In progress.</p></div>
+    <div class="card"><h3>PL-300: Power BI Data Analyst</h3><p class="meta">Microsoft</p><!-- EDIT: paste your certificate link between the quotes after href= --><a class="more" href="YOUR-CERTIFICATE-LINK" target="_blank" rel="noopener">View certificate</a></div>
+    <div class="card"><h3>DP-700: Fabric Data Engineer</h3><p class="meta">Microsoft. In progress.</p><!-- When you pass: add <a class="more" href="YOUR-LINK" target="_blank" rel="noopener">View certificate</a> here --></div>
   </div>
 </div></section>
 
@@ -200,12 +198,6 @@ nav ul.open{display:flex}section{padding:56px 0}}
 const btn=document.querySelector('.menu-btn'),list=document.querySelector('nav ul');
 btn.addEventListener('click',()=>{const o=list.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
 list.addEventListener('click',e=>{if(e.target.tagName==='A'){list.classList.remove('open');btn.setAttribute('aria-expanded',false)}});
-const out=document.getElementById('readout');
-document.querySelectorAll('.bar').forEach(b=>{
-  const show=()=>{document.querySelectorAll('.bar').forEach(x=>x.classList.remove('on'));b.classList.add('on');
-    out.textContent=b.dataset.label+': '+b.dataset.value+' orders (sample data)'};
-  b.addEventListener('mouseenter',show);b.addEventListener('focus',show);b.addEventListener('click',show);
-});
 </script>
 </body>
 </html>
