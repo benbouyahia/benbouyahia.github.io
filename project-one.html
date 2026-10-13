@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#FAF8F5">
-<title>[Project title] | Ayoub Ben Bouyahia</title>
-<meta name="description" content="[One sentence describing the project and its business question]">
+<title>E-Commerce Store Sales &amp; Delivery Analysis | SQL, Power BI | Ayoub Ben Bouyahia</title>
+<meta name="description" content="A three-page Power BI report built on about 100,000 Olist marketplace orders, covering revenue and growth, customer behavior and delivery quality.">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzFBMTYxNCIvPjxyZWN0IHg9IjYiIHk9IjE3IiB3aWR0aD0iNSIgaGVpZ2h0PSI5IiBmaWxsPSIjRkZDMTA3Ii8+PHJlY3QgeD0iMTMuNSIgeT0iMTEiIHdpZHRoPSI1IiBoZWlnaHQ9IjE1IiBmaWxsPSIjRkZDMTA3Ii8+PHJlY3QgeD0iMjEiIHk9IjYiIHdpZHRoPSI1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjRkZEOTVBIi8+PC9zdmc+" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap">
@@ -88,42 +88,93 @@ nav ul.open{display:flex}section{padding:56px 0}}
 .facts dt{font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-2)}.facts dd{margin:2px 0 0}
 .prose{max-width:780px}
 .cs-body section{padding:40px 0;border-top:1px solid var(--line)}.cs-body section:first-child{border-top:0}
-.cs-body h2{font-size:1.6rem}.cs-body ul{padding-left:1.2em}.cs-body li{margin-bottom:.4em}
+.cs-body h2{font-size:1.6rem}.cs-body h3{margin-top:1.4em}.cs-body ul{padding-left:1.2em}.cs-body li{margin-bottom:.4em}
 .shot.big{border:1px solid var(--line);border-radius:var(--r)}
 .back{color:var(--ink);text-decoration:none;font-weight:600}
+.tbl-wrap{overflow-x:auto}.tbl{width:100%;border-collapse:collapse;font-size:.95rem}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}.tbl th{background:var(--alt)}
+.note{font-size:.88rem;color:var(--muted)}
 </style>
 </head>
 <body>
 <header><div class="wrap"><nav aria-label="Main"><a class="back" href="index.html#projects">&larr; Back to all projects</a><a class="brand" href="index.html">Ayoub Ben Bouyahia</a></nav></div></header>
 <main>
-<!-- HOW TO EDIT: replace every yellow [bracketed] text with your real content. Then delete the <span class="ph"> and </span> around it. State only what your data shows. -->
 <section class="cs-head band" style="padding-left:0"><div class="wrap">
-  <h1><span class="ph">[Project title]</span></h1>
-  <p class="lede"><span class="ph">[One-sentence summary: the business question and what you found]</span></p>
+  <h1>E-Commerce Store Sales &amp; Delivery Analysis</h1>
+  <p class="lede">An interactive three-page Power BI report built on about 100,000 Olist marketplace orders. Executives, sales teams and operations teams each get their own view of revenue, customer behavior and delivery quality.</p>
   <dl class="facts">
-    <div><dt>Tools</dt><dd><span class="ph">[Power BI, SQL, Excel]</span></dd></div>
-    <div><dt>Dataset</dt><dd><span class="ph">[Name and source]</span></dd></div>
-    <div><dt>Type</dt><dd><span class="ph">[Portfolio project / Course project / Client work]</span></dd></div>
+    <div><dt>Tools</dt><dd>SQL, Power BI, DAX</dd></div>
+    <div><dt>Dataset</dt><dd>Olist Brazilian E-Commerce Public Dataset (Kaggle), 2016 to 2018</dd></div>
+    <div><dt>Type</dt><dd>Portfolio project on public data</dd></div>
   </dl>
   <div class="btns"><a class="btn primary" href="https://github.com/benbouyahia/YOUR-REPO" target="_blank" rel="noopener">View on GitHub</a></div>
 </div></section>
 <div class="cs-body"><div class="wrap prose">
-<section><h2>Dashboard</h2>
-  <!-- EDIT IMAGE: upload your screenshot to images/ and match the name in 3 places -->
-  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Dashboard screenshot goes here<br><small>images/project-one-dashboard.png</small></span><a href="images/project-one-dashboard.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/project-one-dashboard.png" alt="Dashboard screenshot: describe what it shows" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
-  <p class="meta">Click the image to view it full size.</p></section>
-<section><h2>Business problem</h2><p><span class="ph">[Who needed the answer and why. Two or three sentences.]</span></p></section>
-<section><h2>Objective</h2><p><span class="ph">[What the analysis set out to answer.]</span></p></section>
+
+<section><h2>Executive dashboard</h2>
+  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Dashboard screenshot goes here<br><small>images/olist-dashboard.png</small></span><a href="images/olist-dashboard.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/olist-dashboard.png" alt="Power BI executive dashboard for Olist 2018 with three KPI cards for sales, orders and customers, plus Top 5 products and Top 5 cities by sales" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
+  <p class="note">Click the image to view it full size. Figures are for the filter selection shown on the dashboard.</p></section>
+
+<section><h2>Business problem</h2>
+  <p>Leadership, sales and operations teams look at the same order data for different reasons. Executives need headline numbers and growth, sales teams need to see how orders and customers move over time, and operations teams need to know whether orders arrive when promised. One flat report serves none of them well.</p>
+  <p>This project turns the order data into a single report with three tailored pages, built to answer these questions:</p>
+  <ul>
+    <li><strong>Revenue and growth:</strong> how much revenue was generated, whether it is growing month over month, and which categories and cities drive it.</li>
+    <li><strong>Orders and customers:</strong> how order volume and unique customers trend, and which payment methods customers prefer.</li>
+    <li><strong>Delivery quality:</strong> what share of orders are delivered, how many arrive on time, where late deliveries concentrate, and how late they are.</li>
+  </ul></section>
+
+<section><h2>Objective</h2>
+  <p>Design and deliver an end-to-end Power BI solution covering the full BI lifecycle: data modelling, DAX measures, report design, and interactive navigation.</p></section>
+
 <section><h2>Data and preparation</h2>
-  <p><span class="ph">[Where the data came from, its size, and the period it covers.]</span></p>
-  <ul><li><span class="ph">[Cleaning step, e.g. removed duplicates or fixed date formats]</span></li><li><span class="ph">[Transformation step, e.g. created calculated columns]</span></li></ul></section>
-<section><h2>Data model</h2><p><span class="ph">[Describe the tables and relationships, e.g. one fact table and three dimension tables.]</span></p>
-  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Dashboard screenshot goes here<br><small>images/project-one-model.png</small></span><a href="images/project-one-model.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/project-one-model.png" alt="Data model diagram showing the tables and relationships" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure></section>
-<section><h2>KPIs</h2><ul><li><span class="ph">[KPI name: what it measures and how it is calculated]</span></li><li><span class="ph">[KPI name: definition]</span></li></ul></section>
-<section><h2>Key visualizations</h2><p><span class="ph">[Which charts you chose and why they answer the question.]</span></p></section>
-<section><h2>Main insights</h2><ul><li><span class="ph">[Insight 1, supported by a number from your data]</span></li><li><span class="ph">[Insight 2]</span></li></ul></section>
-<section><h2>Business recommendations</h2><ul><li><span class="ph">[What the business should do based on the insights]</span></li><li><span class="ph">[Next step or further analysis]</span></li></ul></section>
-<section><h2>Repository</h2><p>The SQL, notebooks, files, and documentation are on <a href="https://github.com/benbouyahia/YOUR-REPO" target="_blank" rel="noopener">GitHub</a>.</p>
+  <p>The data is the Olist Brazilian E-Commerce Public Dataset from Kaggle: about 100,000 orders placed between 2016 and 2018 across Brazil. The grain is one row per order item, so an order can contain several items.</p>
+  <p>The model uses these tables: Orders, Customers, Products (categories translated to English), Payments, Order Items, Reviews, and a Date table for time intelligence.</p>
+  <ul>
+    <li><span class="ph">[SQL step you actually did, e.g. joined the order, item and payment tables]</span></li>
+    <li><span class="ph">[Cleaning step, e.g. handled missing delivery dates or translated category names]</span></li>
+  </ul>
+  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Pipeline diagram goes here<br><small>images/olist-pipeline.png</small></span><a href="images/olist-pipeline.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/olist-pipeline.png" alt="Data pipeline diagram from the Olist source files to the Power BI report" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure></section>
+
+<section><h2>Data model and KPIs</h2>
+  <p>The report is driven by DAX measures in three groups:</p>
+  <ul>
+    <li><strong>Core:</strong> sales (sum of payment values), orders (distinct order IDs), customers (distinct customer IDs).</li>
+    <li><strong>Time intelligence:</strong> month-over-month % change and absolute variance for sales, orders and customers, shown as dynamic text on the KPI cards.</li>
+    <li><strong>Fulfilment:</strong> Delivered Orders %, On-time delivery %, Average Delivery Delay, and Average late Delivery Delay (days beyond the estimated date, for late orders only).</li>
+  </ul></section>
+
+<section><h2>The three report pages</h2>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>Page</th><th>Audience</th><th>Key visuals</th></tr></thead>
+    <tbody>
+      <tr><td>Executives</td><td>Senior management</td><td>3 KPI cards with MoM % and sparklines, Top/Bottom 5 products, Top/Bottom 5 cities</td></tr>
+      <tr><td>Sales Analysis</td><td>Sales managers, analysts, marketing</td><td>Orders and customers trend, payment type donut, KPI cards, table view, time-granularity toggles</td></tr>
+      <tr><td>Customer Service</td><td>Operations, logistics, support</td><td>4 delivery KPI cards, order status funnel, undelivered orders chart, top late-delivery cities, table view</td></tr>
+    </tbody></table></div>
+  <p style="margin-top:16px">Shared across pages: global slicers (Year Month, State, Product Category), a Reset All Slicers button, consistent page navigation, and an information overlay describing each visual.</p>
+  <h3>Sales Analysis page</h3>
+  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Sales Analysis screenshot goes here<br><small>images/olist-sales-analysis.png</small></span><a href="images/olist-sales-analysis.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/olist-sales-analysis.png" alt="Sales Analysis page with orders and customers trend and payment type donut" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
+  <h3>Customer Service page</h3>
+  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Customer Service screenshot goes here<br><small>images/olist-customer-service.png</small></span><a href="images/olist-customer-service.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/olist-customer-service.png" alt="Customer Service page with delivery KPI cards and order status funnel" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure></section>
+
+<section><h2>Main insights</h2>
+  <p class="note">Figures below come from the executive dashboard shown above, for its selected filters.</p>
+  <ul>
+    <li>Health &amp; Beauty was the top product category by sales (1.13M), ahead of Bed, Bath &amp; Table (0.90M) and Computers Accessories (0.87M).</li>
+    <li>S&atilde;o Paulo led all cities with 1.65M in sales, more than twice second-placed Rio de Janeiro (0.73M).</li>
+    <li>In August 2018 versus July 2018, sales fell 8.7% while orders rose 2.2% and customers rose 2.9%. Together, that means revenue per order fell by roughly 10%.</li>
+    <li><span class="ph">[One insight from the Customer Service page, with its number, e.g. on-time delivery rate]</span></li>
+  </ul></section>
+
+<section><h2>Business recommendations</h2>
+  <ul>
+    <li>Find out why revenue per order fell in August 2018: a shift toward lower-priced categories, discounting, or changes in freight or payment mix.</li>
+    <li>Treat the gap between S&atilde;o Paulo and other cities as a question for marketing: is it demand, or reach? Test campaigns in selected cities and compare.</li>
+    <li><span class="ph">[A recommendation from the delivery analysis, based on the late-delivery cities or order status results]</span></li>
+  </ul></section>
+
+<section><h2>Repository</h2><p>The SQL, Power BI file and documentation are on <a href="https://github.com/benbouyahia/YOUR-REPO" target="_blank" rel="noopener">GitHub</a>.</p>
   <p><a href="index.html#projects">&larr; Back to all projects</a></p></section>
 </div></div>
 </main>
