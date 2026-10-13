@@ -94,6 +94,17 @@ nav ul.open{display:flex}section{padding:56px 0}}
 .tbl-wrap{overflow-x:auto}.tbl{width:100%;border-collapse:collapse;font-size:.95rem}
 .tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}.tbl th{background:var(--alt)}
 .note{font-size:.88rem;color:var(--muted)}
+
+.flow{list-style:none;margin:0;padding:14px 0 0;display:grid;grid-template-columns:1fr;gap:44px}
+.step{position:relative;background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r);padding:22px 18px 18px}
+.step .num{position:absolute;top:-16px;left:14px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;font-size:.9rem;display:grid;place-items:center}
+.step h4{margin:4px 0 2px;font:700 1.1rem/1.2 "Bricolage Grotesque","Source Sans 3",system-ui,sans-serif}
+.step .sub{margin:4px 0 0;font-size:.85rem;color:var(--muted)}
+.step .edge{display:inline-block;margin-bottom:8px;padding:2px 10px;border-radius:99px;background:var(--accent-soft);color:#7A5C00;font-size:.75rem;font-weight:600}
+.step:not(:last-child)::after{content:"\2193";position:absolute;left:50%;bottom:-37px;transform:translateX(-50%);font-size:1.5rem;line-height:1;color:var(--accent-text)}
+@media(min-width:821px){.flow{grid-template-columns:repeat(3,1fr);gap:36px 40px}
+.step:not(:last-child)::after{content:"\2192";left:auto;right:-31px;bottom:auto;top:50%;transform:translateY(-50%)}
+.step:nth-child(3)::after{content:none}}
 </style>
 </head>
 <body>
@@ -134,7 +145,17 @@ nav ul.open{display:flex}section{padding:56px 0}}
     <li><span class="ph">[SQL step you actually did, e.g. joined the order, item and payment tables]</span></li>
     <li><span class="ph">[Cleaning step, e.g. handled missing delivery dates or translated category names]</span></li>
   </ul>
-  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Pipeline diagram goes here<br><small>images/olist-pipeline.png</small></span><a href="images/diagram.jpg" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/diagram.jpg" alt="Data pipeline diagram from the Olist source files to the Power BI report" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure></section>
+  <figure class="flowfig" style="margin:24px 0 0">
+  <ol class="flow" aria-label="Data pipeline, from CSV files to published dashboard">
+    <li class="step"><span class="num">1</span><h4>CSV Files</h4></li>
+    <li class="step"><span class="num">2</span><span class="edge">CSV extract</span><h4>PostgreSQL ETL</h4><p class="sub">ETL</p></li>
+    <li class="step"><span class="num">3</span><span class="edge">ETL load</span><h4>Cleaned Tables</h4></li>
+    <li class="step"><span class="num">4</span><span class="edge">validation input</span><h4>Quality Checks</h4><p class="sub">Data quality validation</p><p class="sub">Checks cover duplicate removal, null handling, foreign-key validation, calculated metrics, and performance aggregates.</p></li>
+    <li class="step"><span class="num">5</span><span class="edge">validated data</span><h4>Power BI model</h4></li>
+    <li class="step"><span class="num">6</span><span class="edge">report publication</span><h4>Published Dashboard</h4></li>
+  </ol>
+  <figcaption class="note" style="margin-top:14px">Pipeline: CSV files are loaded into PostgreSQL, cleaned and validated, modelled in Power BI, and published as the dashboard.</figcaption>
+</figure></section>
 
 <section><h2>Data model and KPIs</h2>
   <p>The report is driven by DAX measures in three groups:</p>
@@ -154,9 +175,9 @@ nav ul.open{display:flex}section{padding:56px 0}}
     </tbody></table></div>
   <p style="margin-top:16px">Shared across pages: global slicers (Year Month, State, Product Category), a Reset All Slicers button, consistent page navigation, and an information overlay describing each visual.</p>
   <h3>Sales Analysis page</h3>
-  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Sales Analysis screenshot goes here<br><small>images/olist-sales-analysis.png</small></span><a href="images/olist-sales-analysis.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/Sales-analysis.png" alt="Sales Analysis page with orders and customers trend and payment type donut" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
+  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Sales Analysis screenshot goes here<br><small>images/Sales-analysis.png</small></span><a href="images/Sales-analysis.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/olist-sales-analysis.png" alt="Sales Analysis page with orders and customers trend and payment type donut" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure>
   <h3>Customer Service page</h3>
-  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Customer Service screenshot goes here<br><small>images/olist-customer-service.png</small></span><a href="images/olist-customer-service.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/Customer-service.png" alt="Customer Service page with delivery KPI cards and order status funnel" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure></section>
+  <figure class="shot big" style="margin:0 0 8px"><span class="shot-ph" aria-hidden="true">Customer Service screenshot goes here<br><small>images/Customer-service.png</small></span><a href="images/Customer-service.png" target="_blank" rel="noopener" aria-label="Open image full size"><img src="images/olist-customer-service.png" alt="Customer Service page with delivery KPI cards and order status funnel" loading="lazy" onerror="this.parentNode.removeAttribute('href');this.remove()"></a></figure></section>
 
 <section><h2>Main insights</h2>
   <p class="note">Figures below come from the executive dashboard shown above, for its selected filters.</p>
