@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Ayoub Ben Bouyahia logo">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#d9f7a3"/>
+      <stop offset="100%" stop-color="#9ae6b4"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#f4f9f3"/>
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="url(#bg)"/>
+  <text x="64" y="70" text-anchor="middle" dominant-baseline="middle" font-family="Manrope, Arial, sans-serif" font-size="58" font-weight="800" fill="#193328">ab<tspan fill="#74b84b">.</tspan></text>
+</svg>
