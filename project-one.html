@@ -141,10 +141,7 @@ nav ul.open{display:flex}section{padding:56px 0}}
 <section><h2>Data and preparation</h2>
   <p>The data is the Olist Brazilian E-Commerce Public Dataset from Kaggle: about 100,000 orders placed between 2016 and 2018 across Brazil. The grain is one row per order item, so an order can contain several items.</p>
   <p>The model uses these tables: Orders, Customers, Products (categories translated to English), Payments, Order Items, Reviews, and a Date table for time intelligence.</p>
-  <ul>
-    <li><span class="ph">[SQL step you actually did, e.g. joined the order, item and payment tables]</span></li>
-    <li><span class="ph">[Cleaning step, e.g. handled missing delivery dates or translated category names]</span></li>
-  </ul>
+
   <figure class="flowfig" style="margin:24px 0 0">
   <ol class="flow" aria-label="Data pipeline, from CSV files to published dashboard">
     <li class="step"><span class="num">1</span><h4>CSV Files</h4></li>
@@ -185,14 +182,12 @@ nav ul.open{display:flex}section{padding:56px 0}}
     <li>Health &amp; Beauty was the top product category by sales (1.13M), ahead of Bed, Bath &amp; Table (0.90M) and Computers Accessories (0.87M).</li>
     <li>S&atilde;o Paulo led all cities with 1.65M in sales, more than twice second-placed Rio de Janeiro (0.73M).</li>
     <li>In August 2018 versus July 2018, sales fell 8.7% while orders rose 2.2% and customers rose 2.9%. Together, that means revenue per order fell by roughly 10%.</li>
-    <li><span class="ph">[One insight from the Customer Service page, with its number, e.g. on-time delivery rate]</span></li>
   </ul></section>
 
 <section><h2>Business recommendations</h2>
   <ul>
     <li>Find out why revenue per order fell in August 2018: a shift toward lower-priced categories, discounting, or changes in freight or payment mix.</li>
     <li>Treat the gap between S&atilde;o Paulo and other cities as a question for marketing: is it demand, or reach? Test campaigns in selected cities and compare.</li>
-    <li><span class="ph">[A recommendation from the delivery analysis, based on the late-delivery cities or order status results]</span></li>
   </ul></section>
 
 <section><h2>Repository</h2><p>The SQL, Power BI file and documentation are on <a href="https://github.com/benbouyahia/YOUR-REPO" target="_blank" rel="noopener">GitHub</a>.</p>
