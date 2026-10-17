@@ -572,12 +572,32 @@
 }
 .dashboard-page-item {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) auto;
-  align-items: start;
+  grid-template-columns: 38px minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
   gap: 14px;
   padding: 17px 0;
   border-bottom: 1px solid var(--border);
 }
+.dashboard-page-gallery--compact .dashboard-page-item {
+  grid-template-columns: 24px minmax(110px, 150px) minmax(0, 1fr);
+  gap: 10px;
+  padding: 9px 0;
+}
+.dashboard-page-image {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(76, 107, 81, 0.16);
+  border-radius: 4px;
+  background: #fff;
+}
+.dashboard-page-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.dashboard-page-image:hover img { transform: scale(1.045); }
 .dashboard-page-number {
   color: var(--forest);
   font-family: var(--font-display);
@@ -1199,6 +1219,22 @@
   color: var(--forest);
   font-family: var(--font-mono, monospace);
   font-size: 10px;
+}
+.feedback-model-figure { margin: 24px 0 0; }
+.feedback-model-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 720px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #172126;
+}
+.feedback-model-figure figcaption {
+  margin-top: 8px;
+  color: var(--muted-foreground);
+  font-size: 11px;
 }
 .feedback-kpi-list {
   display: grid;
@@ -1936,7 +1972,12 @@
   .report-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .project-visual--feedback { padding: 18px 14px; }
   .dashboard-page-gallery--compact { padding: 12px; }
-  .dashboard-page-item { grid-template-columns: 32px minmax(0, 1fr) auto; gap: 8px; padding: 12px 0; }
+  .dashboard-page-item { grid-template-columns: 28px minmax(0, 1fr); gap: 8px; padding: 12px 0; }
+  .dashboard-page-image { grid-column: 2; }
+  .dashboard-page-copy { grid-column: 2; }
+  .dashboard-page-gallery--compact .dashboard-page-item { grid-template-columns: 22px minmax(82px, 112px) minmax(0, 1fr); gap: 7px; }
+  .dashboard-page-gallery--compact .dashboard-page-image { grid-column: auto; }
+  .dashboard-page-gallery--compact .dashboard-page-copy { grid-column: auto; }
   .dashboard-page-copy h3 { font-size: 12px; }
   .feedback-model { grid-template-columns: minmax(0, 1fr); padding: 14px; }
   .feedback-model-dimensions { gap: 6px; }

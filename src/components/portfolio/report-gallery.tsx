@@ -152,6 +152,15 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
         {customerFeedbackPages.map((page, index) => (
           <li className="dashboard-page-item" key={page.name}>
             <span className="dashboard-page-number">{String(index + 1).padStart(2, "0")}</span>
+            <a
+              className="dashboard-page-image"
+              href={page.image}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Open full-size ${page.name} dashboard screenshot`}
+            >
+              <img src={page.image} alt={page.alt} loading="lazy" />
+            </a>
             <div className="dashboard-page-copy">
               <h3>{page.name}</h3>
               {!compact && <p>{page.description}</p>}
@@ -163,11 +172,6 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
                 </ul>
               )}
             </div>
-            {compact && (
-              <span className="dashboard-page-count">
-                {String(page.keyVisuals.length).padStart(2, "0")}
-              </span>
-            )}
           </li>
         ))}
       </ol>

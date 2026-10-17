@@ -106,6 +106,14 @@ function AttijariCaseStudy() {
               ))}
             </div>
           </div>
+          <figure className="feedback-model-figure">
+            <img
+              src="/images/data-model.png"
+              alt="Power BI relationship model showing fact_feedback connected to date, channel, client, agency, topic, family, complaint type, and priority dimensions"
+              loading="lazy"
+            />
+            <figcaption>Power BI relationship model for customer feedback analysis.</figcaption>
+          </figure>
         </section>
 
         <section className="case-section" id="dashboard-pages">
