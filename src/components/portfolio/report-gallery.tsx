@@ -131,6 +131,11 @@ export function ReportGallery({ compact = false }: { compact?: boolean }) {
 }
 
 export function DashboardPageGallery({ compact = false }: { compact?: boolean }) {
+  const [selectedPage, setSelectedPage] = useState<(typeof customerFeedbackPages)[number]>(
+    customerFeedbackPages[0],
+  );
+  const [open, setOpen] = useState(false);
+
   return (
     <div
       className={
@@ -152,15 +157,18 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
         {customerFeedbackPages.map((page, index) => (
           <li className="dashboard-page-item" key={page.name}>
             <span className="dashboard-page-number">{String(index + 1).padStart(2, "0")}</span>
-            <a
+            <Button
+              type="button"
+              variant="ghost"
               className="dashboard-page-image"
-              href={page.image}
-              target="_blank"
-              rel="noreferrer"
               aria-label={`Open full-size ${page.name} dashboard screenshot`}
+              onClick={() => {
+                setSelectedPage(page);
+                setOpen(true);
+              }}
             >
               <img src={page.image} alt={page.alt} loading="lazy" />
-            </a>
+            </Button>
             <div className="dashboard-page-copy">
               <h3>{page.name}</h3>
               {!compact && <p>{page.description}</p>}
@@ -175,6 +183,18 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
           </li>
         ))}
       </ol>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="gallery-dialog">
+          <DialogTitle>{selectedPage.name}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Full-size Attijari Bank customer feedback dashboard screenshot.
+          </DialogDescription>
+          <img className="gallery-full-image" src={selectedPage.image} alt={selectedPage.alt} />
+          <div className="gallery-dialog-footer">
+            <span>Power BI report page · {selectedPage.name}</span>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
