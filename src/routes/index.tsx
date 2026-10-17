@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Availability } from "@/components/portfolio/shell";
-import { ProjectCard } from "@/components/portfolio/project-card";
+import { CustomerFeedbackProjectCard, ProjectCard } from "@/components/portfolio/project-card";
 import { CertificationLogo } from "@/components/portfolio/certification-logo";
 import { pageHead, work, education, certifications, identity } from "@/lib/portfolio";
 import portrait from "@/assets/linkedin_profile_high_quality.png.asset.json";
@@ -208,7 +208,7 @@ function Index() {
           <div>
             <span className="eyebrow">SELECTED WORK</span>
             <h2>
-              Olist marketplace analysis<span className="name-dot">.</span>
+              Selected projects<span className="name-dot">.</span>
             </h2>
           </div>
           <Link to="/projects" className="text-link">
@@ -216,6 +216,7 @@ function Index() {
           </Link>
         </div>
         <ProjectCard />
+        <CustomerFeedbackProjectCard />
       </section>
       <section className="home-about">
         <div className="container home-about-inner">

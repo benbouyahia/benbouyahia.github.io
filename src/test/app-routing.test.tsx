@@ -16,6 +16,14 @@ describe("App routing", () => {
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
 
+  it("matches the Attijari customer feedback case study", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    const matches = router.matchRoutes("/projects/attijari");
+
+    expect(matches.at(-1)?.routeId).toBe("/projects/attijari");
+  });
+
   it("provides branded certification metadata for polished logo badges", () => {
     expect(certifications[0]).toMatchObject({
       brand: "Microsoft",

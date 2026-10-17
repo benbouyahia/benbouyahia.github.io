@@ -11,6 +11,14 @@ export const project = {
   tools: ["Power BI", "SQL", "DAX"],
   category: "Business intelligence",
 };
+export const customerFeedbackProject = {
+  title: "Customer Feedback Business Intelligence Dashboard",
+  description:
+    "A five-page Power BI solution for monitoring customer feedback, complaint resolution, and operational delays at Attijari Bank Tunisia.",
+  organization: "Attijari Bank Tunisia",
+  tools: ["Power BI", "SQL Server", "DAX"],
+  category: "Customer experience",
+};
 export const work = [
   { date: "Jan 2024 — Aug 2024", title: "Marketing & Sales Representative", organization: "ABBK Physicsworks", label: "SALES & MARKETING" },
   { date: "Jul 2023 — Jan 2024", title: "Business Developer", organization: "Impacts Digital", label: "BUSINESS DEVELOPMENT" },

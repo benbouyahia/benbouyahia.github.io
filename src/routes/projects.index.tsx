@@ -2,18 +2,22 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/portfolio/shell";
-import { ProjectCard } from "@/components/portfolio/project-card";
+import { CustomerFeedbackProjectCard, ProjectCard } from "@/components/portfolio/project-card";
 import { pageHead } from "@/lib/portfolio";
 export const Route = createFileRoute("/projects/")({
   head: () =>
     pageHead(
       "Selected projects",
-      "Explore SQL and Power BI work by Ayoub Ben Bouyahia, including the Olist marketplace sales and delivery analysis.",
+      "Explore Power BI, SQL, and customer experience dashboards by Ayoub Ben Bouyahia, including Olist and Attijari Bank Tunisia case studies.",
     ),
   component: Projects,
 });
 function Projects() {
   const [filter, setFilter] = useState("All projects");
+  const showOlist = filter === "All projects" || filter === "Power BI" || filter === "SQL";
+  const showCustomerFeedback =
+    filter === "All projects" || filter === "Power BI" || filter === "SQL";
+  const resultCount = Number(showOlist) + Number(showCustomerFeedback);
   return (
     <main>
       <PageIntro label="SELECTED WORK" title="Business questions. Data answers.">
@@ -33,8 +37,11 @@ function Projects() {
             </Button>
           ))}
         </div>
-        <ProjectCard />
-        <p className="result-count">1 project{filter !== "All projects" ? ` · ${filter}` : ""}</p>
+        {showOlist && <ProjectCard />}
+        {showCustomerFeedback && <CustomerFeedbackProjectCard />}
+        <p className="result-count">
+          {resultCount} projects{filter !== "All projects" ? ` · ${filter}` : ""}
+        </p>
       </section>
     </main>
   );

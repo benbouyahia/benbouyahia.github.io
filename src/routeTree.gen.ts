@@ -15,6 +15,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as ProjectsAttijariRouteImport } from './routes/projects.attijari'
 import { Route as ProjectsOlistRouteImport } from './routes/projects.olist'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProjectsRoute,
 } as any)
+const ProjectsAttijariRoute = ProjectsAttijariRouteImport.update({
+  id: '/attijari',
+  path: '/attijari',
+  getParentRoute: () => ProjectsRoute,
+} as any)
 const ProjectsOlistRoute = ProjectsOlistRouteImport.update({
   id: '/olist',
   path: '/olist',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/experience': typeof ExperienceRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/projects/attijari': typeof ProjectsAttijariRoute
   '/projects/olist': typeof ProjectsOlistRoute
   '/projects/': typeof ProjectsIndexRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/experience': typeof ExperienceRoute
+  '/projects/attijari': typeof ProjectsAttijariRoute
   '/projects/olist': typeof ProjectsOlistRoute
   '/projects': typeof ProjectsIndexRoute
 }
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/experience': typeof ExperienceRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/projects/attijari': typeof ProjectsAttijariRoute
   '/projects/olist': typeof ProjectsOlistRoute
   '/projects/': typeof ProjectsIndexRoute
 }
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/experience'
     | '/projects'
+    | '/projects/attijari'
     | '/projects/olist'
     | '/projects/'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/experience'
+    | '/projects/attijari'
     | '/projects/olist'
     | '/projects'
   id:
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/experience'
     | '/projects'
+    | '/projects/attijari'
     | '/projects/olist'
     | '/projects/'
   fileRoutesById: FileRoutesById
@@ -161,6 +173,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof ProjectsRoute
     }
+    '/projects/attijari': {
+      id: '/projects/attijari'
+      path: '/attijari'
+      fullPath: '/projects/attijari'
+      preLoaderRoute: typeof ProjectsAttijariRouteImport
+      parentRoute: typeof ProjectsRoute
+    }
     '/projects/olist': {
       id: '/projects/olist'
       path: '/olist'
@@ -172,11 +191,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface ProjectsRouteChildren {
+  ProjectsAttijariRoute: typeof ProjectsAttijariRoute
   ProjectsOlistRoute: typeof ProjectsOlistRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
 const ProjectsRouteChildren: ProjectsRouteChildren = {
+  ProjectsAttijariRoute: ProjectsAttijariRoute,
   ProjectsOlistRoute: ProjectsOlistRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
 }
