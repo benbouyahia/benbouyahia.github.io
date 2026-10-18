@@ -131,28 +131,107 @@ export function ReportGallery({ compact = false }: { compact?: boolean }) {
 }
 
 export function DashboardPageGallery({ compact = false }: { compact?: boolean }) {
-  const [selectedPage, setSelectedPage] = useState<(typeof customerFeedbackPages)[number]>(
-    customerFeedbackPages[0],
-  );
+  const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
+  const opener = useRef<HTMLElement | null>(null);
+
+  const openPage = (index: number) => {
+    opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setSelected(index);
+    setOpen(true);
+  };
+
+  const currentPage = customerFeedbackPages[selected] ?? customerFeedbackPages[0];
+  const move = (direction: number) =>
+    setSelected(
+      (current) => (current + direction + customerFeedbackPages.length) % customerFeedbackPages.length,
+    );
+
+  if (compact) {
+    return (
+      <div className="report-gallery report-gallery-compact">
+        <Button
+          variant="ghost"
+          className="image-open compact-report"
+          aria-label={`Enlarge ${currentPage.name}`}
+          onClick={() => openPage(selected)}
+        >
+          <img src={currentPage.image} alt={currentPage.alt} width={1200} height={675} />
+          <span className="report-enlarge">
+            <Maximize2 size={16} />
+          </span>
+        </Button>
+        <div className="report-thumbnails report-thumbnails--5">
+          {customerFeedbackPages.map((item, index) => (
+            <Button
+              key={item.name}
+              variant="ghost"
+              className="report-thumbnail"
+              aria-pressed={selected === index}
+              onClick={() => setSelected(index)}
+            >
+              <img src={item.image} alt="" width={240} height={135} />
+              <span>{item.name}</span>
+            </Button>
+          ))}
+        </div>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent
+            className="gallery-dialog"
+            onCloseAutoFocus={(event) => {
+              event.preventDefault();
+              opener.current?.focus();
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowRight") move(1);
+              if (event.key === "ArrowLeft") move(-1);
+            }}
+          >
+            <DialogTitle>{currentPage.name}</DialogTitle>
+            <DialogDescription className="sr-only">
+              Full-size Attijari Bank customer feedback dashboard screenshot.
+            </DialogDescription>
+            <img className="gallery-full-image" src={currentPage.image} alt={currentPage.alt} />
+            <div className="gallery-dialog-footer">
+              <span>
+                0{selected + 1} / 0{customerFeedbackPages.length} · Power BI report page
+              </span>
+              <div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Previous page"
+                  title="Previous page"
+                  onClick={() => move(-1)}
+                >
+                  <ArrowLeft />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Next page"
+                  title="Next page"
+                  onClick={() => move(1)}
+                >
+                  <ArrowRight />
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  }
 
   return (
-    <div
-      className={
-        compact
-          ? "dashboard-page-gallery dashboard-page-gallery--compact"
-          : "dashboard-page-gallery"
-      }
-    >
-      {!compact && (
-        <div className="gallery-heading">
-          <div>
-            <span className="eyebrow">REPORT STRUCTURE</span>
-            <h2>Five views of customer feedback</h2>
-          </div>
-          <span className="gallery-count">05 REPORT PAGES</span>
+    <div className="dashboard-page-gallery">
+      <div className="gallery-heading">
+        <div>
+          <span className="eyebrow">REPORT STRUCTURE</span>
+          <h2>Five views of customer feedback</h2>
         </div>
-      )}
+        <span className="gallery-count">05 REPORT PAGES</span>
+      </div>
       <ol className="dashboard-page-list">
         {customerFeedbackPages.map((page, index) => (
           <li className="dashboard-page-item" key={page.name}>
@@ -162,36 +241,63 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
               variant="ghost"
               className="dashboard-page-image"
               aria-label={`Open full-size ${page.name} dashboard screenshot`}
-              onClick={() => {
-                setSelectedPage(page);
-                setOpen(true);
-              }}
+              onClick={() => openPage(index)}
             >
               <img src={page.image} alt={page.alt} loading="lazy" />
             </Button>
             <div className="dashboard-page-copy">
               <h3>{page.name}</h3>
-              {!compact && <p>{page.description}</p>}
-              {!compact && (
-                <ul>
-                  {page.keyVisuals.map((visual) => (
-                    <li key={visual}>{visual}</li>
-                  ))}
-                </ul>
-              )}
+              <p>{page.description}</p>
+              <ul>
+                {page.keyVisuals.map((visual) => (
+                  <li key={visual}>{visual}</li>
+                ))}
+              </ul>
             </div>
           </li>
         ))}
       </ol>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="gallery-dialog">
-          <DialogTitle>{selectedPage.name}</DialogTitle>
+        <DialogContent
+          className="gallery-dialog"
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            opener.current?.focus();
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight") move(1);
+            if (event.key === "ArrowLeft") move(-1);
+          }}
+        >
+          <DialogTitle>{currentPage.name}</DialogTitle>
           <DialogDescription className="sr-only">
             Full-size Attijari Bank customer feedback dashboard screenshot.
           </DialogDescription>
-          <img className="gallery-full-image" src={selectedPage.image} alt={selectedPage.alt} />
+          <img className="gallery-full-image" src={currentPage.image} alt={currentPage.alt} />
           <div className="gallery-dialog-footer">
-            <span>Power BI report page · {selectedPage.name}</span>
+            <span>
+              0{selected + 1} / 0{customerFeedbackPages.length} · Power BI report page
+            </span>
+            <div>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Previous page"
+                title="Previous page"
+                onClick={() => move(-1)}
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Next page"
+                title="Next page"
+                onClick={() => move(1)}
+              >
+                <ArrowRight />
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

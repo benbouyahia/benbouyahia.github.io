@@ -38,7 +38,7 @@ export function ProjectCard() {
 export function CustomerFeedbackProjectCard() {
   return (
     <article className="project-card">
-      <div className="project-visual project-visual--feedback">
+      <div className="project-visual">
         <DashboardPageGallery compact />
       </div>
       <div className="project-body">
