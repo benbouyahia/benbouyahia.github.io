@@ -16,6 +16,9 @@ dist-ssr
 .nitro
 *.local
 
+# Nested clone of this repository (not part of the site)
+/benbouyahia.github.io/
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

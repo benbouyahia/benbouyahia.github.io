@@ -3,15 +3,20 @@ name: Deploy portfolio to GitHub Pages
 on:
   push:
     branches:
-      - "**"
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
-    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -28,8 +33,16 @@ jobs:
       - name: Build prerendered site
         run: bun run build
 
+      - name: Prepare GitHub Pages files
+        run: |
+          test -f .output/public/index.html
+          cp .output/public/index.html .output/public/404.html
+          touch .output/public/.nojekyll
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
@@ -37,12 +50,8 @@ jobs:
           path: .output/public
 
   deploy:
-    if: github.ref_name == github.event.repository.default_branch
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

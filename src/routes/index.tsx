@@ -5,7 +5,6 @@ import {
   BarChart3,
   Database,
   Table2,
-  Layers,
   MapPin,
   ArrowRight,
   BriefcaseBusiness,
@@ -157,49 +156,6 @@ function Index() {
             >
               <Linkedin size={18} aria-hidden="true" />
             </a>
-          </div>
-        </div>
-      </section>
-      <div className="tools-strip">
-        <div className="container tools-inner">
-          <span className="tools-label">TOOLS I USE</span>
-          <div>
-            <BarChart3 /> Power BI
-          </div>
-          <div>
-            <Database /> SQL
-          </div>
-          <div>
-            <Table2 /> Excel
-          </div>
-          <div>
-            <Layers /> Microsoft Fabric
-          </div>
-        </div>
-      </div>
-      <section className="container home-value-band">
-        <div className="feature-panel">
-          <div className="feature-overline">WHAT I BRING</div>
-          <div className="feature-copy">
-            <h2>Reporting built for business teams.</h2>
-            <p>I connect sales, customer, and operations data with the teams making decisions.</p>
-          </div>
-          <div className="feature-grid">
-            <div className="feature-card">
-              <span className="feature-icon"><BarChart3 size={18} /></span>
-              <h3>Power BI</h3>
-              <p>Executive dashboards and decision-ready reporting.</p>
-            </div>
-            <div className="feature-card">
-              <span className="feature-icon"><Database size={18} /></span>
-              <h3>SQL</h3>
-              <p>Clean data models and reliable analysis foundations.</p>
-            </div>
-            <div className="feature-card">
-              <span className="feature-icon"><Layers size={18} /></span>
-              <h3>Business context</h3>
-              <p>Insights shaped by sales, marketing, and operations reality.</p>
-            </div>
           </div>
         </div>
       </section>
