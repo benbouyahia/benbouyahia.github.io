@@ -16,9 +16,11 @@ function Projects() {
       <PageIntro label="SELECTED WORK" title="Business questions. Data answers.">
         A closer look at how I turn raw data into reporting that supports real decisions.
       </PageIntro>
-      <section className="container section projects-section">
-        <ProjectCard />
-        <CustomerFeedbackProjectCard />
+      <section className="work-band">
+        <div className="container section">
+          <ProjectCard />
+          <CustomerFeedbackProjectCard />
+        </div>
       </section>
     </main>
   );

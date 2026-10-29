@@ -2,9 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
-  BarChart3,
-  Database,
-  Table2,
   MapPin,
   ArrowRight,
   BriefcaseBusiness,
@@ -85,28 +82,6 @@ function Index() {
           height={900}
           className="hero-portrait"
         />
-        <div className="portrait-registration" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
-        <div className="portrait-floats" aria-hidden="true">
-          <span className="float-chip float-chip--powerbi">
-            <BarChart3 size={15} />
-            Power BI
-          </span>
-          <span className="float-chip float-chip--sql">
-            <Database size={15} />
-            SQL
-          </span>
-          <span className="float-chip float-chip--excel">
-            <Table2 size={15} />
-            Excel
-          </span>
-          <span className="float-spark float-spark--one" />
-          <span className="float-spark float-spark--two" />
-        </div>
         <div className="container hero-content">
           <Availability />
           <div className="hero-introduction">
@@ -133,46 +108,63 @@ function Index() {
               </Link>
             </Button>
           </div>
-          <div className="hero-location">
-            <MapPin size={14} /> Tunis, Tunisia
-          </div>
-          <div className="hero-socials" aria-label="Social profiles">
-            <span>Follow me</span>
-            <a
-              href={identity.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub profile"
-              title="GitHub"
-            >
-              <Github size={18} aria-hidden="true" />
-            </a>
-            <a
-              href={identity.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn profile"
-              title="LinkedIn"
-            >
-              <Linkedin size={18} aria-hidden="true" />
-            </a>
+          <dl className="hero-stats">
+            <div>
+              <dt>PL-300</dt>
+              <dd>Microsoft Power BI certified</dd>
+            </div>
+            <div>
+              <dt>100K+</dt>
+              <dd>orders analysed</dd>
+            </div>
+            <div>
+              <dt>2</dt>
+              <dd>end-to-end BI case studies</dd>
+            </div>
+          </dl>
+          <div className="hero-meta">
+            <div className="hero-location">
+              <MapPin size={14} /> Tunis, Tunisia
+            </div>
+            <div className="hero-socials" aria-label="Social profiles">
+              <a
+                href={identity.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub profile"
+                title="GitHub"
+              >
+                <Github size={18} aria-hidden="true" />
+              </a>
+              <a
+                href={identity.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn profile"
+                title="LinkedIn"
+              >
+                <Linkedin size={18} aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
-      <section className="section container" id="selected-work">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">SELECTED WORK</span>
-            <h2>
-              Selected projects<span className="name-dot">.</span>
-            </h2>
+      <section className="work-band" id="selected-work">
+        <div className="section container">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">SELECTED WORK</span>
+              <h2>
+                Selected projects<span className="name-dot">.</span>
+              </h2>
+            </div>
+            <Link to="/projects" className="text-link">
+              View all projects <ArrowUpRight size={17} />
+            </Link>
           </div>
-          <Link to="/projects" className="text-link">
-            View all projects <ArrowUpRight size={17} />
-          </Link>
+          <ProjectCard />
+          <CustomerFeedbackProjectCard />
         </div>
-        <ProjectCard />
-        <CustomerFeedbackProjectCard />
       </section>
       <section className="home-about">
         <div className="container home-about-inner">
@@ -197,11 +189,15 @@ function Index() {
               Experience &amp; credentials<span className="name-dot">.</span>
             </h2>
           </div>
-          <Link to="/experience" className="text-link">My full journey <ArrowUpRight size={17} /></Link>
+          <Link to="/experience" className="text-link">
+            My full journey <ArrowUpRight size={17} />
+          </Link>
         </div>
         <div className="home-credentials-layout">
           <div className="home-work">
-            <h3 className="credential-heading"><BriefcaseBusiness size={19} /> Experience</h3>
+            <h3 className="credential-heading">
+              <BriefcaseBusiness size={19} /> Experience
+            </h3>
             <ol className="home-work-list">
               {work.map((item) => (
                 <li key={item.title}>
@@ -215,7 +211,9 @@ function Index() {
           </div>
           <div className="home-qualifications">
             <div>
-              <h3 className="credential-heading"><GraduationCap size={20} /> Education</h3>
+              <h3 className="credential-heading">
+                <GraduationCap size={20} /> Education
+              </h3>
               {education.map((item) => (
                 <div className="home-education-item" key={item.title}>
                   <span className="eyebrow">{item.date}</span>
@@ -225,7 +223,9 @@ function Index() {
               ))}
             </div>
             <div className="home-certifications">
-              <h3 className="credential-heading"><Award size={20} /> Certifications</h3>
+              <h3 className="credential-heading">
+                <Award size={20} /> Certifications
+              </h3>
               {certifications.map((item) => (
                 <div className="home-certification-item" key={item.title}>
                   <div className="certification-summary">
@@ -235,7 +235,9 @@ function Index() {
                       <p>{item.organization}</p>
                     </div>
                   </div>
-                  <span className={`credential-status ${item.status === "In progress" ? "credential-pending" : ""}`}>
+                  <span
+                    className={`credential-status ${item.status === "In progress" ? "credential-pending" : ""}`}
+                  >
                     {item.status === "Certified" ? <BadgeCheck size={14} /> : <Clock3 size={14} />}
                     {item.status}
                   </span>
