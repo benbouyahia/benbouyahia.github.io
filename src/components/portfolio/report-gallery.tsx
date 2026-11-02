@@ -35,7 +35,7 @@ export function ReportGallery({ compact = false }: { compact?: boolean }) {
             aria-label={`Enlarge ${report.name}`}
             onClick={() => openReport(selected)}
           >
-            <img src={report.image} alt={report.alt} width={1200} height={675} />
+            <img key={report.image} src={report.image} alt={report.alt} width={1200} height={675} />
             <span className="report-enlarge">
               <Maximize2 size={16} />
             </span>
@@ -156,7 +156,13 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
           aria-label={`Enlarge ${currentPage.name}`}
           onClick={() => openPage(selected)}
         >
-          <img src={currentPage.image} alt={currentPage.alt} width={1200} height={675} />
+          <img
+            key={currentPage.image}
+            src={currentPage.image}
+            alt={currentPage.alt}
+            width={1200}
+            height={675}
+          />
           <span className="report-enlarge">
             <Maximize2 size={16} />
           </span>

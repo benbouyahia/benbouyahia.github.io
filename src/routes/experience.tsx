@@ -35,41 +35,43 @@ function Experience() {
             </Button>
           ))}
         </div>
-        {tab === "Certifications" ? (
-          <div className="certificate-list">
-            {certifications.map((item) => (
-              <article className="certificate" key={item.title}>
-                <div className="certificate-header">
-                  <CertificationLogo brand={item.brand} variant={item.variant} />
-                  <span
-                    className={`status-label ${item.status === "In progress" ? "status-label--pending" : ""}`}
-                  >
-                    {item.status}
-                  </span>
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.organization}</p>
-                <div className="certificate-footnote">
-                  <Award size={14} />
-                  <span>{item.brand}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="timeline">
-            {(tab === "Experience" ? work : education).map((item) => (
-              <article key={item.title} className="timeline-row">
-                <span className="timeline-date">{item.date}</span>
-                <div>
+        <div className="tab-panel" key={tab}>
+          {tab === "Certifications" ? (
+            <div className="certificate-list">
+              {certifications.map((item) => (
+                <article className="certificate" key={item.title}>
+                  <div className="certificate-header">
+                    <CertificationLogo brand={item.brand} variant={item.variant} />
+                    <span
+                      className={`status-label ${item.status === "In progress" ? "status-label--pending" : ""}`}
+                    >
+                      {item.status}
+                    </span>
+                  </div>
                   <h3>{item.title}</h3>
                   <p>{item.organization}</p>
-                </div>
-                <span className="timeline-label">{item.label}</span>
-              </article>
-            ))}
-          </div>
-        )}
+                  <div className="certificate-footnote">
+                    <Award size={14} />
+                    <span>{item.brand}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="timeline">
+              {(tab === "Experience" ? work : education).map((item) => (
+                <article key={item.title} className="timeline-row">
+                  <span className="timeline-date">{item.date}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.organization}</p>
+                  </div>
+                  <span className="timeline-label">{item.label}</span>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
     </main>
   );
