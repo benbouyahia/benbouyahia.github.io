@@ -39,6 +39,7 @@ function TypewriterRole() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const roleDescription = roleDescriptions[roleIndex];
     const isTyping = visibleText.length < roleDescription.length;
     const delay = isDeleting ? 38 : isTyping ? 72 : 1350;
