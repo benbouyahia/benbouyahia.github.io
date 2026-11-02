@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BarChart3, Database, BriefcaseBusiness, MapPin, ArrowUpRight } from "lucide-react";
+import { MapPin, ArrowUpRight } from "lucide-react";
 import { PageIntro } from "@/components/portfolio/shell";
+import { SkillsGrid } from "@/components/portfolio/skills";
 import { pageHead, portraitImage } from "@/lib/portfolio";
 export const Route = createFileRoute("/about")({
   head: () =>
@@ -21,7 +22,7 @@ function About() {
       <section className="container about-layout">
         <figure className="about-portrait">
           <div className="portrait-frame hero-enter">
-            <img src={portraitImage} alt="Ayoub Ben Bouyahia" width={900} height={900} />
+            <img src={portraitImage} alt="Ayoub Ben Bouyahia" width={1000} height={1000} />
           </div>
           <figcaption className="portrait-caption">
             <MapPin size={13} /> Tunis, Tunisia
@@ -50,35 +51,7 @@ function About() {
               Explore my journey <ArrowUpRight size={17} />
             </Link>
           </div>
-          <div className="skills-grid" data-stagger>
-            <div>
-              <BarChart3 className="skill-icon" size={22} />
-              <h3>Visualization</h3>
-              <ul>
-                <li>Power BI & DAX</li>
-                <li>Excel reporting</li>
-                <li>Dashboard design</li>
-              </ul>
-            </div>
-            <div>
-              <Database className="skill-icon" size={22} />
-              <h3>Data</h3>
-              <ul>
-                <li>SQL queries</li>
-                <li>Data modeling</li>
-                <li>Microsoft Fabric</li>
-              </ul>
-            </div>
-            <div>
-              <BriefcaseBusiness className="skill-icon" size={22} />
-              <h3>Business</h3>
-              <ul>
-                <li>KPI analysis</li>
-                <li>Sales & CRM</li>
-                <li>Marketing</li>
-              </ul>
-            </div>
-          </div>
+          <SkillsGrid />
         </div>
       </section>
     </main>

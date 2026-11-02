@@ -25,37 +25,6 @@ export const reports = [
   },
 ] as const;
 
-// Chapters of the home page story, drawn from the two case studies.
-export const storyChapters = [
-  {
-    title: "Same data. Different decisions.",
-    description:
-      "Executives need headline numbers and growth. Sales teams need to understand customers. Operations teams need to know whether orders arrive when promised.",
-    image: reports[0].image,
-    alt: reports[0].alt,
-    width: 1300,
-    height: 727,
-  },
-  {
-    title: "A fact table connected to business dimensions.",
-    description:
-      "The dimensional model centers on fact_feedback and connects it to descriptive tables for time, customers, service channels, agencies, topics, and complaint characteristics.",
-    image: "/images/data-model.png",
-    alt: "Power BI relationship model showing fact_feedback connected to its business dimensions",
-    width: 987,
-    height: 716,
-  },
-  {
-    title: "Five views for feedback operations.",
-    description:
-      "Monitor complaint volume, resolution, response time, and feedback mix, then track the open workload and identify urgent cases for attention.",
-    image: "/images/feedback-overview.png",
-    alt: "Attijari Bank customer feedback overview with complaint totals, resolution rate, and feedback by channel",
-    width: 992,
-    height: 728,
-  },
-] as const;
-
 export const customerFeedbackPages = [
   {
     name: "Feedback Overview",

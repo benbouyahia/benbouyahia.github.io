@@ -15,6 +15,11 @@ export const toolset = [
   "Excel",
   "Data modeling",
 ];
+export const skills = [
+  { title: "Visualization", items: ["Power BI & DAX", "Excel reporting", "Dashboard design"] },
+  { title: "Data", items: ["SQL queries", "Data modeling", "Microsoft Fabric"] },
+  { title: "Business", items: ["KPI analysis", "Sales & CRM", "Marketing"] },
+] as const;
 export const statement =
   "From sales conversations to SQL queries, I’ve always been interested in understanding what makes a business move. Today, I bring that perspective to data.";
 export const project = {

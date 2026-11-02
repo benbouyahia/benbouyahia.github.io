@@ -1,4 +1,4 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect } from "react";
 import Lenis from "lenis";
 
 const preferenceKey = "motion-preference";
@@ -67,6 +67,7 @@ export function useSmoothScroll() {
     const lenis = new Lenis({
       lerp: 0.1,
       autoRaf: true,
+      anchors: true,
       prevent: () => document.body.hasAttribute("data-scroll-locked"),
     });
     return () => lenis.destroy();
@@ -92,45 +93,4 @@ export function useMagneticButtons() {
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
-}
-
-// Writes scroll progress through an element to its --p custom property.
-// "pin" runs while a tall element's sticky child is held; "pass" runs as it crosses the viewport.
-export function useScrollProgress<T extends HTMLElement>(
-  ref: RefObject<T | null>,
-  mode: "pin" | "pass",
-  onChange?: (progress: number) => void,
-) {
-  const callback = useRef(onChange);
-  callback.current = onChange;
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const box = element.getBoundingClientRect();
-      const height = window.innerHeight;
-      const raw =
-        mode === "pin"
-          ? box.height > height
-            ? -box.top / (box.height - height)
-            : 1
-          : (height * 0.85 - box.top) / (box.height + height * 0.35);
-      const progress = Math.min(Math.max(raw, 0), 1);
-      element.style.setProperty("--p", progress.toFixed(4));
-      callback.current?.(progress);
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, [ref, mode]);
 }

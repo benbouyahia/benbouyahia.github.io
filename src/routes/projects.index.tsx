@@ -20,7 +20,7 @@ function Projects() {
       >
         A closer look at how I turn raw data into reporting that supports real decisions.
       </PageIntro>
-      <section className="container work-grid" style={{ paddingBottom: "var(--section-space)" }}>
+      <section className="container project-list" style={{ paddingBottom: "var(--section-space)" }}>
         <ProjectCard />
         <CustomerFeedbackProjectCard />
       </section>

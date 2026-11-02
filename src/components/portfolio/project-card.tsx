@@ -30,25 +30,26 @@ function CaseCard({
   tools: readonly string[];
 }) {
   return (
-    <article className="work-card" data-stagger>
+    <article className="project-row">
       <Link
         to={to}
         className="work-media"
+        data-reveal
         data-cursor="View"
         aria-label={`Open the ${title} case study`}
         style={{ viewTransitionName: transitionName } as CSSProperties}
       >
         <img src={image} alt={alt} width={width} height={height} loading="lazy" />
       </Link>
-      <div className="project-meta">
-        <span>{label}</span>
-        <span>{context}</span>
-      </div>
-      <Link to={to} className="project-title">
-        <h3>{title}</h3>
-      </Link>
-      <p>{description}</p>
-      <div className="project-bottom">
+      <div className="project-copy" data-stagger>
+        <div className="project-meta">
+          <span>{label}</span>
+          <span>{context}</span>
+        </div>
+        <Link to={to} className="project-title">
+          <h3>{title}</h3>
+        </Link>
+        <p>{description}</p>
         <div className="tag-list">
           {tools.map((tool) => (
             <span key={tool}>{tool}</span>

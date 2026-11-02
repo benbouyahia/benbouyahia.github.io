@@ -144,48 +144,6 @@ export function CursorLabel() {
   );
 }
 
-// Decorative chart behind the home headline: lines draw in, then a pulse keeps travelling along them.
-export function HeroChart() {
-  const lines = [
-    "M0 330 C80 320 120 250 200 262 S330 340 420 250 S560 110 640 150 S750 90 800 40",
-    "M0 380 C100 372 160 340 240 342 S380 372 470 318 S620 236 690 252 S770 214 800 190",
-  ];
-  const bars = [70, 118, 96, 150, 132, 186, 164, 228, 206];
-  const ref = useRef<SVGSVGElement>(null);
-  // Looping effects stop once the hero has scrolled away, which keeps scrolling light.
-  useEffect(() => {
-    const hero = ref.current?.parentElement;
-    if (!hero) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      hero.classList.toggle("is-offscreen", !entry?.isIntersecting);
-    });
-    observer.observe(hero);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <svg ref={ref} className="hero-chart" viewBox="0 0 800 420" fill="none" aria-hidden="true">
-      {bars.map((height, index) => (
-        <rect
-          key={index}
-          className="hero-chart-bar"
-          x={index * 88 + 14}
-          y={420 - height}
-          width="44"
-          height={height}
-          rx="3"
-          style={{ "--i": index } as CSSProperties}
-        />
-      ))}
-      {lines.map((line, index) => (
-        <g key={line} style={{ "--i": index } as CSSProperties}>
-          <path className="hero-chart-line" d={line} pathLength={1} />
-          <path className="hero-chart-pulse" d={line} pathLength={1} />
-        </g>
-      ))}
-    </svg>
-  );
-}
-
 function applyMotionPreference(preference: "full" | "gentle") {
   saveMotionPreference(preference);
   window.location.reload();
