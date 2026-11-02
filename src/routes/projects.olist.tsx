@@ -27,8 +27,8 @@ function Olist() {
         label="CASE STUDY / BUSINESS INTELLIGENCE"
         title="E-Commerce Sales & Delivery Analysis"
       >
-        An interactive three-page Power BI report. About 100,000 marketplace orders. A clearer
-        picture of growth, customers, and delivery quality.
+        An interactive Power BI solution analyzing e-commerce sales, customer behavior, order
+        trends, and delivery operations using a public dataset of over 100,000 marketplace orders.
       </PageIntro>
       <div className="container">
         <dl className="case-facts hero-enter">

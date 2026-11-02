@@ -129,12 +129,6 @@ function Hero() {
         </div>
         <div>
           <dt>
-            <CountUp value={100} suffix="K+" />
-          </dt>
-          <dd>orders analysed</dd>
-        </div>
-        <div>
-          <dt>
             <CountUp value={2} duration={900} />
           </dt>
           <dd>end-to-end BI case studies</dd>

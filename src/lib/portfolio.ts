@@ -25,7 +25,7 @@ export const statement =
 export const project = {
   title: "E-Commerce Sales & Delivery Analysis",
   description:
-    "One marketplace. 100,000 orders. Three perspectives on what drives growth—and what holds it back.",
+    "An interactive Power BI solution analyzing e-commerce sales, customer behavior, order trends, and delivery operations using a public dataset of over 100,000 marketplace orders.",
   tools: ["Power BI", "SQL", "DAX"],
   category: "Business intelligence",
 };
