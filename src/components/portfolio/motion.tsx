@@ -1,4 +1,6 @@
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { X } from "lucide-react";
+import { getSavedMotionPreference, saveMotionPreference } from "@/lib/motion";
 
 // Headline whose words rise from behind a mask. Pure CSS, so it also plays for prerendered HTML.
 // The heading using it carries the full text as its aria-label.
@@ -50,7 +52,7 @@ export function CountUp({
   const finalText = `${prefix}${value.toFixed(decimals)}${suffix}`;
   useEffect(() => {
     const element = ref.current;
-    if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!element) return;
     let frame = 0;
     const run = () => {
       const start = performance.now();
@@ -79,7 +81,7 @@ export function CountUp({
   return <span ref={ref}>{finalText}</span>;
 }
 
-// Small label that trails the mouse over elements with data-cursor. Mouse devices only.
+// A copper dot trails the mouse, grows over links, and becomes a label over data-cursor elements.
 export function CursorLabel() {
   const root = useRef<HTMLDivElement>(null);
   const text = useRef<HTMLSpanElement>(null);
@@ -88,9 +90,10 @@ export function CursorLabel() {
     const label = text.current;
     const usable =
       window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.documentElement.classList.contains("motion-full");
     if (!element || !label || !usable) return;
     let frame = 0;
+    let started = false;
     let x = 0;
     let y = 0;
     let targetX = 0;
@@ -98,37 +101,141 @@ export function CursorLabel() {
     const follow = () => {
       x += (targetX - x) * 0.18;
       y += (targetY - y) * 0.18;
-      element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      element.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
       const settled = Math.abs(targetX - x) < 0.1 && Math.abs(targetY - y) < 0.1;
       frame = settled ? 0 : requestAnimationFrame(follow);
     };
     const onMove = (event: PointerEvent) => {
       targetX = event.clientX;
       targetY = event.clientY;
-      const host = event.target instanceof Element ? event.target.closest("[data-cursor]") : null;
-      const name = host?.getAttribute("data-cursor");
-      if (name) {
-        if (!element.classList.contains("is-active")) {
-          x = targetX;
-          y = targetY;
-        }
-        label.textContent = name;
+      if (!started) {
+        started = true;
+        x = targetX;
+        y = targetY;
+        element.classList.add("is-visible");
       }
+      const target = event.target instanceof Element ? event.target : null;
+      const name = target?.closest("[data-cursor]")?.getAttribute("data-cursor");
+      if (name) label.textContent = name;
       element.classList.toggle("is-active", Boolean(name));
+      element.classList.toggle("is-link", Boolean(target?.closest("a, button")));
       if (!frame) frame = requestAnimationFrame(follow);
     };
     const hide = () => element.classList.remove("is-active");
+    const onLeave = () => element.classList.remove("is-visible");
+    const onEnter = () => element.classList.add("is-visible");
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("click", hide);
+    document.documentElement.addEventListener("pointerleave", onLeave);
+    document.documentElement.addEventListener("pointerenter", onEnter);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("click", hide);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
+      document.documentElement.removeEventListener("pointerenter", onEnter);
     };
   }, []);
   return (
     <div ref={root} className="cursor-label" aria-hidden="true">
+      <i />
       <span ref={text} />
+    </div>
+  );
+}
+
+// Decorative chart behind the home headline: lines draw in, then a pulse keeps travelling along them.
+export function HeroChart() {
+  const lines = [
+    "M0 330 C80 320 120 250 200 262 S330 340 420 250 S560 110 640 150 S750 90 800 40",
+    "M0 380 C100 372 160 340 240 342 S380 372 470 318 S620 236 690 252 S770 214 800 190",
+  ];
+  const bars = [70, 118, 96, 150, 132, 186, 164, 228, 206];
+  const ref = useRef<SVGSVGElement>(null);
+  // Looping effects stop once the hero has scrolled away, which keeps scrolling light.
+  useEffect(() => {
+    const hero = ref.current?.parentElement;
+    if (!hero) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      hero.classList.toggle("is-offscreen", !entry?.isIntersecting);
+    });
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <svg ref={ref} className="hero-chart" viewBox="0 0 800 420" fill="none" aria-hidden="true">
+      {bars.map((height, index) => (
+        <rect
+          key={index}
+          className="hero-chart-bar"
+          x={index * 88 + 14}
+          y={420 - height}
+          width="44"
+          height={height}
+          rx="3"
+          style={{ "--i": index } as CSSProperties}
+        />
+      ))}
+      {lines.map((line, index) => (
+        <g key={line} style={{ "--i": index } as CSSProperties}>
+          <path className="hero-chart-line" d={line} pathLength={1} />
+          <path className="hero-chart-pulse" d={line} pathLength={1} />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function applyMotionPreference(preference: "full" | "gentle") {
+  saveMotionPreference(preference);
+  window.location.reload();
+}
+
+// Footer switch for choosing the motion tier on this device.
+export function MotionToggle() {
+  const [full, setFull] = useState<boolean | null>(null);
+  useEffect(() => {
+    setFull(document.documentElement.classList.contains("motion-full"));
+  }, []);
+  if (full === null) return null;
+  return (
+    <button
+      type="button"
+      className="text-link motion-toggle"
+      aria-pressed={full}
+      onClick={() => applyMotionPreference(full ? "gentle" : "full")}
+    >
+      {full ? "Motion: full" : "Motion: reduced"}
+    </button>
+  );
+}
+
+// One-time offer for devices that ask for reduced motion, so the choice stays with the visitor.
+export function MotionNotice() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setShow(reduced && !getSavedMotionPreference());
+  }, []);
+  if (!show) return null;
+  return (
+    <div className="motion-notice" role="status">
+      <span>Reduced motion is on for this device.</span>
+      <button type="button" onClick={() => applyMotionPreference("full")}>
+        Turn on full motion
+      </button>
+      <button
+        type="button"
+        className="motion-notice-close"
+        aria-label="Keep reduced motion"
+        title="Keep reduced motion"
+        onClick={() => {
+          saveMotionPreference("gentle");
+          setShow(false);
+        }}
+      >
+        <X size={16} />
+      </button>
     </div>
   );
 }

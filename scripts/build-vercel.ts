@@ -1,12 +1,7 @@
 // Materialize portfolio media for self-hosting: Lovable's media proxy is not
 // available on third-party hosts. These are the owner's original public assets.
 import { mkdir } from "node:fs/promises";
-const images = [
-  "olist-dashboard.png",
-  "Sales-analysis.png",
-  "Customer-service.png",
-  "linkedin_profile_high_quality.png",
-];
+const images = ["olist-dashboard.png", "Sales-analysis.png", "Customer-service.png"];
 await mkdir("public/images", { recursive: true });
 await Promise.all(
   images.map(async (name) => {

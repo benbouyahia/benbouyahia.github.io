@@ -15,8 +15,13 @@ import displayFont from "@fontsource/instrument-serif/files/instrument-serif-lat
 import bodyFont from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PortfolioHeader, PortfolioFooter } from "@/components/portfolio/shell";
-import { CursorLabel } from "@/components/portfolio/motion";
-import { motionBootstrapScript, useRevealOnScroll, useSmoothScroll } from "@/lib/motion";
+import { CursorLabel, MotionNotice } from "@/components/portfolio/motion";
+import {
+  motionBootstrapScript,
+  useMagneticButtons,
+  useRevealOnScroll,
+  useSmoothScroll,
+} from "@/lib/motion";
 
 function NotFoundComponent() {
   return (
@@ -141,6 +146,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useRevealOnScroll();
   useSmoothScroll();
+  useMagneticButtons();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -149,6 +155,7 @@ function RootComponent() {
       <Outlet />
       <PortfolioFooter />
       <CursorLabel />
+      <MotionNotice />
     </QueryClientProvider>
   );
 }

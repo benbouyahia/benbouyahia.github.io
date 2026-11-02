@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Availability } from "@/components/portfolio/shell";
-import { CountUp, SplitWords } from "@/components/portfolio/motion";
+import { CountUp, HeroChart, SplitWords } from "@/components/portfolio/motion";
 import { CustomerFeedbackProjectCard, ProjectCard } from "@/components/portfolio/project-card";
 import { CertificationLogo } from "@/components/portfolio/certification-logo";
 import {
@@ -21,6 +21,7 @@ import {
   certifications,
   portraitImage,
   statement,
+  toolset,
 } from "@/lib/portfolio";
 import { reports, storyChapters } from "@/lib/reports";
 import { useScrollProgress } from "@/lib/motion";
@@ -32,6 +33,26 @@ export const Route = createFileRoute("/")({
     ),
   component: Index,
 });
+
+function ToolMarquee() {
+  const list = (hidden: boolean) => (
+    <ul aria-hidden={hidden || undefined}>
+      {toolset.map((tool) => (
+        <li key={tool}>{tool}</li>
+      ))}
+    </ul>
+  );
+  return (
+    <div className="marquee" aria-label="Tools">
+      <div className="marquee-track">
+        {list(false)}
+        {list(true)}
+        {list(true)}
+        {list(true)}
+      </div>
+    </div>
+  );
+}
 
 function HeroMedia() {
   const ref = useRef<HTMLDivElement>(null);
@@ -112,7 +133,9 @@ function Story() {
       <div className="story-pin container">
         <div className="story-heading">
           <span className="eyebrow">HOW THE WORK COMES TOGETHER</span>
-          <h2>From a business question to a trusted report.</h2>
+          <h2 data-words aria-label="From a business question to a trusted report.">
+            <SplitWords text="From a business question to a trusted report." accent={["report."]} />
+          </h2>
         </div>
         <ol className="story-list">
           {storyChapters.map((chapter, index) => (
@@ -145,6 +168,8 @@ function Index() {
   return (
     <main>
       <section className="container hero-copy">
+        <span className="hero-glow" aria-hidden="true" />
+        <HeroChart />
         <div className="hero-enter" style={{ "--i": -8 } as CSSProperties}>
           <Availability />
         </div>
@@ -171,13 +196,16 @@ function Index() {
         </div>
       </section>
       <HeroMedia />
+      <ToolMarquee />
       <Statement />
       <Story />
       <section className="section container" id="selected-work">
         <div className="section-heading" data-reveal="line">
           <div>
             <span className="eyebrow">SELECTED WORK</span>
-            <h2>Selected projects</h2>
+            <h2 data-words aria-label="Selected projects">
+              <SplitWords text="Selected projects" accent={["projects"]} />
+            </h2>
           </div>
           <Link to="/projects" className="text-link">
             View all projects <ArrowUpRight size={17} />
@@ -214,7 +242,9 @@ function Index() {
             <div className="section-heading" data-reveal="line">
               <div>
                 <span className="eyebrow">EXPERIENCE & QUALIFICATIONS</span>
-                <h2 id="journey-title">Experience &amp; credentials</h2>
+                <h2 id="journey-title" data-words aria-label="Experience and credentials">
+                  <SplitWords text="Experience & credentials" accent={["credentials"]} />
+                </h2>
               </div>
               <Link to="/experience" className="text-link">
                 My full journey <ArrowUpRight size={17} />
@@ -287,7 +317,9 @@ function Index() {
       <section className="closing">
         <div className="container" data-stagger>
           <Availability />
-          <h2>Open to BI opportunities.</h2>
+          <h2 data-words aria-label="Open to BI opportunities.">
+            <SplitWords text="Open to BI opportunities." accent={["opportunities."]} />
+          </h2>
           <p>Business Intelligence, Data Analyst, and BI Developer roles.</p>
           <Button asChild variant="portfolio" size="lg">
             <Link to="/contact">

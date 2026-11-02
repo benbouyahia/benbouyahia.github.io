@@ -4,7 +4,17 @@ export const identity = {
   linkedin: "https://linkedin.com/in/ayoub-ben-bouyahia/",
   repository: "https://github.com/benbouyahia/Data-Analytics-Protfolio/tree/main/olist%20ecommerce",
 };
-export const portraitImage = "/images/portrait.webp";
+export const portraitImage = "/images/ayoub-portrait.webp";
+export const toolset = [
+  "Power BI",
+  "DAX",
+  "SQL",
+  "PostgreSQL",
+  "SQL Server",
+  "Microsoft Fabric",
+  "Excel",
+  "Data modeling",
+];
 export const statement =
   "From sales conversations to SQL queries, I’ve always been interested in understanding what makes a business move. Today, I bring that perspective to data.";
 export const project = {

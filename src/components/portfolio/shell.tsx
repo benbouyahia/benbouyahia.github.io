@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SplitWords } from "@/components/portfolio/motion";
+import { MotionToggle, SplitWords } from "@/components/portfolio/motion";
 import { identity } from "@/lib/portfolio";
 const links = [
   { to: "/projects", label: "Projects" },
@@ -91,6 +91,7 @@ export function PortfolioFooter() {
             Business Intelligence &amp; Analytics · Tunis, Tunisia
           </span>
           <div className="footer-links">
+            <MotionToggle />
             <a href={identity.linkedin} target="_blank" rel="noreferrer" className="text-link">
               <Linkedin size={16} /> LinkedIn
             </a>
