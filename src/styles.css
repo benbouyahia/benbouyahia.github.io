@@ -48,7 +48,7 @@
   --shadow: 0 30px 70px rgba(8, 17, 13, 0.26);
   --radius: 10px;
   --on-brand: #fff;
-  --surface-header: rgba(251, 253, 251, 0.97);
+  --surface-header: rgb(251, 253, 251);
   --surface-glass: rgba(255, 255, 255, 0.86);
   --line-subtle: rgba(76, 107, 81, 0.15);
   --line-soft: rgba(124, 147, 132, 0.22);
@@ -136,8 +136,6 @@
 .site-header {
   height: 88px;
   background: var(--surface-header);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   position: sticky;
   top: 0;
   z-index: 20;
