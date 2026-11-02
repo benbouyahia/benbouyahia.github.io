@@ -78,3 +78,57 @@ export function CountUp({
   }, [value, decimals, prefix, suffix, duration]);
   return <span ref={ref}>{finalText}</span>;
 }
+
+// Small label that trails the mouse over elements with data-cursor. Mouse devices only.
+export function CursorLabel() {
+  const root = useRef<HTMLDivElement>(null);
+  const text = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const element = root.current;
+    const label = text.current;
+    const usable =
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!element || !label || !usable) return;
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    let targetX = 0;
+    let targetY = 0;
+    const follow = () => {
+      x += (targetX - x) * 0.18;
+      y += (targetY - y) * 0.18;
+      element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      const settled = Math.abs(targetX - x) < 0.1 && Math.abs(targetY - y) < 0.1;
+      frame = settled ? 0 : requestAnimationFrame(follow);
+    };
+    const onMove = (event: PointerEvent) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      const host = event.target instanceof Element ? event.target.closest("[data-cursor]") : null;
+      const name = host?.getAttribute("data-cursor");
+      if (name) {
+        if (!element.classList.contains("is-active")) {
+          x = targetX;
+          y = targetY;
+        }
+        label.textContent = name;
+      }
+      element.classList.toggle("is-active", Boolean(name));
+      if (!frame) frame = requestAnimationFrame(follow);
+    };
+    const hide = () => element.classList.remove("is-active");
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("click", hide);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("click", hide);
+    };
+  }, []);
+  return (
+    <div ref={root} className="cursor-label" aria-hidden="true">
+      <span ref={text} />
+    </div>
+  );
+}

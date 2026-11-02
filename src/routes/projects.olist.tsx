@@ -5,6 +5,7 @@ import { PageIntro } from "@/components/portfolio/shell";
 import { CountUp } from "@/components/portfolio/motion";
 import { pageHead, identity } from "@/lib/portfolio";
 import { ReportGallery } from "@/components/portfolio/report-gallery";
+import { reports } from "@/lib/reports";
 import { AnalyticsProcess } from "@/components/portfolio/analytics-process";
 export const Route = createFileRoute("/projects/olist")({
   head: () =>
@@ -44,6 +45,9 @@ function Olist() {
             <dd>Portfolio project · Public data</dd>
           </div>
         </dl>
+        <figure className="case-hero" style={{ viewTransitionName: "case-olist" }}>
+          <img src={reports[0].image} alt={reports[0].alt} width={1300} height={727} />
+        </figure>
         <ReportGallery />
       </div>
       <div className="case-sections container">

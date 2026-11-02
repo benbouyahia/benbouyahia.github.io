@@ -29,7 +29,7 @@ function useGallery(length: number) {
   };
   const move = (direction: number) =>
     setSelected((current) => (current + direction + length) % length);
-  return { selected, setSelected, open, setOpen, openAt, move, opener };
+  return { selected, open, setOpen, openAt, move, opener };
 }
 
 function GalleryDialog({
@@ -48,6 +48,7 @@ function GalleryDialog({
     <Dialog open={gallery.open} onOpenChange={gallery.setOpen}>
       <DialogContent
         className="gallery-dialog"
+        data-lenis-prevent
         onCloseAutoFocus={(event) => {
           event.preventDefault();
           gallery.opener.current?.focus();
@@ -90,49 +91,8 @@ function GalleryDialog({
   );
 }
 
-function CompactGallery({ items, copy }: { items: readonly GalleryItem[]; copy: GalleryCopy }) {
-  const gallery = useGallery(items.length);
-  const item = items[gallery.selected] ?? items[0];
-  if (!item) return null;
-  return (
-    <div className="report-gallery report-gallery-compact">
-      <Button
-        variant="ghost"
-        className="image-open compact-report"
-        aria-label={`Enlarge ${item.name}`}
-        onClick={() => gallery.openAt(gallery.selected)}
-      >
-        <img key={item.image} src={item.image} alt={item.alt} width={1200} height={675} />
-        <span className="report-enlarge">
-          <Maximize2 size={16} />
-        </span>
-      </Button>
-      <div
-        className={
-          items.length > 3 ? "report-thumbnails report-thumbnails--5" : "report-thumbnails"
-        }
-      >
-        {items.map((thumbnail, index) => (
-          <Button
-            key={thumbnail.name}
-            variant="ghost"
-            className="report-thumbnail"
-            aria-pressed={gallery.selected === index}
-            onClick={() => gallery.setSelected(index)}
-          >
-            <img src={thumbnail.image} alt="" width={240} height={135} loading="lazy" />
-            <span>{thumbnail.name}</span>
-          </Button>
-        ))}
-      </div>
-      <GalleryDialog items={items} copy={copy} gallery={gallery} />
-    </div>
-  );
-}
-
-export function ReportGallery({ compact = false }: { compact?: boolean }) {
+export function ReportGallery() {
   const gallery = useGallery(reports.length);
-  if (compact) return <CompactGallery items={reports} copy={olistCopy} />;
   return (
     <div className="report-gallery">
       <div className="gallery-heading" data-reveal>
@@ -172,9 +132,8 @@ export function ReportGallery({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function DashboardPageGallery({ compact = false }: { compact?: boolean }) {
+export function DashboardPageGallery() {
   const gallery = useGallery(customerFeedbackPages.length);
-  if (compact) return <CompactGallery items={customerFeedbackPages} copy={feedbackCopy} />;
   return (
     <div className="dashboard-page-gallery case-wide">
       <ol className="dashboard-page-list">

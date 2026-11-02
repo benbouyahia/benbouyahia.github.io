@@ -11,9 +11,12 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import displayFont from "@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url";
+import bodyFont from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PortfolioHeader, PortfolioFooter } from "@/components/portfolio/shell";
-import { motionBootstrapScript, useRevealOnScroll } from "@/lib/motion";
+import { CursorLabel } from "@/components/portfolio/motion";
+import { motionBootstrapScript, useRevealOnScroll, useSmoothScroll } from "@/lib/motion";
 
 function NotFoundComponent() {
   return (
@@ -98,17 +101,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap",
+        rel: "preload",
+        href: displayFont,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
       },
+      { rel: "preload", href: bodyFont, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.svg?v=3", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.svg?v=4", type: "image/svg+xml" },
     ],
     scripts: [{ children: motionBootstrapScript }],
   }),
@@ -135,6 +140,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useRevealOnScroll();
+  useSmoothScroll();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -142,6 +148,7 @@ function RootComponent() {
       <PortfolioHeader />
       <Outlet />
       <PortfolioFooter />
+      <CursorLabel />
     </QueryClientProvider>
   );
 }

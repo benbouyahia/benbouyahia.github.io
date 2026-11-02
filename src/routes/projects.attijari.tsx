@@ -67,6 +67,14 @@ function AttijariCaseStudy() {
             <dd>{customerFeedbackPages.length} analytical pages</dd>
           </div>
         </dl>
+        <figure className="case-hero" style={{ viewTransitionName: "case-attijari" }}>
+          <img
+            src={customerFeedbackPages[0].image}
+            alt={customerFeedbackPages[0].alt}
+            width={992}
+            height={728}
+          />
+        </figure>
       </div>
 
       <div className="case-sections container">
