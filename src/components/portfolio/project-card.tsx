@@ -1,32 +1,48 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 import { DashboardPageGallery, ReportGallery } from "./report-gallery";
 import { customerFeedbackProject, project } from "@/lib/portfolio";
-export function ProjectCard() {
+
+function CaseCard({
+  to,
+  gallery,
+  label,
+  context,
+  title,
+  description,
+  tools,
+}: {
+  to: "/projects/olist" | "/projects/attijari";
+  gallery: ReactNode;
+  label: string;
+  context: string;
+  title: string;
+  description: string;
+  tools: readonly string[];
+}) {
   return (
     <article className="project-card">
-      <div className="project-visual">
-        <ReportGallery compact />
-      </div>
+      <div className="project-visual">{gallery}</div>
       <div className="project-body">
         <div className="project-meta">
-          <span>01 / BUSINESS INTELLIGENCE</span>
-          <span>2016—2018 DATA</span>
+          <span>{label}</span>
+          <span>{context}</span>
         </div>
-        <Link to="/projects/olist" className="project-title">
-          <h3>{project.title}</h3>
+        <Link to={to} className="project-title">
+          <h3>{title}</h3>
           <span className="project-arrow">
             <ArrowUpRight />
           </span>
         </Link>
-        <p>{project.description}</p>
+        <p>{description}</p>
         <div className="project-bottom">
           <div className="tag-list">
-            {project.tools.map((tool) => (
+            {tools.map((tool) => (
               <span key={tool}>{tool}</span>
             ))}
           </div>
-          <Link to="/projects/olist" className="text-link">
+          <Link to={to} className="text-link">
             Explore case study <ArrowUpRight size={16} />
           </Link>
         </div>
@@ -35,35 +51,30 @@ export function ProjectCard() {
   );
 }
 
+export function ProjectCard() {
+  return (
+    <CaseCard
+      to="/projects/olist"
+      gallery={<ReportGallery compact />}
+      label="01 / BUSINESS INTELLIGENCE"
+      context="2016—2018 DATA"
+      title={project.title}
+      description={project.description}
+      tools={project.tools}
+    />
+  );
+}
+
 export function CustomerFeedbackProjectCard() {
   return (
-    <article className="project-card">
-      <div className="project-visual">
-        <DashboardPageGallery compact />
-      </div>
-      <div className="project-body">
-        <div className="project-meta">
-          <span>02 / CUSTOMER EXPERIENCE</span>
-          <span>ATTIJARI BANK TUNISIA</span>
-        </div>
-        <Link to="/projects/attijari" className="project-title">
-          <h3>{customerFeedbackProject.title}</h3>
-          <span className="project-arrow">
-            <ArrowUpRight />
-          </span>
-        </Link>
-        <p>{customerFeedbackProject.description}</p>
-        <div className="project-bottom">
-          <div className="tag-list">
-            {customerFeedbackProject.tools.map((tool) => (
-              <span key={tool}>{tool}</span>
-            ))}
-          </div>
-          <Link to="/projects/attijari" className="text-link">
-            Explore case study <ArrowUpRight size={16} />
-          </Link>
-        </div>
-      </div>
-    </article>
+    <CaseCard
+      to="/projects/attijari"
+      gallery={<DashboardPageGallery compact />}
+      label="02 / CUSTOMER EXPERIENCE"
+      context="ATTIJARI BANK TUNISIA"
+      title={customerFeedbackProject.title}
+      description={customerFeedbackProject.description}
+      tools={customerFeedbackProject.tools}
+    />
   );
 }

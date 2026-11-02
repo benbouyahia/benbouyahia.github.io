@@ -4,254 +4,196 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Button } from "@/components/ui/button";
 import { customerFeedbackPages, reports } from "@/lib/reports";
 
-export function ReportGallery({ compact = false }: { compact?: boolean }) {
+type GalleryItem = { name: string; image: string; alt: string };
+type GalleryCopy = { description: string; caption: string; noun: string };
+
+const olistCopy: GalleryCopy = {
+  description: "Original Power BI report. Figures reflect its selected filters.",
+  caption: "Original Power BI report",
+  noun: "report",
+};
+const feedbackCopy: GalleryCopy = {
+  description: "Full-size Attijari Bank customer feedback dashboard screenshot.",
+  caption: "Power BI report page",
+  noun: "page",
+};
+
+function useGallery(length: number) {
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const opener = useRef<HTMLElement | null>(null);
-  const openReport = (index: number) => {
+  const openAt = (index: number) => {
     opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setSelected(index);
     setOpen(true);
   };
-  const report = reports[selected] ?? reports[0];
   const move = (direction: number) =>
-    setSelected((current) => (current + direction + reports.length) % reports.length);
+    setSelected((current) => (current + direction + length) % length);
+  return { selected, setSelected, open, setOpen, openAt, move, opener };
+}
+
+function GalleryDialog({
+  items,
+  copy,
+  gallery,
+}: {
+  items: readonly GalleryItem[];
+  copy: GalleryCopy;
+  gallery: ReturnType<typeof useGallery>;
+}) {
+  const item = items[gallery.selected] ?? items[0];
+  if (!item) return null;
+  const pad = (value: number) => String(value).padStart(2, "0");
   return (
-    <div className={compact ? "report-gallery report-gallery-compact" : "report-gallery"}>
-      {!compact && (
-        <div className="gallery-heading">
+    <Dialog open={gallery.open} onOpenChange={gallery.setOpen}>
+      <DialogContent
+        className="gallery-dialog"
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          gallery.opener.current?.focus();
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") gallery.move(1);
+          if (event.key === "ArrowLeft") gallery.move(-1);
+        }}
+      >
+        <DialogTitle>{item.name}</DialogTitle>
+        <DialogDescription className="sr-only">{copy.description}</DialogDescription>
+        <img key={item.image} className="gallery-full-image" src={item.image} alt={item.alt} />
+        <div className="gallery-dialog-footer">
+          <span>
+            {pad(gallery.selected + 1)} / {pad(items.length)} · {copy.caption}
+          </span>
           <div>
-            <span className="eyebrow">DASHBOARD COLLECTION</span>
-            <h2>Three perspectives. One marketplace.</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={`Previous ${copy.noun}`}
+              title={`Previous ${copy.noun}`}
+              onClick={() => gallery.move(-1)}
+            >
+              <ArrowLeft />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={`Next ${copy.noun}`}
+              title={`Next ${copy.noun}`}
+              onClick={() => gallery.move(1)}
+            >
+              <ArrowRight />
+            </Button>
           </div>
-          <span className="gallery-count">03 REPORT PAGES</span>
         </div>
-      )}
-      {compact ? (
-        <>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function CompactGallery({ items, copy }: { items: readonly GalleryItem[]; copy: GalleryCopy }) {
+  const gallery = useGallery(items.length);
+  const item = items[gallery.selected] ?? items[0];
+  if (!item) return null;
+  return (
+    <div className="report-gallery report-gallery-compact">
+      <Button
+        variant="ghost"
+        className="image-open compact-report"
+        aria-label={`Enlarge ${item.name}`}
+        onClick={() => gallery.openAt(gallery.selected)}
+      >
+        <img key={item.image} src={item.image} alt={item.alt} width={1200} height={675} />
+        <span className="report-enlarge">
+          <Maximize2 size={16} />
+        </span>
+      </Button>
+      <div
+        className={
+          items.length > 3 ? "report-thumbnails report-thumbnails--5" : "report-thumbnails"
+        }
+      >
+        {items.map((thumbnail, index) => (
           <Button
+            key={thumbnail.name}
             variant="ghost"
-            className="image-open compact-report"
-            aria-label={`Enlarge ${report.name}`}
-            onClick={() => openReport(selected)}
+            className="report-thumbnail"
+            aria-pressed={gallery.selected === index}
+            onClick={() => gallery.setSelected(index)}
           >
-            <img key={report.image} src={report.image} alt={report.alt} width={1200} height={675} />
-            <span className="report-enlarge">
-              <Maximize2 size={16} />
-            </span>
+            <img src={thumbnail.image} alt="" width={240} height={135} loading="lazy" />
+            <span>{thumbnail.name}</span>
           </Button>
-          <div className="report-thumbnails">
-            {reports.map((item, index) => (
-              <Button
-                key={item.name}
-                variant="ghost"
-                className="report-thumbnail"
-                aria-pressed={selected === index}
-                onClick={() => setSelected(index)}
-              >
-                <img src={item.image} alt="" width={240} height={135} />
-                <span>{item.name}</span>
-              </Button>
-            ))}
-          </div>
-        </>
-      ) : (
-        <div className="report-grid">
-          {reports.map((item, index) => (
-            <article className="report-page" key={item.name}>
-              <Button
-                variant="ghost"
-                className="image-open"
-                aria-label={`Enlarge ${item.name}`}
-                onClick={() => openReport(index)}
-              >
-                <img src={item.image} alt={item.alt} width={1200} height={675} loading="lazy" />
-                <span className="report-enlarge">
-                  <Maximize2 size={16} />
-                </span>
-              </Button>
-              <div className="report-page-copy">
-                <span className="eyebrow">REPORT / 0{index + 1}</span>
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                <Button variant="ghost" className="text-link" onClick={() => openReport(index)}>
-                  View report <Maximize2 size={14} />
-                </Button>
-              </div>
-            </article>
-          ))}
+        ))}
+      </div>
+      <GalleryDialog items={items} copy={copy} gallery={gallery} />
+    </div>
+  );
+}
+
+export function ReportGallery({ compact = false }: { compact?: boolean }) {
+  const gallery = useGallery(reports.length);
+  if (compact) return <CompactGallery items={reports} copy={olistCopy} />;
+  return (
+    <div className="report-gallery">
+      <div className="gallery-heading" data-reveal>
+        <div>
+          <span className="eyebrow">DASHBOARD COLLECTION</span>
+          <h2>Three perspectives. One marketplace.</h2>
         </div>
-      )}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent
-          className="gallery-dialog"
-          onCloseAutoFocus={(event) => {
-            event.preventDefault();
-            opener.current?.focus();
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowRight") move(1);
-            if (event.key === "ArrowLeft") move(-1);
-          }}
-        >
-          <DialogTitle>{report.name}</DialogTitle>
-          <DialogDescription className="sr-only">
-            Original Power BI report. Figures reflect its selected filters.
-          </DialogDescription>
-          <img className="gallery-full-image" src={report.image} alt={report.alt} />
-          <div className="gallery-dialog-footer">
-            <span>
-              0{selected + 1} / 0{reports.length} · Original Power BI report
-            </span>
-            <div>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Previous report"
-                title="Previous report"
-                onClick={() => move(-1)}
-              >
-                <ArrowLeft />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Next report"
-                title="Next report"
-                onClick={() => move(1)}
-              >
-                <ArrowRight />
+        <span className="gallery-count">03 REPORT PAGES</span>
+      </div>
+      <div className="report-grid">
+        {reports.map((item, index) => (
+          <article className="report-page" key={item.name} data-reveal>
+            <Button
+              variant="ghost"
+              className="image-open"
+              aria-label={`Enlarge ${item.name}`}
+              onClick={() => gallery.openAt(index)}
+            >
+              <img src={item.image} alt={item.alt} width={1300} height={727} loading="lazy" />
+              <span className="report-enlarge">
+                <Maximize2 size={16} />
+              </span>
+            </Button>
+            <div className="report-page-copy">
+              <span className="eyebrow">REPORT / 0{index + 1}</span>
+              <h3>{item.name}</h3>
+              <p>{item.description}</p>
+              <Button variant="ghost" className="text-link" onClick={() => gallery.openAt(index)}>
+                View report <Maximize2 size={14} />
               </Button>
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </article>
+        ))}
+      </div>
+      <GalleryDialog items={reports} copy={olistCopy} gallery={gallery} />
     </div>
   );
 }
 
 export function DashboardPageGallery({ compact = false }: { compact?: boolean }) {
-  const [selected, setSelected] = useState(0);
-  const [open, setOpen] = useState(false);
-  const opener = useRef<HTMLElement | null>(null);
-
-  const openPage = (index: number) => {
-    opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    setSelected(index);
-    setOpen(true);
-  };
-
-  const currentPage = customerFeedbackPages[selected] ?? customerFeedbackPages[0];
-  const move = (direction: number) =>
-    setSelected(
-      (current) => (current + direction + customerFeedbackPages.length) % customerFeedbackPages.length,
-    );
-
-  if (compact) {
-    return (
-      <div className="report-gallery report-gallery-compact">
-        <Button
-          variant="ghost"
-          className="image-open compact-report"
-          aria-label={`Enlarge ${currentPage.name}`}
-          onClick={() => openPage(selected)}
-        >
-          <img
-            key={currentPage.image}
-            src={currentPage.image}
-            alt={currentPage.alt}
-            width={1200}
-            height={675}
-          />
-          <span className="report-enlarge">
-            <Maximize2 size={16} />
-          </span>
-        </Button>
-        <div className="report-thumbnails report-thumbnails--5">
-          {customerFeedbackPages.map((item, index) => (
-            <Button
-              key={item.name}
-              variant="ghost"
-              className="report-thumbnail"
-              aria-pressed={selected === index}
-              onClick={() => setSelected(index)}
-            >
-              <img src={item.image} alt="" width={240} height={135} />
-              <span>{item.name}</span>
-            </Button>
-          ))}
-        </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent
-            className="gallery-dialog"
-            onCloseAutoFocus={(event) => {
-              event.preventDefault();
-              opener.current?.focus();
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowRight") move(1);
-              if (event.key === "ArrowLeft") move(-1);
-            }}
-          >
-            <DialogTitle>{currentPage.name}</DialogTitle>
-            <DialogDescription className="sr-only">
-              Full-size Attijari Bank customer feedback dashboard screenshot.
-            </DialogDescription>
-            <img className="gallery-full-image" src={currentPage.image} alt={currentPage.alt} />
-            <div className="gallery-dialog-footer">
-              <span>
-                0{selected + 1} / 0{customerFeedbackPages.length} · Power BI report page
-              </span>
-              <div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Previous page"
-                  title="Previous page"
-                  onClick={() => move(-1)}
-                >
-                  <ArrowLeft />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Next page"
-                  title="Next page"
-                  onClick={() => move(1)}
-                >
-                  <ArrowRight />
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  }
-
+  const gallery = useGallery(customerFeedbackPages.length);
+  if (compact) return <CompactGallery items={customerFeedbackPages} copy={feedbackCopy} />;
   return (
-    <div className="dashboard-page-gallery">
-      <div className="gallery-heading">
-        <div>
-          <span className="eyebrow">REPORT STRUCTURE</span>
-          <h2>Five views of customer feedback</h2>
-        </div>
-        <span className="gallery-count">05 REPORT PAGES</span>
-      </div>
+    <div className="dashboard-page-gallery case-wide">
       <ol className="dashboard-page-list">
         {customerFeedbackPages.map((page, index) => (
-          <li className="dashboard-page-item" key={page.name}>
-            <span className="dashboard-page-number">{String(index + 1).padStart(2, "0")}</span>
+          <li className="dashboard-page-item" key={page.name} data-reveal>
             <Button
               type="button"
               variant="ghost"
-              className="dashboard-page-image"
+              className="image-open dashboard-page-image"
               aria-label={`Open full-size ${page.name} dashboard screenshot`}
-              onClick={() => openPage(index)}
+              onClick={() => gallery.openAt(index)}
             >
-              <img src={page.image} alt={page.alt} loading="lazy" />
+              <img src={page.image} alt={page.alt} width={990} height={727} loading="lazy" />
+              <span className="report-enlarge">
+                <Maximize2 size={16} />
+              </span>
             </Button>
             <div className="dashboard-page-copy">
+              <span className="dashboard-page-number">{String(index + 1).padStart(2, "0")}</span>
               <h3>{page.name}</h3>
               <p>{page.description}</p>
               <ul>
@@ -263,50 +205,7 @@ export function DashboardPageGallery({ compact = false }: { compact?: boolean })
           </li>
         ))}
       </ol>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent
-          className="gallery-dialog"
-          onCloseAutoFocus={(event) => {
-            event.preventDefault();
-            opener.current?.focus();
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowRight") move(1);
-            if (event.key === "ArrowLeft") move(-1);
-          }}
-        >
-          <DialogTitle>{currentPage.name}</DialogTitle>
-          <DialogDescription className="sr-only">
-            Full-size Attijari Bank customer feedback dashboard screenshot.
-          </DialogDescription>
-          <img className="gallery-full-image" src={currentPage.image} alt={currentPage.alt} />
-          <div className="gallery-dialog-footer">
-            <span>
-              0{selected + 1} / 0{customerFeedbackPages.length} · Power BI report page
-            </span>
-            <div>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Previous page"
-                title="Previous page"
-                onClick={() => move(-1)}
-              >
-                <ArrowLeft />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Next page"
-                title="Next page"
-                onClick={() => move(1)}
-              >
-                <ArrowRight />
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <GalleryDialog items={customerFeedbackPages} copy={feedbackCopy} gallery={gallery} />
     </div>
   );
 }

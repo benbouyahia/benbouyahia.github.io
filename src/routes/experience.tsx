@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/portfolio/shell";
 import { CertificationLogo } from "@/components/portfolio/certification-logo";
@@ -13,17 +12,22 @@ export const Route = createFileRoute("/experience")({
     ),
   component: Experience,
 });
+const tabs = ["Experience", "Education", "Certifications"];
 function Experience() {
   const [tab, setTab] = useState("Experience");
   return (
     <main>
-      <PageIntro label="MY JOURNEY" title="Where business meets analytics.">
+      <PageIntro label="MY JOURNEY" title="Where business meets analytics." accent={["analytics."]}>
         A path through sales, marketing and business development—shaped by an increasing focus on
         data.
       </PageIntro>
       <section className="container">
-        <div className="experience-tabs">
-          {["Experience", "Education", "Certifications"].map((t) => (
+        <div
+          className="experience-tabs"
+          style={{ "--active": tabs.indexOf(tab) } as React.CSSProperties}
+        >
+          <span className="tab-indicator" aria-hidden="true" />
+          {tabs.map((t) => (
             <Button
               key={t}
               variant="ghost"
@@ -43,17 +47,13 @@ function Experience() {
                   <div className="certificate-header">
                     <CertificationLogo brand={item.brand} variant={item.variant} />
                     <span
-                      className={`status-label ${item.status === "In progress" ? "status-label--pending" : ""}`}
+                      className={`credential-status ${item.status === "In progress" ? "credential-pending" : ""}`}
                     >
                       {item.status}
                     </span>
                   </div>
                   <h3>{item.title}</h3>
                   <p>{item.organization}</p>
-                  <div className="certificate-footnote">
-                    <Award size={14} />
-                    <span>{item.brand}</span>
-                  </div>
                 </article>
               ))}
             </div>

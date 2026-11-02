@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/portfolio/shell";
+import { CountUp } from "@/components/portfolio/motion";
 import { pageHead, identity } from "@/lib/portfolio";
 import { ReportGallery } from "@/components/portfolio/report-gallery";
 import { AnalyticsProcess } from "@/components/portfolio/analytics-process";
@@ -29,7 +30,7 @@ function Olist() {
         picture of growth, customers, and delivery quality.
       </PageIntro>
       <div className="container">
-        <dl className="case-facts">
+        <dl className="case-facts hero-enter">
           <div>
             <dt>TOOLS</dt>
             <dd>PostgreSQL · Power BI · DAX</dd>
@@ -46,7 +47,7 @@ function Olist() {
         <ReportGallery />
       </div>
       <div className="case-sections container">
-        <section className="case-section">
+        <section className="case-section" data-stagger>
           <span className="eyebrow">01 / THE QUESTION</span>
           <h2>Same data. Different decisions.</h2>
           <p>
@@ -61,20 +62,20 @@ function Olist() {
         </section>
         <section className="case-section">
           <span className="eyebrow">02 / THE PROCESS</span>
-          <h2>From CSV files to a trusted report.</h2>
-          <p>
+          <h2 data-reveal>From CSV files to a trusted report.</h2>
+          <p data-reveal>
             The dataset contains approximately 100,000 orders across Brazil. The model includes
             Orders, Customers, Products, Payments, Order Items, Reviews, and a Date table. Each
             order may contain several items, so the model accounts for order-item grain.
           </p>
           <AnalyticsProcess />
-          <p className="mt-6">
+          <p data-reveal>
             Quality checks cover duplicates, nulls, foreign keys, calculated metrics and performance
             aggregates. DAX measures support sales, distinct orders and customers, month-over-month
             comparisons, and delivery performance.
           </p>
         </section>
-        <section className="case-section">
+        <section className="case-section" data-stagger>
           <span className="eyebrow">03 / THE REPORT</span>
           <h2>Built for the people using it.</h2>
           <ul>
@@ -98,10 +99,12 @@ function Olist() {
         </section>
         <section className="case-section">
           <span className="eyebrow">04 / THE FINDINGS</span>
-          <h2>The numbers that raised questions.</h2>
-          <div className="insight-grid">
+          <h2 data-reveal>The numbers that raised questions.</h2>
+          <div className="insight-grid" data-stagger>
             <div className="insight">
-              <strong>1.13M</strong>
+              <strong>
+                <CountUp value={1.13} decimals={2} suffix="M" />
+              </strong>
               <p>Health & Beauty sales—the leading category in the selected report view.</p>
             </div>
             <div className="insight">
@@ -109,16 +112,18 @@ function Olist() {
               <p>São Paulo sales compared with Rio de Janeiro: 1.65M versus 0.73M.</p>
             </div>
             <div className="insight">
-              <strong>−8.7%</strong>
+              <strong>
+                <CountUp value={8.7} decimals={1} prefix="−" suffix="%" />
+              </strong>
               <p>Sales in August versus July 2018, while orders increased 2.2%.</p>
             </div>
           </div>
-          <p className="mt-6">
+          <p data-reveal>
             The combination of falling sales and rising orders points to an approximately 10%
             decline in revenue per order—not simply a decline in demand.
           </p>
         </section>
-        <section className="case-section">
+        <section className="case-section" data-stagger>
           <span className="eyebrow">05 / THE NEXT DECISION</span>
           <h2>Insights are a starting point.</h2>
           <p>
@@ -126,7 +131,7 @@ function Olist() {
             discounting, freight or payment behavior. Test targeted marketing in cities beyond São
             Paulo, then compare demand and campaign reach.
           </p>
-          <div className="mt-7">
+          <div className="mt-6">
             <Button asChild variant="portfolio">
               <a href={identity.repository} target="_blank" rel="noreferrer">
                 Explore the repository <ArrowUpRight />

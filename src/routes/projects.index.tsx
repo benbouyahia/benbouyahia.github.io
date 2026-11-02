@@ -13,11 +13,15 @@ export const Route = createFileRoute("/projects/")({
 function Projects() {
   return (
     <main>
-      <PageIntro label="SELECTED WORK" title="Business questions. Data answers.">
+      <PageIntro
+        label="SELECTED WORK"
+        title="Business questions. Data answers."
+        accent={["answers."]}
+      >
         A closer look at how I turn raw data into reporting that supports real decisions.
       </PageIntro>
-      <section className="work-band">
-        <div className="container section">
+      <section className="band-dark">
+        <div className="container section case-stack">
           <ProjectCard />
           <CustomerFeedbackProjectCard />
         </div>

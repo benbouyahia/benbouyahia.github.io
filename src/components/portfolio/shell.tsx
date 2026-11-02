@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowUpRight, Menu, X, Github } from "lucide-react";
+import { ArrowUpRight, Menu, X, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SplitWords } from "@/components/portfolio/motion";
 import { identity } from "@/lib/portfolio";
 const links = [
   { to: "/projects", label: "Projects" },
@@ -15,10 +16,8 @@ export function PortfolioHeader() {
     <header className="site-header">
       <div className="container navigation">
         <Link to="/" className="brand" aria-label="Ayoub Ben Bouyahia home">
-          <span className="brand-mark">
-            ab<span>.</span>
-          </span>
           <span className="brand-name">Ayoub Ben Bouyahia</span>
+          <span className="brand-role">BI Analyst</span>
         </Link>
         <nav className={open ? "nav-links is-open" : "nav-links"} aria-label="Main navigation">
           {links.map((link) => (
@@ -48,18 +47,24 @@ export function PortfolioHeader() {
           {open ? <X /> : <Menu />}
         </Button>
       </div>
+      <div className="scroll-progress" aria-hidden="true" />
     </header>
   );
 }
 export function PortfolioFooter() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer band-dark">
       <div className="container footer-inner">
         <span>© 2026 Ayoub Ben Bouyahia</span>
         <span className="footer-note">Business Intelligence &amp; Analytics · Tunis, Tunisia</span>
-        <a href={identity.github} target="_blank" rel="noreferrer" className="footer-social">
-          <Github size={16} /> GitHub <ArrowUpRight size={14} />
-        </a>
+        <div className="footer-links">
+          <a href={identity.linkedin} target="_blank" rel="noreferrer" className="text-link">
+            <Linkedin size={16} /> LinkedIn
+          </a>
+          <a href={identity.github} target="_blank" rel="noreferrer" className="text-link">
+            <Github size={16} /> GitHub
+          </a>
+        </div>
       </div>
     </footer>
   );
@@ -74,16 +79,20 @@ export function Availability() {
 export function PageIntro({
   label,
   title,
+  accent,
   children,
 }: {
   label: string;
   title: string;
+  accent?: string[] | undefined;
   children?: React.ReactNode;
 }) {
   return (
     <section className="page-intro container">
       <span className="eyebrow">{label}</span>
-      <h1>{title}</h1>
+      <h1>
+        <SplitWords text={title} accent={accent} />
+      </h1>
       {children && <p className="page-lede">{children}</p>}
     </section>
   );

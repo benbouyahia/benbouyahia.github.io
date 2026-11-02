@@ -1,24 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
-  MapPin,
   ArrowRight,
   BriefcaseBusiness,
   GraduationCap,
   Award,
   BadgeCheck,
   Clock3,
-  Github,
-  Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Availability } from "@/components/portfolio/shell";
+import { CountUp, SplitWords } from "@/components/portfolio/motion";
 import { CustomerFeedbackProjectCard, ProjectCard } from "@/components/portfolio/project-card";
 import { CertificationLogo } from "@/components/portfolio/certification-logo";
-import { pageHead, work, education, certifications, identity } from "@/lib/portfolio";
-import portrait from "@/assets/linkedin_profile_high_quality.png.asset.json";
-import { portfolioMedia } from "@/lib/media";
+import { pageHead, work, education, certifications, portraitImage, toolset } from "@/lib/portfolio";
+import { reports } from "@/lib/reports";
 export const Route = createFileRoute("/")({
   head: () =>
     pageHead(
@@ -27,47 +23,23 @@ export const Route = createFileRoute("/")({
     ),
   component: Index,
 });
-const roleDescriptions = [
-  "Business Intelligence Analyst",
-  "Power BI Developer",
-  "SQL Reporting Analyst",
-];
 
-function TypewriterRole() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [visibleText, setVisibleText] = useState(roleDescriptions[0]);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const roleDescription = roleDescriptions[roleIndex];
-    const isTyping = visibleText.length < roleDescription.length;
-    const delay = isDeleting ? 38 : isTyping ? 72 : 1350;
-    const timer = window.setTimeout(() => {
-      if (isDeleting && visibleText.length === 0) {
-        setIsDeleting(false);
-        setRoleIndex((currentIndex) => (currentIndex + 1) % roleDescriptions.length);
-      } else if (isDeleting) {
-        setVisibleText((currentText) => currentText.slice(0, -1));
-      } else if (isTyping) {
-        setVisibleText(roleDescription.slice(0, visibleText.length + 1));
-      } else {
-        setIsDeleting(true);
-      }
-    }, delay);
-
-    return () => window.clearTimeout(timer);
-  }, [isDeleting, roleIndex, visibleText]);
-
+function ToolTicker() {
+  const list = (hidden: boolean) => (
+    <ul aria-hidden={hidden || undefined}>
+      {toolset.map((tool) => (
+        <li key={tool}>{tool}</li>
+      ))}
+    </ul>
+  );
   return (
-    <div className="hero-role">
-      <span className="sr-only">
-        Business Intelligence Analyst, Power BI Developer, SQL Reporting Analyst
-      </span>
-      <span className="typewriter-track" aria-hidden="true">
-        <span className="typewriter-text">{visibleText}</span>
-        <span className="type-cursor" />
-      </span>
+    <div className="ticker" aria-label="Tools">
+      <div className="ticker-track">
+        {list(false)}
+        {list(true)}
+        {list(true)}
+        {list(true)}
+      </div>
     </div>
   );
 }
@@ -75,102 +47,109 @@ function TypewriterRole() {
 function Index() {
   return (
     <main>
-      <section className="home-hero portrait-hero">
-        <img
-          src={portfolioMedia(portrait)}
-          alt="Ayoub Ben Bouyahia"
-          width={900}
-          height={900}
-          className="hero-portrait"
-        />
-        <div className="container hero-content">
-          <Availability />
-          <div className="hero-introduction">
-            HELLO, I’M AYOUB <span className="intro-line" />
-          </div>
-          <h1>
-            Ayoub <br className="hero-name-break" />
-            Ben Bouyahia<span className="name-dot">.</span>
-          </h1>
-          <TypewriterRole />
-          <p>
-            Power BI dashboards, SQL analysis, and reporting across sales, customers, and
-            operations.
-          </p>
-          <div className="hero-actions">
-            <Button asChild variant="portfolio" size="lg">
-              <Link to="/projects">
-                Explore my work <ArrowUpRight />
+      <section className="hero">
+        <div className="container">
+          <div className="hero-grid">
+            <div>
+              <div className="hero-enter">
+                <Availability />
+              </div>
+              <h1>
+                <SplitWords text="Turning business data into decisions." accent={["decisions."]} />
+              </h1>
+              <p className="hero-lede hero-enter" style={{ "--i": 1 } as React.CSSProperties}>
+                I’m Ayoub Ben Bouyahia, a Business Intelligence Analyst in Tunis. Power BI
+                dashboards, SQL analysis, and reporting across sales, customers, and operations.
+              </p>
+              <div className="hero-actions hero-enter" style={{ "--i": 2 } as React.CSSProperties}>
+                <Button asChild variant="portfolio" size="lg">
+                  <Link to="/projects">
+                    Explore my work <ArrowUpRight />
+                  </Link>
+                </Button>
+                <Button asChild variant="portfolioOutline" size="lg">
+                  <Link to="/about">
+                    A little about me <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <figure className="m-0 hero-stack-drift">
+              <Link
+                to="/projects/olist"
+                className="hero-stack"
+                aria-label="Open the Olist sales and delivery case study"
+              >
+                {[reports[2], reports[1], reports[0]].map((report) => (
+                  <img
+                    key={report.name}
+                    className="stack-sheet"
+                    src={report.image}
+                    alt=""
+                    width={1300}
+                    height={727}
+                  />
+                ))}
               </Link>
-            </Button>
-            <Button asChild variant="portfolioOutline" size="lg">
-              <Link to="/about">
-                A little about me <ArrowRight />
-              </Link>
-            </Button>
+              <figcaption
+                className="hero-figure-caption hero-enter"
+                style={{ "--i": 3 } as React.CSSProperties}
+              >
+                Fig. 1: Olist Power BI reports, about 100,000 orders
+              </figcaption>
+            </figure>
           </div>
-          <dl className="hero-stats">
+          <dl className="stat-row" data-stagger>
             <div>
               <dt>PL-300</dt>
               <dd>Microsoft Power BI certified</dd>
             </div>
             <div>
-              <dt>100K+</dt>
+              <dt>
+                <CountUp value={100} suffix="K+" />
+              </dt>
               <dd>orders analysed</dd>
             </div>
             <div>
-              <dt>2</dt>
+              <dt>
+                <CountUp value={2} duration={900} />
+              </dt>
               <dd>end-to-end BI case studies</dd>
             </div>
           </dl>
-          <div className="hero-meta">
-            <div className="hero-location">
-              <MapPin size={14} /> Tunis, Tunisia
-            </div>
-            <div className="hero-socials" aria-label="Social profiles">
-              <a
-                href={identity.github}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub profile"
-                title="GitHub"
-              >
-                <Github size={18} aria-hidden="true" />
-              </a>
-              <a
-                href={identity.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn profile"
-                title="LinkedIn"
-              >
-                <Linkedin size={18} aria-hidden="true" />
-              </a>
-            </div>
-          </div>
         </div>
       </section>
-      <section className="work-band" id="selected-work">
+      <ToolTicker />
+      <section className="band-dark" id="selected-work">
         <div className="section container">
-          <div className="section-heading">
+          <div className="section-heading" data-reveal="line">
             <div>
               <span className="eyebrow">SELECTED WORK</span>
-              <h2>
-                Selected projects<span className="name-dot">.</span>
-              </h2>
+              <h2>Selected projects</h2>
             </div>
             <Link to="/projects" className="text-link">
               View all projects <ArrowUpRight size={17} />
             </Link>
           </div>
-          <ProjectCard />
-          <CustomerFeedbackProjectCard />
+          <div className="case-stack">
+            <ProjectCard />
+            <CustomerFeedbackProjectCard />
+          </div>
         </div>
       </section>
-      <section className="home-about">
+      <section className="home-about section">
         <div className="container home-about-inner">
-          <span className="eyebrow">ABOUT AYOUB</span>
-          <div>
+          <figure className="portrait-frame" data-reveal="wipe">
+            <img
+              src={portraitImage}
+              alt="Ayoub Ben Bouyahia"
+              width={900}
+              height={900}
+              loading="lazy"
+            />
+          </figure>
+          <div data-stagger>
+            <span className="eyebrow">ABOUT AYOUB</span>
             <h2>Sales, marketing, and analytics.</h2>
             <p>
               From sales conversations to SQL queries, I’ve always been interested in understanding
@@ -182,83 +161,89 @@ function Index() {
           </div>
         </div>
       </section>
-      <section className="section container home-journey" aria-labelledby="journey-title">
-        <div className="section-heading">
+      <section className="section container" aria-labelledby="journey-title">
+        <div className="section-heading" data-reveal="line">
           <div>
             <span className="eyebrow">EXPERIENCE & QUALIFICATIONS</span>
-            <h2 id="journey-title">
-              Experience &amp; credentials<span className="name-dot">.</span>
-            </h2>
+            <h2 id="journey-title">Experience &amp; credentials</h2>
           </div>
           <Link to="/experience" className="text-link">
             My full journey <ArrowUpRight size={17} />
           </Link>
         </div>
-        <div className="home-credentials-layout">
-          <div className="home-work">
+        <div className="credentials-grid">
+          <div>
             <h3 className="credential-heading">
-              <BriefcaseBusiness size={19} /> Experience
+              <BriefcaseBusiness size={16} /> EXPERIENCE
             </h3>
-            <ol className="home-work-list">
+            <ol className="timeline-rail" data-stagger>
               {work.map((item) => (
                 <li key={item.title}>
                   <span className="eyebrow">{item.date}</span>
                   <h4>{item.title}</h4>
                   <p>{item.organization}</p>
-                  <span className="home-work-label">{item.label}</span>
+                  <span className="credential-tag">{item.label}</span>
                 </li>
               ))}
             </ol>
           </div>
-          <div className="home-qualifications">
-            <div>
+          <div>
+            <div className="credential-block">
               <h3 className="credential-heading">
-                <GraduationCap size={20} /> Education
+                <GraduationCap size={16} /> EDUCATION
               </h3>
-              {education.map((item) => (
-                <div className="home-education-item" key={item.title}>
-                  <span className="eyebrow">{item.date}</span>
-                  <h4>{item.title}</h4>
-                  <p>{item.organization}</p>
-                </div>
-              ))}
-            </div>
-            <div className="home-certifications">
-              <h3 className="credential-heading">
-                <Award size={20} /> Certifications
-              </h3>
-              {certifications.map((item) => (
-                <div className="home-certification-item" key={item.title}>
-                  <div className="certification-summary">
-                    <CertificationLogo brand={item.brand} variant={item.variant} />
-                    <div>
-                      <h4>{item.title}</h4>
-                      <p>{item.organization}</p>
-                    </div>
+              <div data-stagger>
+                {education.map((item) => (
+                  <div className="credential-item" key={item.title}>
+                    <span className="eyebrow">{item.date}</span>
+                    <h4>{item.title}</h4>
+                    <p>{item.organization}</p>
                   </div>
-                  <span
-                    className={`credential-status ${item.status === "In progress" ? "credential-pending" : ""}`}
-                  >
-                    {item.status === "Certified" ? <BadgeCheck size={14} /> : <Clock3 size={14} />}
-                    {item.status}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+            <div className="credential-block">
+              <h3 className="credential-heading">
+                <Award size={16} /> CERTIFICATIONS
+              </h3>
+              <div data-stagger>
+                {certifications.map((item) => (
+                  <div className="credential-item certification-row" key={item.title}>
+                    <div className="certification-summary">
+                      <CertificationLogo brand={item.brand} variant={item.variant} />
+                      <div>
+                        <h4>{item.title}</h4>
+                        <p>{item.organization}</p>
+                      </div>
+                    </div>
+                    <span
+                      className={`credential-status ${item.status === "In progress" ? "credential-pending" : ""}`}
+                    >
+                      {item.status === "Certified" ? (
+                        <BadgeCheck size={13} />
+                      ) : (
+                        <Clock3 size={13} />
+                      )}
+                      {item.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="container contact-band">
-        <div>
+      <section className="band-dark contact-band">
+        <div className="container" data-stagger>
           <Availability />
           <h2>Open to BI opportunities.</h2>
           <p>Business Intelligence, Data Analyst, and BI Developer roles.</p>
+          <Button asChild variant="portfolio" size="lg">
+            <Link to="/contact">
+              Start a conversation <ArrowUpRight />
+            </Link>
+          </Button>
         </div>
-        <Button asChild variant="portfolio" size="lg">
-          <Link to="/contact">
-            Start a conversation <ArrowUpRight />
-          </Link>
-        </Button>
       </section>
     </main>
   );

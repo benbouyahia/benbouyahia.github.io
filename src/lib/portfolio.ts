@@ -4,6 +4,17 @@ export const identity = {
   linkedin: "https://linkedin.com/in/ayoub-ben-bouyahia/",
   repository: "https://github.com/benbouyahia/Data-Analytics-Protfolio/tree/main/olist%20ecommerce",
 };
+export const portraitImage = "/images/portrait.webp";
+export const toolset = [
+  "Power BI",
+  "DAX",
+  "SQL",
+  "PostgreSQL",
+  "SQL Server",
+  "Microsoft Fabric",
+  "Excel",
+  "Data modeling",
+];
 export const project = {
   title: "E-Commerce Sales & Delivery Analysis",
   description:
@@ -20,13 +31,38 @@ export const customerFeedbackProject = {
   category: "Customer experience",
 };
 export const work = [
-  { date: "Jan 2024 — Aug 2024", title: "Marketing & Sales Representative", organization: "ABBK Physicsworks", label: "SALES & MARKETING" },
-  { date: "Jul 2023 — Jan 2024", title: "Business Developer", organization: "Impacts Digital", label: "BUSINESS DEVELOPMENT" },
-  { date: "Internship", title: "Business Analysis Intern", organization: "Attijari Bank", label: "BUSINESS ANALYSIS" },
+  {
+    date: "Jan 2024 — Aug 2024",
+    title: "Marketing & Sales Representative",
+    organization: "ABBK Physicsworks",
+    label: "SALES & MARKETING",
+  },
+  {
+    date: "Jul 2023 — Jan 2024",
+    title: "Business Developer",
+    organization: "Impacts Digital",
+    label: "BUSINESS DEVELOPMENT",
+  },
+  {
+    date: "Internship",
+    title: "Business Analysis Intern",
+    organization: "Attijari Bank",
+    label: "BUSINESS ANALYSIS",
+  },
 ];
 export const education = [
-  { date: "Master’s degree", title: "Business Analytics", organization: "ESPRIT School of Business", label: "EDUCATION" },
-  { date: "Licence", title: "Marketing", organization: "Tunis Higher School of Commerce", label: "EDUCATION" },
+  {
+    date: "Master’s degree",
+    title: "Business Analytics",
+    organization: "ESPRIT School of Business",
+    label: "EDUCATION",
+  },
+  {
+    date: "Licence",
+    title: "Marketing",
+    organization: "Tunis Higher School of Commerce",
+    label: "EDUCATION",
+  },
 ];
 export const certifications = [
   {

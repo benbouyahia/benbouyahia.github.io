@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PortfolioHeader, PortfolioFooter } from "@/components/portfolio/shell";
+import { motionBootstrapScript, useRevealOnScroll } from "@/lib/motion";
 
 function NotFoundComponent() {
   return (
@@ -101,14 +102,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap",
       },
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.svg?v=2", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.svg?v=3", type: "image/svg+xml" },
     ],
+    scripts: [{ children: motionBootstrapScript }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -132,6 +134,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useRevealOnScroll();
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -13,11 +13,15 @@ export const Route = createFileRoute("/contact")({
 function Contact() {
   return (
     <main>
-      <PageIntro label="GET IN TOUCH" title="Good conversations lead to great work.">
+      <PageIntro
+        label="GET IN TOUCH"
+        title="Good conversations lead to great work."
+        accent={["great", "work."]}
+      >
         Have an opportunity, a business question, or a shared interest in data? Let’s connect.
       </PageIntro>
       <section className="container contact-layout">
-        <div className="contact-message">
+        <div className="contact-message" data-stagger>
           <Availability />
           <h2>Get in touch.</h2>
           <p>
@@ -28,7 +32,7 @@ function Contact() {
             <MapPin size={14} /> Based in Tunis, Tunisia
           </div>
         </div>
-        <div className="contact-links">
+        <div className="contact-links" data-stagger>
           <a className="contact-link" href={identity.linkedin} target="_blank" rel="noreferrer">
             <Linkedin size={24} />
             <div>

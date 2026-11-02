@@ -53,7 +53,7 @@ function AttijariCaseStudy() {
       </PageIntro>
 
       <div className="container">
-        <dl className="case-facts">
+        <dl className="case-facts hero-enter">
           <div>
             <dt>ORGANIZATION</dt>
             <dd>{customerFeedbackProject.organization}</dd>
@@ -70,7 +70,7 @@ function AttijariCaseStudy() {
       </div>
 
       <div className="case-sections container">
-        <section className="case-section">
+        <section className="case-section" data-stagger>
           <span className="eyebrow">01 / THE OBJECTIVE</span>
           <h2>Make feedback patterns easier to monitor.</h2>
           <p>
@@ -86,13 +86,17 @@ function AttijariCaseStudy() {
 
         <section className="case-section">
           <span className="eyebrow">02 / THE DATA MODEL</span>
-          <h2>A fact table connected to business dimensions.</h2>
-          <p>
+          <h2 data-reveal>A fact table connected to business dimensions.</h2>
+          <p data-reveal>
             The dimensional model centers on <code>fact_feedback</code> and connects it to
             descriptive tables for time, customers, service channels, agencies, topics, and
             complaint characteristics.
           </p>
-          <div className="feedback-model" aria-label="Customer feedback dimensional model">
+          <div
+            className="feedback-model"
+            aria-label="Customer feedback dimensional model"
+            data-reveal
+          >
             <div className="feedback-model-fact">
               <Database size={19} />
               <div>
@@ -100,16 +104,18 @@ function AttijariCaseStudy() {
                 <strong>fact_feedback</strong>
               </div>
             </div>
-            <div className="feedback-model-dimensions">
+            <div className="feedback-model-dimensions" data-stagger>
               {dimensions.map((dimension) => (
                 <span key={dimension}>{dimension}</span>
               ))}
             </div>
           </div>
-          <figure className="feedback-model-figure">
+          <figure className="feedback-model-figure" data-reveal>
             <img
               src="/images/data-model.png"
               alt="Power BI relationship model showing fact_feedback connected to date, channel, client, agency, topic, family, complaint type, and priority dimensions"
+              width={987}
+              height={716}
               loading="lazy"
             />
             <figcaption>Power BI relationship model for customer feedback analysis.</figcaption>
@@ -118,25 +124,25 @@ function AttijariCaseStudy() {
 
         <section className="case-section" id="dashboard-pages">
           <span className="eyebrow">03 / THE REPORT</span>
-          <h2>Five views for feedback operations.</h2>
+          <h2 data-reveal>Five views for feedback operations.</h2>
           <DashboardPageGallery />
         </section>
 
         <section className="case-section">
           <span className="eyebrow">04 / PERFORMANCE INDICATORS</span>
-          <h2>Monitor workload, resolution, and delay.</h2>
-          <p>
+          <h2 data-reveal>Monitor workload, resolution, and delay.</h2>
+          <p data-reveal>
             DAX measures organize the operational indicators into a consistent view. The dashboard
             supports month-over-month comparisons alongside current-period performance.
           </p>
-          <ul className="feedback-kpi-list">
+          <ul className="feedback-kpi-list" data-stagger>
             {kpis.map((kpi) => (
               <li key={kpi}>{kpi}</li>
             ))}
           </ul>
         </section>
 
-        <section className="case-section">
+        <section className="case-section" data-stagger>
           <span className="eyebrow">05 / BUSINESS VALUE</span>
           <h2>From complaint records to operational questions.</h2>
           <ul>
