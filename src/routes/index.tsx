@@ -54,7 +54,7 @@ function Index() {
               <div className="hero-enter">
                 <Availability />
               </div>
-              <h1>
+              <h1 aria-label="Turning business data into decisions.">
                 <SplitWords text="Turning business data into decisions." accent={["decisions."]} />
               </h1>
               <p className="hero-lede hero-enter" style={{ "--i": 1 } as React.CSSProperties}>
@@ -84,6 +84,7 @@ function Index() {
                   <img
                     key={report.name}
                     className="stack-sheet"
+                    fetchPriority="high"
                     src={report.image}
                     alt=""
                     width={1300}

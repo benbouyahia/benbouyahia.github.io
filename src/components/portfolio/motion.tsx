@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 
 // Headline whose words rise from behind a mask. Pure CSS, so it also plays for prerendered HTML.
+// The heading using it carries the full text as its aria-label.
 export function SplitWords({
   text,
   accent = [],
@@ -12,24 +13,21 @@ export function SplitWords({
 }) {
   const words = text.split(" ");
   return (
-    <>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden="true">
-        {words.map((word, index) => (
-          <span key={`${word}-${index}`}>
-            <span className="split-word">
-              <span
-                className={accent.includes(word) ? "split-accent" : undefined}
-                style={{ "--i": index + startIndex } as CSSProperties}
-              >
-                {word}
-              </span>
+    <span aria-hidden="true">
+      {words.map((word, index) => (
+        <span key={`${word}-${index}`}>
+          <span className="split-word">
+            <span
+              className={accent.includes(word) ? "split-accent" : undefined}
+              style={{ "--i": index + startIndex } as CSSProperties}
+            >
+              {word}
             </span>
-            {index < words.length - 1 ? " " : null}
           </span>
-        ))}
-      </span>
-    </>
+          {index < words.length - 1 ? " " : null}
+        </span>
+      ))}
+    </span>
   );
 }
 
@@ -78,12 +76,5 @@ export function CountUp({
       cancelAnimationFrame(frame);
     };
   }, [value, decimals, prefix, suffix, duration]);
-  return (
-    <>
-      <span className="sr-only">{finalText}</span>
-      <span ref={ref} aria-hidden="true">
-        {finalText}
-      </span>
-    </>
-  );
+  return <span ref={ref}>{finalText}</span>;
 }

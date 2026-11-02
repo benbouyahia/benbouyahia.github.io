@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SplitWords } from "@/components/portfolio/motion";
@@ -12,6 +12,14 @@ const links = [
 export function PortfolioHeader() {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
   return (
     <header className="site-header">
       <div className="container navigation">
@@ -90,7 +98,7 @@ export function PageIntro({
   return (
     <section className="page-intro container">
       <span className="eyebrow">{label}</span>
-      <h1>
+      <h1 aria-label={title}>
         <SplitWords text={title} accent={accent} />
       </h1>
       {children && <p className="page-lede">{children}</p>}
