@@ -11,7 +11,6 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import displayFont from "@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url";
 import bodyFont from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PortfolioHeader, PortfolioFooter } from "@/components/portfolio/shell";
@@ -88,31 +87,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ayoub Ben Bouyahia | Business Intelligence & Data Analyst" },
+      { title: "Ayoub Ben Bouyahia | Business Intelligence Analyst in Tunis" },
       {
         name: "description",
-        content: "Business intelligence, SQL and Power BI portfolio of Ayoub Ben Bouyahia.",
+        content:
+          "Business Intelligence Analyst in Tunis, Tunisia. Power BI reports and SQL data models, with case studies in e-commerce and banking.",
       },
       { name: "author", content: "Ayoub Ben Bouyahia" },
-      {
-        property: "og:title",
-        content: "Ayoub Ben Bouyahia | Business Intelligence & Data Analyst",
-      },
-      {
-        property: "og:description",
-        content: "Turning business data into decisions with SQL and Power BI.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#0c0d0c" },
     ],
     links: [
-      {
-        rel: "preload",
-        href: displayFont,
-        as: "font",
-        type: "font/woff2",
-        crossOrigin: "anonymous",
-      },
       { rel: "preload", href: bodyFont, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",

@@ -1,39 +1,45 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Award,
-  BadgeCheck,
-  BriefcaseBusiness,
-  Clock3,
-  Github,
-  GraduationCap,
-  Linkedin,
-  MapPin,
-} from "lucide-react";
+import { ArrowDown, ArrowUpRight, Clock3, Github, Linkedin, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Availability } from "@/components/portfolio/shell";
-import { CountUp, SplitWords } from "@/components/portfolio/motion";
-import { CustomerFeedbackProjectCard, ProjectCard } from "@/components/portfolio/project-card";
+import { SplitWords } from "@/components/portfolio/motion";
+import { ProjectCarousel } from "@/components/portfolio/project-carousel";
+import { StorySection } from "@/components/portfolio/story";
 import { SkillsGrid } from "@/components/portfolio/skills";
-import { CertificationLogo } from "@/components/portfolio/certification-logo";
 import {
-  certifications,
-  education,
   identity,
+  nextCertification,
   pageHead,
+  personSchema,
   portraitImage,
-  statement,
+  roles,
+  siteUrl,
   toolset,
-  work,
 } from "@/lib/portfolio";
 export const Route = createFileRoute("/")({
   head: () =>
-    pageHead(
-      "Business Intelligence & Data Analyst",
-      "Ayoub Ben Bouyahia is a Business Intelligence and Data Analyst in Tunis, building actionable Power BI and SQL reporting.",
-    ),
+    pageHead({
+      title: `${identity.name} | Business Intelligence Analyst in Tunis`,
+      fullTitle: true,
+      description:
+        "PL-300 certified Business Intelligence Analyst in Tunis. Power BI case studies: complaint tracking for Attijari Bank and 100,000 Olist e-commerce orders.",
+      path: "/",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": `${siteUrl}/#website`,
+            url: `${siteUrl}/`,
+            name: identity.name,
+            inLanguage: "en",
+            publisher: { "@id": personSchema["@id"] },
+          },
+          personSchema,
+        ],
+      },
+    }),
   component: Index,
 });
 
@@ -70,16 +76,16 @@ function Hero() {
             <SplitWords text={identity.name} />
           </h1>
           <p className="hero-role hero-enter" style={{ "--i": -5 } as CSSProperties}>
-            Business Intelligence Analyst
+            {identity.role}
           </p>
           <p className="hero-lede hero-enter">
-            I turn business data into clear decisions, building Power BI dashboards, SQL analysis,
-            and reporting across sales, customers, and operations.
+            I work across the whole data pipeline, from cleaning and modeling data in SQL to the
+            Power BI reports on top. Each page answers one clear business question.
           </p>
           <div className="hero-actions hero-enter" style={{ "--i": 1 } as CSSProperties}>
             <Button asChild variant="portfolio" size="lg">
               <a href="#projects">
-                See my projects <ArrowDown />
+                See my work <ArrowDown />
               </a>
             </Button>
             <Button asChild variant="portfolioOutline" size="lg">
@@ -90,7 +96,7 @@ function Hero() {
           </div>
           <div className="hero-meta hero-enter" style={{ "--i": 2 } as CSSProperties}>
             <span className="portrait-caption">
-              <MapPin size={14} /> Tunis, Tunisia
+              <MapPin size={14} /> {identity.location}
             </span>
             <a
               href={identity.linkedin}
@@ -115,7 +121,7 @@ function Hero() {
         <figure className="hero-portrait portrait-frame">
           <img
             src={portraitImage}
-            alt="Ayoub Ben Bouyahia"
+            alt="Portrait of Ayoub Ben Bouyahia, Business Intelligence Analyst"
             width={1000}
             height={1000}
             fetchPriority="high"
@@ -125,13 +131,7 @@ function Hero() {
       <dl className="stat-row" data-stagger>
         <div>
           <dt>PL-300</dt>
-          <dd>Microsoft Power BI certified</dd>
-        </div>
-        <div>
-          <dt>
-            <CountUp value={2} duration={900} />
-          </dt>
-          <dd>end-to-end BI case studies</dd>
+          <dd>Microsoft Power BI Data Analyst, certified</dd>
         </div>
       </dl>
     </section>
@@ -142,30 +142,15 @@ function Index() {
   return (
     <main>
       <Hero />
-      <section className="section container" id="projects">
-        <div className="section-heading" data-reveal="line">
-          <div>
-            <span className="eyebrow">MY WORK</span>
-            <h2 data-words aria-label="Projects">
-              <SplitWords text="Projects" />
-            </h2>
-          </div>
-          <Link to="/projects" className="text-link">
-            View all projects <ArrowUpRight size={17} />
-          </Link>
-        </div>
-        <div className="project-list">
-          <ProjectCard />
-          <CustomerFeedbackProjectCard />
-        </div>
-      </section>
+      <StorySection />
+      <ProjectCarousel />
       <section className="skills-section" aria-labelledby="skills-title">
         <div className="container">
           <div className="section-heading" data-reveal="line">
             <div>
-              <span className="eyebrow">WHAT I WORK WITH</span>
-              <h2 id="skills-title" data-words aria-label="Skills">
-                <SplitWords text="Skills" />
+              <span className="eyebrow">TOOLKIT</span>
+              <h2 id="skills-title" data-words aria-label="Power BI, DAX, SQL, and the rest.">
+                <SplitWords text="Power BI, DAX, SQL, and the rest." />
               </h2>
             </div>
             <Link to="/about" className="text-link">
@@ -176,95 +161,23 @@ function Index() {
         </div>
         <ToolMarquee />
       </section>
-      <section className="band-light section" aria-labelledby="journey-title">
-        <div className="container">
-          <div className="section-heading" data-reveal="line">
-            <div>
-              <span className="eyebrow">MY BACKGROUND</span>
-              <h2 id="journey-title" data-words aria-label="Experience and education">
-                <SplitWords text="Experience & education" />
-              </h2>
-            </div>
-            <Link to="/experience" className="text-link">
-              My full journey <ArrowUpRight size={17} />
-            </Link>
-          </div>
-          <p className="journey-intro" data-reveal>
-            {statement}
-          </p>
-          <div className="credentials-grid">
-            <div>
-              <h3 className="credential-heading">
-                <BriefcaseBusiness size={16} /> PROFESSIONAL EXPERIENCE
-              </h3>
-              <ol className="timeline-rail" data-stagger>
-                {work.map((item) => (
-                  <li key={item.title}>
-                    <span className="eyebrow">{item.date}</span>
-                    <h4>{item.title}</h4>
-                    <p>{item.organization}</p>
-                    <span className="credential-tag">{item.label}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div>
-              <div className="credential-block">
-                <h3 className="credential-heading">
-                  <GraduationCap size={16} /> ACADEMIC BACKGROUND
-                </h3>
-                <div data-stagger>
-                  {education.map((item) => (
-                    <div className="credential-item" key={item.title}>
-                      <span className="eyebrow">{item.date}</span>
-                      <h4>{item.title}</h4>
-                      <p>{item.organization}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="credential-block">
-                <h3 className="credential-heading">
-                  <Award size={16} /> CERTIFICATIONS
-                </h3>
-                <div data-stagger>
-                  {certifications.map((item) => (
-                    <div className="credential-item certification-row" key={item.title}>
-                      <div className="certification-summary">
-                        <CertificationLogo brand={item.brand} variant={item.variant} />
-                        <div>
-                          <h4>{item.title}</h4>
-                          <p>{item.organization}</p>
-                        </div>
-                      </div>
-                      <span
-                        className={`credential-status ${item.status === "In progress" ? "credential-pending" : ""}`}
-                      >
-                        {item.status === "Certified" ? (
-                          <BadgeCheck size={13} />
-                        ) : (
-                          <Clock3 size={13} />
-                        )}
-                        {item.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       <section className="closing">
         <div className="container" data-stagger>
-          <Availability />
-          <h2 data-words aria-label="Open to BI opportunities.">
-            <SplitWords text="Open to BI opportunities." accent={["opportunities."]} />
+          <span className="eyebrow">WHAT’S NEXT</span>
+          <h2 data-words aria-label="Open to BI roles.">
+            <SplitWords text="Open to BI roles." accent={["roles."]} />
           </h2>
-          <p>Business Intelligence, Data Analyst, and BI Developer roles.</p>
+          <p>
+            {roles}. Tell me what your team can’t answer from its reports yet. That’s the
+            conversation I want to have.
+          </p>
+          <p className="closing-next">
+            <Clock3 size={15} aria-hidden="true" /> Currently preparing for{" "}
+            {nextCertification.title}
+          </p>
           <Button asChild variant="portfolio" size="lg">
             <Link to="/contact">
-              Start a conversation <ArrowUpRight />
+              Get in touch <ArrowUpRight />
             </Link>
           </Button>
         </div>

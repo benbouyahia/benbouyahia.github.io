@@ -3,7 +3,10 @@ import { createRouter, rootRouteId } from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
-import { certifications } from "@/lib/portfolio";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { certifications, education, pageHead, siteUrl, story, work } from "@/lib/portfolio";
+import { projectSlides } from "@/lib/showcase";
 
 // Match routes without running loaders or rendering: loaders may need a server or
 // network the test run lacks, and jsdom never loads the stylesheets React waits on.
@@ -32,5 +35,44 @@ describe("App routing", () => {
       status: "Certified",
     });
     expect(certifications.every((item) => item.logoText && item.variant)).toBe(true);
+  });
+
+  it("links every home carousel slide to its case-study route", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    for (const slide of projectSlides) {
+      expect(router.matchRoutes(slide.to).at(-1)?.routeId).toBe(slide.to);
+      expect(slide.pages.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("points canonical links at the slash-ending addresses GitHub Pages serves", () => {
+    const head = pageHead({ title: "About", description: "About page", path: "/about" });
+
+    expect(head.links).toEqual([{ rel: "canonical", href: `${siteUrl}/about/` }]);
+    expect(head.meta).toContainEqual({ property: "og:url", content: `${siteUrl}/about/` });
+    expect(head.meta).toContainEqual({ property: "og:image", content: `${siteUrl}/og-image.png` });
+  });
+
+  it("lists only real pages in the sitemap", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const sitemap = readFileSync(resolve(__dirname, "../../public/sitemap.xml"), "utf8");
+    const paths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) =>
+      match[1]!.replace(siteUrl, ""),
+    );
+
+    expect(paths).toHaveLength(7);
+    for (const path of paths) {
+      expect(path.endsWith("/")).toBe(true);
+      expect(router.matchRoutes(path).at(-1)?.routeId).not.toBe(rootRouteId);
+    }
+  });
+
+  it("tells every role and degree somewhere in the home story", () => {
+    const told = story.flatMap((chapter) => chapter.evidence);
+
+    for (const item of [...work, ...education]) {
+      expect(told).toContainEqual(item);
+    }
   });
 });

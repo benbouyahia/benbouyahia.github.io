@@ -2,53 +2,76 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { PageIntro } from "@/components/portfolio/shell";
 import { SkillsGrid } from "@/components/portfolio/skills";
-import { pageHead, portraitImage } from "@/lib/portfolio";
+import {
+  identity,
+  nextCertification,
+  pageHead,
+  personSchema,
+  portraitImage,
+  roles,
+  siteUrl,
+} from "@/lib/portfolio";
 export const Route = createFileRoute("/about")({
   head: () =>
-    pageHead(
-      "About me",
-      "Meet Ayoub Ben Bouyahia, a Business Analytics graduate with a background in business development, sales, CRM and marketing.",
-    ),
+    pageHead({
+      title: `About ${identity.name} | BI Analyst in Tunis`,
+      fullTitle: true,
+      description:
+        "BI analyst in Tunis: 14 months in sales and business development, a Master’s in Business Analytics from ESPRIT, and Microsoft PL-300. How I build reports.",
+      path: "/about",
+      type: "profile",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        url: `${siteUrl}/about/`,
+        mainEntity: personSchema,
+      },
+    }),
   component: About,
 });
 function About() {
   return (
     <main>
-      <PageIntro
-        label="ABOUT AYOUB"
-        title="Curious by nature. Analytical by choice."
-        accent={["choice."]}
-      />
+      <PageIntro label="ABOUT AYOUB" title="From business to data." accent={["data."]} />
       <section className="container about-layout">
         <figure className="about-portrait">
           <div className="portrait-frame hero-enter">
-            <img src={portraitImage} alt="Ayoub Ben Bouyahia" width={1000} height={1000} />
+            <img
+              src={portraitImage}
+              alt="Portrait of Ayoub Ben Bouyahia"
+              width={1000}
+              height={1000}
+            />
           </div>
           <figcaption className="portrait-caption">
-            <MapPin size={13} /> Tunis, Tunisia
+            <MapPin size={13} /> {identity.location}
           </figcaption>
         </figure>
         <div className="about-copy">
           <div data-stagger>
             <h2>
               Hi, I’m Ayoub.
-              <br />I connect data and business.
+              <br />
+              I’m a BI analyst based in Tunis.
             </h2>
             <p>
-              I hold a Master’s in Business Analytics and have worked in business development,
-              sales, CRM, and marketing. That experience gives me a practical lens for analysis: the
-              numbers matter most when they help someone make a better decision.
+              My Olist report shows how I work. Executives, sales, and operations were all looking
+              at the same 100,000 orders but asking different questions. Instead of one crowded
+              dashboard, I built three pages on a single data model: one for each team, with the
+              same definitions underneath.
             </p>
             <p>
-              I build Power BI and SQL reporting with the business question at the center—from
-              identifying sales drivers to understanding customer behavior and delivery performance.
+              Before analytics, I spent 14 months in business development and sales at Impacts
+              Digital and ABBK Physicsworks. I studied marketing at the Tunis Higher School of
+              Commerce, completed a Master’s in Business Analytics at ESPRIT School of Business, and
+              did a business analysis internship at Attijari Bank.
             </p>
             <p>
-              I’m interested in Business Intelligence, Data Analyst, and BI Developer opportunities
-              where I can bring an analytical mindset and a business perspective to the same table.
+              I’m certified as a Microsoft Power BI Data Analyst (PL-300) and preparing for{" "}
+              {nextCertification.title}. I’m looking for a {roles} role.
             </p>
             <Link to="/experience" className="text-link">
-              Explore my journey <ArrowUpRight size={17} />
+              See my experience <ArrowUpRight size={17} />
             </Link>
           </div>
           <SkillsGrid />

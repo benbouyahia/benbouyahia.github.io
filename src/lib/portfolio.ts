@@ -1,5 +1,10 @@
+export const siteUrl = "https://benbouyahia.github.io";
+export const socialImage = "/og-image.png";
+
 export const identity = {
   name: "Ayoub Ben Bouyahia",
+  role: "Business Intelligence Analyst",
+  location: "Tunis, Tunisia",
   github: "https://github.com/benbouyahia",
   linkedin: "https://linkedin.com/in/ayoub-ben-bouyahia/",
   repository: "https://github.com/benbouyahia/Data-Analytics-Protfolio/tree/main/olist%20ecommerce",
@@ -16,26 +21,50 @@ export const toolset = [
   "Data modeling",
 ];
 export const skills = [
-  { title: "Visualization", items: ["Power BI & DAX", "Excel reporting", "Dashboard design"] },
-  { title: "Data", items: ["SQL queries", "Data modeling", "Microsoft Fabric"] },
-  { title: "Business", items: ["KPI analysis", "Sales & CRM", "Marketing"] },
+  {
+    title: "Reporting",
+    items: ["Power BI & DAX", "Report and dashboard design", "Excel reporting"],
+  },
+  {
+    title: "Data",
+    items: [
+      "Data pipelines and ETL",
+      "SQL (PostgreSQL, SQL Server)",
+      "Star-schema data modeling",
+      "Microsoft Fabric",
+    ],
+  },
+  {
+    title: "Analysis",
+    items: ["KPI definition", "Business requirements", "Sales and customer analytics"],
+  },
 ] as const;
-export const statement =
-  "From sales conversations to SQL queries, I’ve always been interested in understanding what makes a business move. Today, I bring that perspective to data.";
+export const roles = "Business Intelligence, Data Analyst, or BI Developer";
+
 export const project = {
   title: "E-Commerce Sales & Delivery Analysis",
   description:
-    "An interactive Power BI solution analyzing e-commerce sales, customer behavior, order trends, and delivery operations using a public dataset of over 100,000 marketplace orders.",
+    "A three-page Power BI report on 100,000 orders from Olist, a Brazilian online marketplace: where revenue comes from, how customers buy, and whether orders arrive on time.",
   tools: ["Power BI", "SQL", "DAX"],
   category: "Business intelligence",
+  highlight: {
+    label: "KEY FINDING",
+    value: "−8.7%",
+    text: "Sales fell from July to August 2018 while orders rose 2.2%. Customers kept buying, but each order was worth less.",
+  },
 };
 export const customerFeedbackProject = {
-  title: "Customer Feedback Business Intelligence Dashboard",
+  title: "Customer Feedback & Complaint Analysis",
   description:
-    "A five-page Power BI solution for monitoring customer feedback, complaint resolution, and operational delays at Attijari Bank Tunisia.",
+    "A five-page Power BI report for Attijari Bank Tunisia that follows customer complaints from arrival to resolution and shows where handling slows down.",
   organization: "Attijari Bank Tunisia",
   tools: ["Power BI", "SQL Server", "DAX"],
   category: "Customer experience",
+  highlight: {
+    label: "REPORT SCOPE",
+    value: "11 KPIs",
+    text: "From resolution rate and urgent cases to assignment and treatment delays, by agency and by channel.",
+  },
 };
 export const work = [
   {
@@ -89,15 +118,163 @@ export const certifications = [
     status: "In progress",
   },
 ];
-export function pageHead(title: string, description: string) {
+
+type StoryEvidence = {
+  date: string;
+  title: string;
+  organization: string;
+  logo?: { brand: string; variant: string };
+};
+
+const [pl300, dp700] = certifications;
+export const nextCertification = dp700!;
+
+// The home page tells the career as three chapters. Evidence reuses the entries above,
+// so dates and organizations stay identical to the experience page.
+export const story: {
+  id: string;
+  keyword: string;
+  title: string;
+  body: string;
+  evidence: StoryEvidence[];
+}[] = [
+  {
+    id: "business",
+    keyword: "Business",
+    title: "Started in sales and business development.",
+    body: "I studied marketing, then spent 14 months in business development and sales at Impacts Digital and ABBK Physicsworks.",
+    evidence: [education[1]!, work[1]!, work[0]!],
+  },
+  {
+    id: "analytics",
+    keyword: "Analytics",
+    title: "Moved into business analytics.",
+    body: "I completed a Master’s in Business Analytics at ESPRIT School of Business and a business analysis internship at Attijari Bank.",
+    evidence: [education[0]!, work[2]!],
+  },
+  {
+    id: "intelligence",
+    keyword: "Intelligence",
+    title: "Now working in data and BI.",
+    body: "I build data pipelines and models in SQL, write measures in DAX, and design reports in Power BI. PL-300 certified, preparing for DP-700 next.",
+    evidence: [
+      {
+        date: pl300!.status,
+        title: pl300!.title,
+        organization: pl300!.organization,
+        logo: { brand: pl300!.brand, variant: pl300!.variant },
+      },
+      {
+        date: "Portfolio",
+        title: "Two end-to-end case studies",
+        organization: "Olist e-commerce · Attijari Bank Tunisia",
+      },
+    ],
+  },
+];
+
+// Search and social metadata for one page. `path` is the page's address on the live site;
+// GitHub Pages serves every page from a folder, so canonical addresses end with a slash.
+export function pageHead({
+  title,
+  description,
+  path,
+  fullTitle = false,
+  type = "website",
+  jsonLd,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  fullTitle?: boolean;
+  type?: "website" | "profile" | "article";
+  jsonLd?: object;
+}) {
+  const pageTitle = fullTitle ? title : `${title} | ${identity.name}`;
+  const url = `${siteUrl}${path.endsWith("/") ? path : `${path}/`}`;
+  const image = `${siteUrl}${socialImage}`;
   return {
     meta: [
-      { title: `${title} | Ayoub Ben Bouyahia` },
+      { title: pageTitle },
       { name: "description", content: description },
-      { property: "og:title", content: `${title} | Ayoub Ben Bouyahia` },
+      { property: "og:site_name", content: identity.name },
+      { property: "og:title", content: pageTitle },
       { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
+      { property: "og:type", content: type },
+      { property: "og:url", content: url },
+      { property: "og:image", content: image },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: `${identity.name}, ${identity.role}` },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: description },
+      { name: "twitter:image", content: image },
     ],
+    links: [{ rel: "canonical", href: url }],
+    scripts: jsonLd
+      ? [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }]
+      : undefined,
+  };
+}
+
+// Structured data that tells search engines who the site is about.
+export const personSchema = {
+  "@type": "Person",
+  "@id": `${siteUrl}/#person`,
+  name: identity.name,
+  jobTitle: identity.role,
+  url: `${siteUrl}/`,
+  image: `${siteUrl}${portraitImage}`,
+  sameAs: [identity.linkedin, identity.github],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Tunis",
+    addressCountry: "TN",
+  },
+  knowsAbout: [
+    "Business intelligence",
+    "Data pipelines",
+    "ETL",
+    "Power BI",
+    "DAX",
+    "SQL",
+    "PostgreSQL",
+    "SQL Server",
+    "Data modeling",
+    "Microsoft Fabric",
+    "Data analysis",
+  ],
+  alumniOf: education.map((item) => ({
+    "@type": "CollegeOrUniversity",
+    name: item.organization,
+  })),
+  hasCredential: {
+    "@type": "EducationalOccupationalCredential",
+    name: pl300!.title,
+    credentialCategory: "certification",
+    recognizedBy: { "@type": "Organization", name: pl300!.organization },
+  },
+};
+
+export function caseStudySchema(study: {
+  title: string;
+  description: string;
+  path: string;
+  image: string;
+  keywords: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: study.title,
+    headline: study.title,
+    description: study.description,
+    url: `${siteUrl}${study.path}/`,
+    image: `${siteUrl}${study.image}`,
+    keywords: study.keywords.join(", "),
+    inLanguage: "en",
+    author: personSchema,
   };
 }

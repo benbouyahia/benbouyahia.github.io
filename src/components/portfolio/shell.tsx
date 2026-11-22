@@ -88,7 +88,7 @@ export function PortfolioFooter() {
         <div className="footer-inner">
           <span>© 2026 Ayoub Ben Bouyahia</span>
           <span className="footer-note">
-            Business Intelligence &amp; Analytics · Tunis, Tunisia
+            {identity.role} · {identity.location}
           </span>
           <div className="footer-links">
             <MotionToggle />
@@ -107,7 +107,7 @@ export function PortfolioFooter() {
 export function Availability() {
   return (
     <span className="availability">
-      <span /> Open to opportunities
+      <span /> Open to BI and data roles
     </span>
   );
 }

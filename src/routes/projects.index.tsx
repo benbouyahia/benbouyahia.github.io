@@ -4,21 +4,25 @@ import { CustomerFeedbackProjectCard, ProjectCard } from "@/components/portfolio
 import { pageHead } from "@/lib/portfolio";
 export const Route = createFileRoute("/projects/")({
   head: () =>
-    pageHead(
-      "Selected projects",
-      "Explore Power BI, SQL, and customer experience dashboards by Ayoub Ben Bouyahia, including Olist and Attijari Bank Tunisia case studies.",
-    ),
+    pageHead({
+      title: "Power BI & SQL case studies",
+      description:
+        "Two Power BI and SQL case studies: e-commerce sales and delivery for Olist, and customer complaint reporting for Attijari Bank Tunisia.",
+      path: "/projects",
+    }),
   component: Projects,
 });
 function Projects() {
   return (
     <main>
       <PageIntro
-        label="SELECTED WORK"
-        title="Business questions. Data answers."
-        accent={["answers."]}
+        label="CASE STUDIES"
+        title="A bank’s complaints. A marketplace’s orders."
+        accent={["orders."]}
       >
-        A closer look at how I turn raw data into reporting that supports real decisions.
+        Two Power BI case studies: 1,171 complaints tracked across five report pages for Attijari
+        Bank Tunisia, and 100,000 Olist orders split into views for executives, sales, and
+        operations.
       </PageIntro>
       <section className="container project-list" style={{ paddingBottom: "var(--section-space)" }}>
         <ProjectCard />

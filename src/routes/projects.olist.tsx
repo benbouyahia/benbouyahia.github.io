@@ -3,16 +3,30 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/portfolio/shell";
 import { CountUp } from "@/components/portfolio/motion";
-import { pageHead, identity } from "@/lib/portfolio";
-import { ReportGallery } from "@/components/portfolio/report-gallery";
-import { reports } from "@/lib/reports";
+import { caseStudySchema, identity, pageHead, project } from "@/lib/portfolio";
+import { DashboardPageGallery } from "@/components/portfolio/report-gallery";
+import { olistGalleryCopy, reports } from "@/lib/reports";
 import { AnalyticsProcess } from "@/components/portfolio/analytics-process";
+
+const description =
+  "Power BI and PostgreSQL case study: 100,000 Olist orders turned into three reports for executives, sales and operations, and what the data showed.";
+
 export const Route = createFileRoute("/projects/olist")({
   head: () =>
-    pageHead(
-      "Olist sales & delivery analysis",
-      "An end-to-end SQL and Power BI analysis of 100,000 Olist marketplace orders, exploring revenue, customer behavior and delivery quality.",
-    ),
+    pageHead({
+      title: "Olist Sales & Delivery Analysis | Power BI Case Study",
+      fullTitle: true,
+      description,
+      path: "/projects/olist",
+      type: "article",
+      jsonLd: caseStudySchema({
+        title: project.title,
+        description,
+        path: "/projects/olist",
+        image: reports[0].image,
+        keywords: ["Power BI", "DAX", "PostgreSQL", "e-commerce analytics", "Olist dataset"],
+      }),
+    }),
   component: Olist,
 });
 function Olist() {
@@ -23,12 +37,8 @@ function Olist() {
           <ArrowLeft size={15} /> All projects
         </Link>
       </div>
-      <PageIntro
-        label="CASE STUDY / BUSINESS INTELLIGENCE"
-        title="E-Commerce Sales & Delivery Analysis"
-      >
-        An interactive Power BI solution analyzing e-commerce sales, customer behavior, order
-        trends, and delivery operations using a public dataset of over 100,000 marketplace orders.
+      <PageIntro label="CASE STUDY / BUSINESS INTELLIGENCE" title={project.title}>
+        {project.description}
       </PageIntro>
       <div className="container">
         <dl className="case-facts hero-enter">
@@ -48,97 +58,85 @@ function Olist() {
         <figure className="case-hero" style={{ viewTransitionName: "case-olist" }}>
           <img src={reports[0].image} alt={reports[0].alt} width={1300} height={727} />
         </figure>
-        <ReportGallery />
       </div>
       <div className="case-sections container">
         <section className="case-section" data-stagger>
           <span className="eyebrow">01 / THE QUESTION</span>
           <h2>Same data. Different decisions.</h2>
           <p>
-            Leadership, sales and operations teams look at the same order data for different
-            reasons. Executives need headline numbers and growth. Sales teams need to understand
-            customers. Operations teams need to know whether orders arrive when promised.
+            Executives, sales and operations all look at the same orders, but they ask different
+            questions. Executives want the headline: are we growing? Sales wants to know who is
+            buying and how. Operations wants to know whether orders arrive when promised.
           </p>
           <p>
-            One flat report serves none of them well. This project creates three tailored views
-            within a single, consistent reporting solution.
+            One generic dashboard answers none of those well. So I built one report with three
+            pages, one per audience, all running on the same data model and the same definitions.
           </p>
         </section>
         <section className="case-section">
           <span className="eyebrow">02 / THE PROCESS</span>
           <h2 data-reveal>From CSV files to a trusted report.</h2>
           <p data-reveal>
-            The dataset contains approximately 100,000 orders across Brazil. The model includes
-            Orders, Customers, Products, Payments, Order Items, Reviews, and a Date table. Each
-            order may contain several items, so the model accounts for order-item grain.
+            The public Olist dataset holds about 100,000 orders placed across Brazil between 2016
+            and 2018. I loaded it into PostgreSQL and modeled Orders, Customers, Products, Payments,
+            Order Items, Reviews, and a Date table. One order can contain several items, so totals
+            are calculated at the item level to avoid double counting.
           </p>
           <AnalyticsProcess />
           <p data-reveal>
-            Quality checks cover duplicates, nulls, foreign keys, calculated metrics and performance
-            aggregates. DAX measures support sales, distinct orders and customers, month-over-month
-            comparisons, and delivery performance.
+            Before building any visuals, I checked for duplicates, nulls, and broken foreign keys,
+            and verified the calculated metrics and aggregates. DAX measures then cover sales,
+            distinct orders and customers, month-over-month change, and delivery performance.
           </p>
         </section>
-        <section className="case-section" data-stagger>
+        <section className="case-section" id="report-pages">
           <span className="eyebrow">03 / THE REPORT</span>
-          <h2>Built for the people using it.</h2>
-          <ul>
-            <li>
-              <strong>Executives:</strong> KPI cards, month-over-month changes, sparklines, and
-              top/bottom categories and cities.
-            </li>
-            <li>
-              <strong>Sales teams:</strong> orders and customer trends, payment methods, table views
-              and time-granularity toggles.
-            </li>
-            <li>
-              <strong>Operations:</strong> delivery KPIs, order-status funnel, undelivered orders
-              and late-delivery cities.
-            </li>
-          </ul>
-          <p>
-            Shared slicers for date, state and product category, reset controls and information
-            overlays keep the report consistent across its three pages.
+          <h2 data-reveal>Three pages, one for each team.</h2>
+          <p data-reveal>
+            Each page answers one team’s questions. Shared slicers for date, state, and product
+            category, plus reset buttons and info overlays, keep the three pages working the same
+            way.
           </p>
+          <DashboardPageGallery items={reports} copy={olistGalleryCopy} width={1300} height={727} />
         </section>
         <section className="case-section">
           <span className="eyebrow">04 / THE FINDINGS</span>
-          <h2 data-reveal>The numbers that raised questions.</h2>
+          <h2 data-reveal>Three numbers worth a second look.</h2>
           <div className="insight-grid" data-stagger>
             <div className="insight">
               <strong>
                 <CountUp value={1.13} decimals={2} suffix="M" />
               </strong>
-              <p>Health & Beauty sales—the leading category in the selected report view.</p>
+              <p>in Health & Beauty sales, the top category in the report’s selected view.</p>
             </div>
             <div className="insight">
               <strong>2×+</strong>
-              <p>São Paulo sales compared with Rio de Janeiro: 1.65M versus 0.73M.</p>
+              <p>São Paulo outsells Rio de Janeiro by more than double: 1.65M against 0.73M.</p>
             </div>
             <div className="insight">
               <strong>
                 <CountUp value={8.7} decimals={1} prefix="−" suffix="%" />
               </strong>
-              <p>Sales in August versus July 2018, while orders increased 2.2%.</p>
+              <p>change in sales from July to August 2018, while orders grew 2.2%.</p>
             </div>
           </div>
           <p data-reveal>
-            The combination of falling sales and rising orders points to an approximately 10%
-            decline in revenue per order—not simply a decline in demand.
+            The last one is the interesting one. More orders but less revenue means each order was
+            worth about 10% less. Demand held up; something about the basket changed.
           </p>
         </section>
         <section className="case-section" data-stagger>
-          <span className="eyebrow">05 / THE NEXT DECISION</span>
-          <h2>Insights are a starting point.</h2>
+          <span className="eyebrow">05 / WHAT I’D DO NEXT</span>
+          <h2>Where the analysis would go from here.</h2>
           <p>
-            Investigate why revenue per order fell: category mix, lower-priced products,
-            discounting, freight or payment behavior. Test targeted marketing in cities beyond São
-            Paulo, then compare demand and campaign reach.
+            First, find out why orders got smaller: a shift in category mix, cheaper products,
+            discounts, freight costs, or payment behavior. Second, test targeted marketing in cities
+            beyond São Paulo and compare the response against current demand.
           </p>
           <div className="mt-6">
             <Button asChild variant="portfolio">
               <a href={identity.repository} target="_blank" rel="noreferrer">
-                Explore the repository <ArrowUpRight />
+                See the project on GitHub <ArrowUpRight />
               </a>
             </Button>
           </div>

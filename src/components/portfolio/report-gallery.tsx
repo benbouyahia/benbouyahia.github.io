@@ -2,21 +2,18 @@ import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Maximize2 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { customerFeedbackPages, reports } from "@/lib/reports";
+import type { GalleryCopy } from "@/lib/reports";
 
-type GalleryItem = { name: string; image: string; alt: string };
-type GalleryCopy = { description: string; caption: string; noun: string };
+type GalleryItem = {
+  name: string;
+  image: string;
+  alt: string;
+  description: string;
+  keyVisuals: readonly string[];
+  audience?: string;
+};
 
-const olistCopy: GalleryCopy = {
-  description: "Original Power BI report. Figures reflect its selected filters.",
-  caption: "Original Power BI report",
-  noun: "report",
-};
-const feedbackCopy: GalleryCopy = {
-  description: "Full-size Attijari Bank customer feedback dashboard screenshot.",
-  caption: "Power BI report page",
-  noun: "page",
-};
+const pad = (value: number) => String(value).padStart(2, "0");
 
 function useGallery(length: number) {
   const [selected, setSelected] = useState(0);
@@ -43,7 +40,6 @@ function GalleryDialog({
 }) {
   const item = items[gallery.selected] ?? items[0];
   if (!item) return null;
-  const pad = (value: number) => String(value).padStart(2, "0");
   return (
     <Dialog open={gallery.open} onOpenChange={gallery.setOpen}>
       <DialogContent
@@ -91,71 +87,47 @@ function GalleryDialog({
   );
 }
 
-export function ReportGallery() {
-  const gallery = useGallery(reports.length);
-  return (
-    <div className="report-gallery">
-      <div className="gallery-heading" data-reveal>
-        <div>
-          <span className="eyebrow">DASHBOARD COLLECTION</span>
-          <h2>Three perspectives. One marketplace.</h2>
-        </div>
-        <span className="gallery-count">03 REPORT PAGES</span>
-      </div>
-      <div className="report-grid">
-        {reports.map((item, index) => (
-          <article className="report-page" key={item.name} data-reveal>
-            <Button
-              variant="ghost"
-              className="image-open"
-              aria-label={`Enlarge ${item.name}`}
-              onClick={() => gallery.openAt(index)}
-            >
-              <img src={item.image} alt={item.alt} width={1300} height={727} loading="lazy" />
-              <span className="report-enlarge">
-                <Maximize2 size={16} />
-              </span>
-            </Button>
-            <div className="report-page-copy">
-              <span className="eyebrow">REPORT / 0{index + 1}</span>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              <Button variant="ghost" className="text-link" onClick={() => gallery.openAt(index)}>
-                View report <Maximize2 size={14} />
-              </Button>
-            </div>
-          </article>
-        ))}
-      </div>
-      <GalleryDialog items={reports} copy={olistCopy} gallery={gallery} />
-    </div>
-  );
-}
-
-export function DashboardPageGallery() {
-  const gallery = useGallery(customerFeedbackPages.length);
+// Report pages shown one after another, each large enough to read, with its purpose and
+// key visuals beneath. Any image opens full size in a dialog that pages through the set.
+export function DashboardPageGallery({
+  items,
+  copy,
+  width,
+  height,
+}: {
+  items: readonly GalleryItem[];
+  copy: GalleryCopy;
+  width: number;
+  height: number;
+}) {
+  const gallery = useGallery(items.length);
   return (
     <div className="dashboard-page-gallery case-wide">
       <ol className="dashboard-page-list">
-        {customerFeedbackPages.map((page, index) => (
+        {items.map((page, index) => (
           <li className="dashboard-page-item" key={page.name} data-reveal>
             <Button
               type="button"
               variant="ghost"
               className="image-open dashboard-page-image"
-              aria-label={`Open full-size ${page.name} dashboard screenshot`}
+              aria-label={`Open full-size ${page.name} ${copy.noun}`}
               onClick={() => gallery.openAt(index)}
             >
-              <img src={page.image} alt={page.alt} width={990} height={727} loading="lazy" />
+              <img src={page.image} alt={page.alt} width={width} height={height} loading="lazy" />
               <span className="report-enlarge">
                 <Maximize2 size={16} />
               </span>
             </Button>
             <div className="dashboard-page-copy">
-              <span className="dashboard-page-number">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{page.name}</h3>
-              <p>{page.description}</p>
-              <ul>
+              <div>
+                <span className="dashboard-page-number">
+                  {pad(index + 1)}
+                  {page.audience ? ` · ${page.audience.toUpperCase()}` : null}
+                </span>
+                <h3>{page.name}</h3>
+                <p>{page.description}</p>
+              </div>
+              <ul aria-label={`${page.name} key visuals`}>
                 {page.keyVisuals.map((visual) => (
                   <li key={visual}>{visual}</li>
                 ))}
@@ -164,7 +136,7 @@ export function DashboardPageGallery() {
           </li>
         ))}
       </ol>
-      <GalleryDialog items={customerFeedbackPages} copy={feedbackCopy} gallery={gallery} />
+      <GalleryDialog items={items} copy={copy} gallery={gallery} />
     </div>
   );
 }

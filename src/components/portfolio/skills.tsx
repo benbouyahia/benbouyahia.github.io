@@ -1,7 +1,7 @@
-import { BarChart3, BriefcaseBusiness, Database } from "lucide-react";
+import { BarChart3, Database, SearchCheck } from "lucide-react";
 import { skills } from "@/lib/portfolio";
 
-const icons = { Visualization: BarChart3, Data: Database, Business: BriefcaseBusiness };
+const icons = { Reporting: BarChart3, Data: Database, Analysis: SearchCheck };
 
 export function SkillsGrid() {
   return (

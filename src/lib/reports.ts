@@ -3,25 +3,59 @@ import executive from "@/assets/olist-dashboard.png.asset.json";
 import sales from "@/assets/Sales-analysis.png.asset.json";
 import service from "@/assets/Customer-service.png.asset.json";
 
+// Wording for the full-size dialog of each case study's report-page gallery.
+export type GalleryCopy = { description: string; caption: string; noun: string };
+export const olistGalleryCopy: GalleryCopy = {
+  description: "Original Power BI report. Figures reflect its selected filters.",
+  caption: "Original Power BI report",
+  noun: "report",
+};
+export const feedbackGalleryCopy: GalleryCopy = {
+  description: "Full-size Attijari Bank customer feedback dashboard screenshot.",
+  caption: "Power BI report page",
+  noun: "page",
+};
+
 // Each report page has its own gallery entry; append future pages here.
 export const reports = [
   {
     name: "Executive overview",
     image: portfolioMedia(executive),
     alt: "Original Olist executive Power BI report showing sales, orders, customers, products and cities",
+    audience: "For executives",
     description: "Revenue, growth, and the marketplace’s biggest sales drivers.",
+    keyVisuals: [
+      "KPI cards with month-over-month change",
+      "Sales, orders, and customer sparklines",
+      "Top and bottom product categories",
+      "Top and bottom cities",
+    ],
   },
   {
     name: "Sales analysis",
     image: portfolioMedia(sales),
     alt: "Original Sales Analysis report showing orders, customers and payment methods",
+    audience: "For sales teams",
     description: "Customer trends, order patterns, and payment preferences.",
+    keyVisuals: [
+      "Orders and customer trends",
+      "Payment methods",
+      "Table views",
+      "Time-granularity toggles",
+    ],
   },
   {
     name: "Customer service",
     image: portfolioMedia(service),
     alt: "Original Customer Service report with delivery KPIs and order status charts",
+    audience: "For operations",
     description: "Delivery performance, order status, and operational bottlenecks.",
+    keyVisuals: [
+      "Delivery KPIs",
+      "Order-status funnel",
+      "Undelivered orders",
+      "Late-delivery cities",
+    ],
   },
 ] as const;
 

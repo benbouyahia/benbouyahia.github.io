@@ -43,14 +43,14 @@ const steps = [
     name: "Visualize & interpret",
     detail: "Power BI · three audience views",
     icon: ChartNoAxesCombined,
-    output: "Decision-ready insights",
+    output: "Findings for each team",
   },
 ];
 export function AnalyticsProcess() {
   return (
     <figure
       className="analytics-process case-wide"
-      aria-label="Data analytics workflow from business questions through data preparation to actionable insights"
+      aria-label="Analysis workflow: from the business question, through data preparation and modeling, to findings for each team"
     >
       <div className="process-endpoint">
         <Target size={16} />

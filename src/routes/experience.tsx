@@ -6,10 +6,12 @@ import { CertificationLogo } from "@/components/portfolio/certification-logo";
 import { pageHead, work, education, certifications } from "@/lib/portfolio";
 export const Route = createFileRoute("/experience")({
   head: () =>
-    pageHead(
-      "Experience & education",
-      "Ayoub Ben Bouyahia’s experience in business development, sales and business analysis, education and Microsoft certifications.",
-    ),
+    pageHead({
+      title: "Experience, education & certifications",
+      description:
+        "Business analysis at Attijari Bank, a Master’s in Business Analytics from ESPRIT, and Microsoft PL-300 certification. Ayoub Ben Bouyahia’s path into BI.",
+      path: "/experience",
+    }),
   component: Experience,
 });
 const tabs = ["Experience", "Education", "Certifications"];
@@ -17,9 +19,9 @@ function Experience() {
   const [tab, setTab] = useState("Experience");
   return (
     <main>
-      <PageIntro label="MY JOURNEY" title="Where business meets analytics." accent={["analytics."]}>
-        A path through sales, marketing and business development—shaped by an increasing focus on
-        data.
+      <PageIntro label="EXPERIENCE" title="Where I’ve worked and studied." accent={["studied."]}>
+        A marketing degree, two roles in business development and sales, a business analysis
+        internship, a Master’s in Business Analytics, and a Microsoft Power BI certification.
       </PageIntro>
       <section className="container">
         <div

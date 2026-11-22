@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Database } from "lucide-react";
 import { DashboardPageGallery } from "@/components/portfolio/report-gallery";
 import { PageIntro } from "@/components/portfolio/shell";
-import { customerFeedbackProject, pageHead } from "@/lib/portfolio";
-import { customerFeedbackPages } from "@/lib/reports";
+import { caseStudySchema, customerFeedbackProject, pageHead } from "@/lib/portfolio";
+import { customerFeedbackPages, feedbackGalleryCopy } from "@/lib/reports";
 
 const dimensions = [
   "dim_date",
@@ -23,19 +23,32 @@ const kpis = [
   "Unresolved feedback",
   "Urgent complaints",
   "Closed complaints",
-  "Founded rate",
+  "Justified complaint rate",
   "Average assignment delay",
   "Average entry delay",
   "Average treatment delay",
   "Monthly KPI variation",
 ];
 
+const description =
+  "Power BI and SQL Server case study: a five-page customer complaint report for Attijari Bank Tunisia, tracking resolution, urgent cases, and handling delays.";
+
 export const Route = createFileRoute("/projects/attijari")({
   head: () =>
-    pageHead(
-      customerFeedbackProject.title,
-      "A five-page Power BI dashboard for monitoring customer feedback, complaint resolution, and operational delays at Attijari Bank Tunisia.",
-    ),
+    pageHead({
+      title: "Attijari Bank Complaint Analysis | Power BI Case Study",
+      fullTitle: true,
+      description,
+      path: "/projects/attijari",
+      type: "article",
+      jsonLd: caseStudySchema({
+        title: customerFeedbackProject.title,
+        description,
+        path: "/projects/attijari",
+        image: customerFeedbackPages[0].image,
+        keywords: ["Power BI", "DAX", "SQL Server", "customer experience", "banking analytics"],
+      }),
+    }),
   component: AttijariCaseStudy,
 });
 
@@ -48,8 +61,7 @@ function AttijariCaseStudy() {
         </Link>
       </div>
       <PageIntro label="CASE STUDY / CUSTOMER EXPERIENCE" title={customerFeedbackProject.title}>
-        An interactive Power BI solution for monitoring customer feedback, investigating complaint
-        patterns, and assessing resolution performance.
+        {customerFeedbackProject.description}
       </PageIntro>
 
       <div className="container">
@@ -80,25 +92,26 @@ function AttijariCaseStudy() {
       <div className="case-sections container">
         <section className="case-section" data-stagger>
           <span className="eyebrow">01 / THE OBJECTIVE</span>
-          <h2>Make feedback patterns easier to monitor.</h2>
+          <h2>Make complaints easier to learn from.</h2>
           <p>
-            Customer feedback provides information about service quality, recurring issues, and
-            operational performance. This report brings those signals into one analytical experience
-            for monitoring complaint volumes, resolution performance, and processing delays.
+            Every complaint says something about a product, a channel, or a process. One at a time,
+            they are hard to learn from. Together, they show where service breaks down. This report
+            brings them into one place: how many complaints arrive, how quickly they are resolved,
+            and where handling slows down.
           </p>
           <p>
-            Interactive filters support investigation across dates, channels, customer segments,
-            service families, agencies, topics, complaint types, and priority levels.
+            Filters let a team narrow any view by date, channel, customer segment, service family,
+            agency, topic, complaint type, or priority.
           </p>
         </section>
 
         <section className="case-section">
           <span className="eyebrow">02 / THE DATA MODEL</span>
-          <h2 data-reveal>A fact table connected to business dimensions.</h2>
+          <h2 data-reveal>One fact table, eight ways to slice it.</h2>
           <p data-reveal>
-            The dimensional model centers on <code>fact_feedback</code> and connects it to
-            descriptive tables for time, customers, service channels, agencies, topics, and
-            complaint characteristics.
+            The star schema puts every complaint in <code>fact_feedback</code> and links it to eight
+            dimensions: date, channel, client, service family, agency, topic, complaint type, and
+            priority. Each filter in the report maps to one of them.
           </p>
           <div
             className="feedback-model"
@@ -126,22 +139,28 @@ function AttijariCaseStudy() {
               height={716}
               loading="lazy"
             />
-            <figcaption>Power BI relationship model for customer feedback analysis.</figcaption>
+            <figcaption>The relationship model in Power BI.</figcaption>
           </figure>
         </section>
 
         <section className="case-section" id="dashboard-pages">
           <span className="eyebrow">03 / THE REPORT</span>
-          <h2 data-reveal>Five views for feedback operations.</h2>
-          <DashboardPageGallery />
+          <h2 data-reveal>Five pages, from the big picture to the detail.</h2>
+          <DashboardPageGallery
+            items={customerFeedbackPages}
+            copy={feedbackGalleryCopy}
+            width={992}
+            height={728}
+          />
         </section>
 
         <section className="case-section">
           <span className="eyebrow">04 / PERFORMANCE INDICATORS</span>
-          <h2 data-reveal>Monitor workload, resolution, and delay.</h2>
+          <h2 data-reveal>Eleven measures, three questions.</h2>
           <p data-reveal>
-            DAX measures organize the operational indicators into a consistent view. The dashboard
-            supports month-over-month comparisons alongside current-period performance.
+            How much is coming in? How well is it being resolved? How long does it take? The DAX
+            measures below answer those three questions, each shown for the current period and
+            against the previous month.
           </p>
           <ul className="feedback-kpi-list" data-stagger>
             {kpis.map((kpi) => (
@@ -151,15 +170,15 @@ function AttijariCaseStudy() {
         </section>
 
         <section className="case-section" data-stagger>
-          <span className="eyebrow">05 / BUSINESS VALUE</span>
-          <h2>From complaint records to operational questions.</h2>
+          <span className="eyebrow">05 / WHAT IT CHANGES</span>
+          <h2>What a team can do with it.</h2>
           <ul>
-            <li>Monitor complaint volume, resolution rate, and response time in one report.</li>
+            <li>See complaint volume, resolution rate, and response time on one page.</li>
             <li>
-              Compare feedback across channels, customer segments, service families, and agencies.
+              Compare channels, customer segments, service families, and agencies side by side.
             </li>
-            <li>Identify unresolved and urgent cases for further investigation.</li>
-            <li>Review assignment, entry, and treatment delays to inform improvement work.</li>
+            <li>Spot unresolved and urgent cases before they age.</li>
+            <li>Find which step slows things down: assignment, entry, or treatment.</li>
           </ul>
         </section>
       </div>
