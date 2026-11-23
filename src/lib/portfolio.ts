@@ -5,6 +5,7 @@ export const identity = {
   name: "Ayoub Ben Bouyahia",
   role: "Business Intelligence Analyst",
   location: "Tunis, Tunisia",
+  email: "benbouyahiaa@gmail.com",
   github: "https://github.com/benbouyahia",
   linkedin: "https://linkedin.com/in/ayoub-ben-bouyahia/",
   repository: "https://github.com/benbouyahia/Data-Analytics-Protfolio/tree/main/olist%20ecommerce",
@@ -40,6 +41,20 @@ export const skills = [
   },
 ] as const;
 export const roles = "Business Intelligence, Data Analyst, or BI Developer";
+export const emailLink = `mailto:${identity.email}`;
+
+// Quick facts at the top of the About page, for someone meeting Ayoub for the first time.
+export const aboutFacts = [
+  { label: "Focus", value: "Data pipelines, SQL data modeling, and Power BI reporting" },
+  { label: "Experience", value: "Business analysis, sales, and business development" },
+  { label: "Education", value: "Master’s in Business Analytics" },
+  {
+    label: "Certification",
+    // Non-breaking hyphens keep the exam codes on one line on small screens.
+    value: "Microsoft PL‑300: Power BI Data Analyst. DP‑700 in progress",
+  },
+  { label: "Open to", value: "Business Intelligence, Data Analyst, and BI Developer roles" },
+];
 
 export const project = {
   title: "E-Commerce Sales & Delivery Analysis",
@@ -227,6 +242,7 @@ export const personSchema = {
   jobTitle: identity.role,
   url: `${siteUrl}/`,
   image: `${siteUrl}${portraitImage}`,
+  email: identity.email,
   sameAs: [identity.linkedin, identity.github],
   address: {
     "@type": "PostalAddress",

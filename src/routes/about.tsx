@@ -1,14 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, ArrowUpRight } from "lucide-react";
+import { MapPin, ArrowUpRight, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/portfolio/shell";
 import { SkillsGrid } from "@/components/portfolio/skills";
 import {
+  aboutFacts,
+  emailLink,
   identity,
   nextCertification,
   pageHead,
   personSchema,
   portraitImage,
-  roles,
   siteUrl,
 } from "@/lib/portfolio";
 export const Route = createFileRoute("/about")({
@@ -17,7 +19,7 @@ export const Route = createFileRoute("/about")({
       title: `About ${identity.name} | BI Analyst in Tunis`,
       fullTitle: true,
       description:
-        "BI analyst in Tunis: 14 months in sales and business development, a Master’s in Business Analytics from ESPRIT, and Microsoft PL-300. How I build reports.",
+        "Ayoub Ben Bouyahia is a Business Intelligence Analyst in Tunis working with Power BI, SQL and data pipelines. Master’s in Business Analytics, Microsoft PL-300.",
       path: "/about",
       type: "profile",
       jsonLd: {
@@ -32,7 +34,7 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <main>
-      <PageIntro label="ABOUT AYOUB" title="From business to data." accent={["data."]} />
+      <PageIntro label="ABOUT ME" title="From business to data." accent={["data."]} />
       <section className="container about-layout">
         <figure className="about-portrait">
           <div className="portrait-frame hero-enter">
@@ -52,29 +54,67 @@ function About() {
             <h2>
               Hi, I’m Ayoub.
               <br />
-              I’m a BI analyst based in Tunis.
+              I’m a Business Intelligence Analyst in Tunis.
             </h2>
+            <p className="about-lead">
+              I build Power BI reports and the data pipelines behind them. I clean and model the
+              data in SQL, write the measures in DAX, and design reports that are easy to read.
+            </p>
+          </div>
+
+          <dl className="about-facts" data-stagger>
+            {aboutFacts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="about-block" data-stagger>
+            <span className="eyebrow">MY BACKGROUND</span>
             <p>
-              My Olist report shows how I work. Executives, sales, and operations were all looking
-              at the same 100,000 orders but asking different questions. Instead of one crowded
-              dashboard, I built three pages on a single data model: one for each team, with the
-              same definitions underneath.
+              I have a bachelor’s degree in marketing and started my career in sales and business
+              development.
             </p>
             <p>
-              Before analytics, I spent 14 months in business development and sales at Impacts
-              Digital and ABBK Physicsworks. I studied marketing at the Tunis Higher School of
-              Commerce, completed a Master’s in Business Analytics at ESPRIT School of Business, and
-              did a business analysis internship at Attijari Bank.
+              I moved into data with a Master’s in Business Analytics. I’m Microsoft PL-300
+              certified and preparing for {nextCertification.title}.
             </p>
             <p>
-              I’m certified as a Microsoft Power BI Data Analyst (PL-300) and preparing for{" "}
-              {nextCertification.title}. I’m looking for a {roles} role.
+              Coming from sales, I start every report with the questions the business needs
+              answered.
             </p>
             <Link to="/experience" className="text-link">
-              See my experience <ArrowUpRight size={17} />
+              See my full experience <ArrowUpRight size={17} />
             </Link>
           </div>
-          <SkillsGrid />
+
+          <div className="about-block">
+            <span className="eyebrow">SKILLS</span>
+            <SkillsGrid />
+          </div>
+
+          <div className="about-cta" data-stagger>
+            <span className="eyebrow">GET IN TOUCH</span>
+            <h3>Hiring for a BI or data role?</h3>
+            <p>
+              Send me an email at <a href={emailLink}>{identity.email}</a>. You can also see my work
+              first.
+            </p>
+            <div className="about-actions">
+              <Button asChild variant="portfolio" size="lg">
+                <a href={emailLink}>
+                  Send me an email <Mail />
+                </a>
+              </Button>
+              <Button asChild variant="portfolioOutline" size="lg">
+                <Link to="/projects">
+                  See my projects <ArrowUpRight />
+                </Link>
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
     </main>

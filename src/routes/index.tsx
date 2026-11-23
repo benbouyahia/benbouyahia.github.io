@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import { ArrowDown, ArrowUpRight, Clock3, Github, Linkedin, MapPin } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Clock3, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Availability } from "@/components/portfolio/shell";
 import { SplitWords } from "@/components/portfolio/motion";
@@ -8,6 +8,7 @@ import { ProjectCarousel } from "@/components/portfolio/project-carousel";
 import { StorySection } from "@/components/portfolio/story";
 import { SkillsGrid } from "@/components/portfolio/skills";
 import {
+  emailLink,
   identity,
   nextCertification,
   pageHead,
@@ -98,6 +99,9 @@ function Hero() {
             <span className="portrait-caption">
               <MapPin size={14} /> {identity.location}
             </span>
+            <a href={emailLink} aria-label={`Email ${identity.email}`} title="Email">
+              <Mail size={18} aria-hidden="true" />
+            </a>
             <a
               href={identity.linkedin}
               target="_blank"
@@ -175,11 +179,18 @@ function Index() {
             <Clock3 size={15} aria-hidden="true" /> Currently preparing for{" "}
             {nextCertification.title}
           </p>
-          <Button asChild variant="portfolio" size="lg">
-            <Link to="/contact">
-              Get in touch <ArrowUpRight />
-            </Link>
-          </Button>
+          <div className="closing-actions">
+            <Button asChild variant="portfolio" size="lg">
+              <a href={emailLink}>
+                Send me an email <Mail />
+              </a>
+            </Button>
+            <Button asChild variant="portfolioOutline" size="lg">
+              <a href={identity.linkedin} target="_blank" rel="noreferrer">
+                Message me on LinkedIn <ArrowUpRight />
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
     </main>

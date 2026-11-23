@@ -1,9 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X, Github, Linkedin } from "lucide-react";
+import { ArrowUpRight, Menu, X, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MotionToggle, SplitWords } from "@/components/portfolio/motion";
-import { identity } from "@/lib/portfolio";
+import { emailLink, identity } from "@/lib/portfolio";
 const links = [
   { to: "/projects", label: "Projects" },
   { to: "/about", label: "About" },
@@ -92,6 +92,9 @@ export function PortfolioFooter() {
           </span>
           <div className="footer-links">
             <MotionToggle />
+            <a href={emailLink} className="text-link">
+              <Mail size={16} /> Email
+            </a>
             <a href={identity.linkedin} target="_blank" rel="noreferrer" className="text-link">
               <Linkedin size={16} /> LinkedIn
             </a>

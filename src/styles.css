@@ -399,10 +399,12 @@ main {
 }
 .footer-links {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 0 20px;
 }
 .footer-links .text-link {
   font-size: 14px;
+  white-space: nowrap;
 }
 
 /* ---------- Word-by-word headlines ---------- */
@@ -831,7 +833,10 @@ main {
   font-size: clamp(16px, 1.2vw, 18px);
   color: var(--muted-foreground);
 }
-.closing .portfolio-button {
+.closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 28px;
 }
 .closing h2 + p {
@@ -1272,6 +1277,84 @@ main {
 }
 .about-copy .text-link {
   margin-top: 12px;
+}
+.about-copy .about-lead {
+  max-width: 60ch;
+  font-size: clamp(17px, 1.3vw, 19px);
+  line-height: 1.55;
+}
+.about-facts {
+  margin: 36px 0 0;
+  border-top: 1px solid var(--line-strong);
+}
+.about-facts > div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.about-facts dt {
+  padding-top: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.about-facts dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.about-block {
+  margin-top: 48px;
+}
+.about-block p {
+  max-width: 64ch;
+}
+.about-block .eyebrow + p,
+.about-block p + p {
+  margin-top: 14px;
+}
+.about-block .skills-grid {
+  margin-top: 16px;
+}
+.about-cta {
+  margin-top: 56px;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(217, 130, 91, 0.16), transparent 60%), var(--card);
+}
+.about-cta h3 {
+  margin-top: 12px;
+  font-size: clamp(24px, 2.4vw, 32px);
+}
+.about-copy .about-cta p {
+  margin-top: 12px;
+  color: var(--muted-foreground);
+}
+.about-cta p a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-color: var(--primary);
+  text-underline-offset: 3px;
+}
+.about-cta p a:hover {
+  color: var(--primary);
+}
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+@media (max-width: 560px) {
+  .about-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
 }
 .skills-grid {
   display: grid;
