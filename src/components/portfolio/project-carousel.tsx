@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { SplitWords } from "@/components/portfolio/motion";
+import { ToolLogo } from "@/components/portfolio/tool-logos";
 import { projectSlides, type ProjectSlide as Slide } from "@/lib/showcase";
 
 const pad = (value: number) => String(value).padStart(2, "0");
@@ -64,7 +65,10 @@ function ProjectSlide({ slide, index }: { slide: Slide; index: number }) {
         </div>
         <div className="tag-list">
           {slide.tools.map((tool) => (
-            <span key={tool}>{tool}</span>
+            <span key={tool}>
+              <ToolLogo tool={tool} />
+              {tool}
+            </span>
           ))}
         </div>
         <Link to={slide.to} className="text-link">

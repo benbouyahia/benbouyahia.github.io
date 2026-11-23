@@ -46,6 +46,8 @@
   --signal: #d9825b;
   --signal-halo: rgba(217, 130, 91, 0.3);
   --shadow-color: rgba(0, 0, 0, 0.45);
+  /* Fine film grain, light specks for dark surfaces. Tiled as a background layer. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .12 0 0 0 -.035'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 
   --gutter: clamp(20px, 3.5vw, 48px);
   --header-height: 64px;
@@ -73,7 +75,9 @@
   --border: #d2cec3;
   --line-strong: #161816;
   --card: #f8f6f1;
-  background: var(--background);
+  /* Dark specks, so the grain reads as paper on light sections. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .2 0 0 0 -.06'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background: var(--grain), var(--background);
   color: var(--foreground);
 }
 
@@ -141,11 +145,37 @@
   }
 }
 
+/* Every page sits on this surface. It covers the sticky footer until the end of the page,
+   and clip-path keeps the fixed dot field inside it, so the field never shows over the footer. */
+.page-surface {
+  position: relative;
+  z-index: 1;
+  background: var(--grain), var(--background);
+  clip-path: inset(0);
+}
 main {
   position: relative;
   z-index: 1;
   overflow-x: clip;
-  background: var(--background);
+}
+.data-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-settle);
+  mask-image: radial-gradient(140% 110% at 50% 35%, #000 50%, transparent 100%);
+}
+.data-field.is-ready {
+  opacity: 1;
+}
+@media print {
+  .data-field {
+    display: none;
+  }
 }
 
 /* ---------- Layout primitives ---------- */
@@ -288,7 +318,7 @@ main {
   top: 0;
   z-index: 40;
   height: var(--header-height);
-  background: var(--background);
+  background: var(--grain), var(--background);
   border-bottom: 1px solid var(--border);
   view-transition-name: site-header;
   transition: translate 420ms var(--ease-settle);
@@ -375,7 +405,7 @@ main {
   bottom: 0;
   z-index: 0;
   padding-block: clamp(28px, 3.5vw, 44px) 28px;
-  background: var(--secondary);
+  background: var(--grain), var(--secondary);
   font-size: 14px;
   color: var(--muted-foreground);
 }
@@ -507,7 +537,7 @@ main {
 .hero-portrait img {
   animation: media-settle 1500ms var(--ease-glide) 250ms backwards;
 }
-.hero .stat-row {
+.hero .hero-credential {
   position: relative;
   z-index: 1;
   margin-top: clamp(20px, 3vw, 32px);
@@ -537,19 +567,41 @@ main {
   gap: clamp(24px, 4vw, 64px);
   align-items: center;
 }
+/* Alternating rows swap sides but keep the wide column for the image, so every screenshot
+   frame is the same size. */
+.project-row:nth-child(even) {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
 .project-row:nth-child(even) .work-media {
   order: 2;
 }
-.work-media {
-  display: block;
+/* Both case studies sit in frames of the same shape. Each dashboard is scaled to fit inside,
+   never cropped, so a wide report and a squarer one line up at the same size. */
+.work-media,
+.carousel-media {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  padding: clamp(12px, 2.6%, 24px);
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--secondary);
+  border-radius: 10px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(217, 130, 91, 0.12), transparent 62%), var(--secondary);
+}
+.work-media img,
+.carousel-media img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+  box-shadow:
+    0 22px 44px -22px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 .work-media img {
-  width: 100%;
-  height: auto;
   transition: transform 1200ms var(--ease-glide);
 }
 .work-media:hover img {
@@ -591,11 +643,36 @@ main {
   gap: 6px;
 }
 .tag-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 3px 11px;
   border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 13px;
   color: var(--muted-foreground);
+}
+/* Tool logos: brand marks keep their colours, plain icons follow the text colour. */
+.tool-logo {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+}
+.tool-logo-plain {
+  stroke-width: 1.75;
+}
+.tag-list .tool-logo {
+  width: 14px;
+  height: 14px;
+}
+.tool-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+.marquee .tool-logo {
+  width: 0.85em;
+  height: 0.85em;
 }
 
 /* ---------- Skills ---------- */
@@ -752,31 +829,41 @@ main {
   border-top: 1px solid var(--line-strong);
 }
 
-/* ---------- Proof ---------- */
-.stat-row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-  margin: 0;
+/* ---------- Proof: the PL-300 credential under the hero ---------- */
+.hero-credential {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-top: 22px;
   border-top: 1px solid var(--line-strong);
 }
-.stat-row > div {
-  padding: 20px 20px 0 0;
+.hero-credential .certification-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.8);
 }
-.stat-row > div + div {
-  padding-left: 20px;
-  border-left: 1px solid var(--border);
+.hero-credential .certification-logo svg {
+  width: 28px;
+  height: 28px;
 }
-.stat-row dt {
+.hero-credential-copy {
+  display: grid;
+  gap: 6px;
+}
+.hero-credential-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-credential strong {
   font-family: var(--font-display);
-  font-size: clamp(26px, 3vw, 40px);
+  font-size: clamp(26px, 3vw, 38px);
   line-height: 1;
   letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
   font-weight: 500;
 }
-.stat-row dd {
-  margin: 10px 0 0;
+.hero-credential-copy > span {
   font-size: 14px;
   line-height: 1.4;
   color: var(--muted-foreground);
@@ -1102,17 +1189,7 @@ main {
   border: 1px solid var(--border);
   border-radius: 12px;
 }
-/* Dashboards keep their own proportions so no part of a report is cropped away. */
-.carousel-media {
-  display: block;
-  overflow: hidden;
-  background: var(--secondary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
 .carousel-media img {
-  width: 100%;
-  height: auto;
   animation: image-swap 600ms var(--ease-settle);
   transition: transform 1200ms var(--ease-glide);
 }
@@ -2171,6 +2248,7 @@ html.js-motion [data-words]:not(.is-in) .split-word > span {
     order: 0;
   }
   .project-row,
+  .project-row:nth-child(even),
   .about-layout,
   .contact-layout {
     grid-template-columns: minmax(0, 1fr);
@@ -2308,13 +2386,14 @@ html.js-motion [data-words]:not(.is-in) .split-word > span {
     border-left: 0;
     border-bottom: 1px solid var(--border);
   }
-  .stat-row > div {
-    padding-right: 10px;
+  .hero-credential {
+    gap: 14px;
   }
-  .stat-row > div + div {
-    padding-left: 10px;
+  .hero-credential .certification-logo {
+    width: 52px;
+    height: 52px;
   }
-  .stat-row dd {
+  .hero-credential-copy > span {
     font-size: 13px;
   }
   .hero-actions {

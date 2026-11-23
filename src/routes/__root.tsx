@@ -15,6 +15,7 @@ import bodyFont from "@fontsource-variable/geist/files/geist-latin-wght-normal.w
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PortfolioHeader, PortfolioFooter } from "@/components/portfolio/shell";
 import { CursorLabel, MotionNotice } from "@/components/portfolio/motion";
+import { DataField } from "@/components/portfolio/data-field";
 import {
   motionBootstrapScript,
   useMagneticButtons,
@@ -136,7 +137,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <PortfolioHeader />
-      <Outlet />
+      <div className="page-surface">
+        <DataField />
+        <Outlet />
+      </div>
       <PortfolioFooter />
       <CursorLabel />
       <MotionNotice />

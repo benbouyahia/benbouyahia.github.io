@@ -1,7 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import { ArrowDown, ArrowUpRight, Clock3, Github, Linkedin, Mail, MapPin } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  BadgeCheck,
+  Clock3,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CertificationLogo } from "@/components/portfolio/certification-logo";
+import { ToolLogo } from "@/components/portfolio/tool-logos";
 import { Availability } from "@/components/portfolio/shell";
 import { SplitWords } from "@/components/portfolio/motion";
 import { ProjectCarousel } from "@/components/portfolio/project-carousel";
@@ -48,7 +59,12 @@ function ToolMarquee() {
   const list = (hidden: boolean) => (
     <ul aria-hidden={hidden || undefined}>
       {toolset.map((tool) => (
-        <li key={tool}>{tool}</li>
+        <li key={tool}>
+          <span className="tool-name">
+            <ToolLogo tool={tool} />
+            {tool}
+          </span>
+        </li>
       ))}
     </ul>
   );
@@ -132,12 +148,18 @@ function Hero() {
           />
         </figure>
       </div>
-      <dl className="stat-row" data-stagger>
-        <div>
-          <dt>PL-300</dt>
-          <dd>Microsoft Power BI Data Analyst, certified</dd>
+      <div className="hero-credential" data-stagger>
+        <CertificationLogo brand="Microsoft" variant="microsoft" />
+        <div className="hero-credential-copy">
+          <div className="hero-credential-title">
+            <strong>PL-300</strong>
+            <span className="credential-status">
+              <BadgeCheck size={14} aria-hidden="true" /> Certified
+            </span>
+          </div>
+          <span>Microsoft Certified: Power BI Data Analyst Associate</span>
         </div>
-      </dl>
+      </div>
     </section>
   );
 }

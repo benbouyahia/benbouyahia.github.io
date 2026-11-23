@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import type { CSSProperties } from "react";
+import { ToolLogo } from "@/components/portfolio/tool-logos";
 import { customerFeedbackProject, project } from "@/lib/portfolio";
 import { customerFeedbackPages, reports } from "@/lib/reports";
 
@@ -52,7 +53,10 @@ function CaseCard({
         <p>{description}</p>
         <div className="tag-list">
           {tools.map((tool) => (
-            <span key={tool}>{tool}</span>
+            <span key={tool}>
+              <ToolLogo tool={tool} />
+              {tool}
+            </span>
           ))}
         </div>
         <Link to={to} className="text-link">

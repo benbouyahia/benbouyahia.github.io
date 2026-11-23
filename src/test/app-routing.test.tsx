@@ -5,8 +5,17 @@ import { describe, expect, it } from "vitest";
 import { routeTree } from "@/routeTree.gen";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { certifications, education, pageHead, siteUrl, story, work } from "@/lib/portfolio";
+import {
+  certifications,
+  education,
+  pageHead,
+  siteUrl,
+  story,
+  toolset,
+  work,
+} from "@/lib/portfolio";
 import { projectSlides } from "@/lib/showcase";
+import { ToolLogo } from "@/components/portfolio/tool-logos";
 
 // Match routes without running loaders or rendering: loaders may need a server or
 // network the test run lacks, and jsdom never loads the stylesheets React waits on.
@@ -73,6 +82,14 @@ describe("App routing", () => {
 
     for (const item of [...work, ...education]) {
       expect(told).toContainEqual(item);
+    }
+  });
+
+  it("has a logo or icon for every tool named on the site", () => {
+    const tools = new Set([...toolset, ...projectSlides.flatMap((slide) => slide.tools)]);
+
+    for (const tool of tools) {
+      expect(ToolLogo({ tool }), tool).not.toBeNull();
     }
   });
 });
